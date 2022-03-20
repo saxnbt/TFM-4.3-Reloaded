@@ -1,18 +1,20 @@
 package me.StevenLawson.TotalFreedomMod.bridge;
 
+import com.earth2me.essentials.User;
 import me.StevenLawson.TotalFreedomMod.Log;
 import me.StevenLawson.TotalFreedomMod.config.ConfigurationEntry;
 import me.StevenLawson.TotalFreedomMod.config.MainConfig;
+import me.StevenLawson.TotalFreedomMod.player.PlayerList;
 import me.StevenLawson.TotalFreedomMod.player.PlayerRank;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.MessageAuthor;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 
-import java.util.ArrayList;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class DiscordBridge {
@@ -47,76 +49,33 @@ public class DiscordBridge {
                 if (author.isBotUser() || content.isEmpty()) return;
 
                 if (content.equalsIgnoreCase(String.format("%sl", MainConfig.getString(ConfigurationEntry.DISCORD_PREFIX)))) {
-                    // TODO: Make this shitty code better (I was very tired from a blood test whilst writing this)
-
                     EmbedBuilder builder = new EmbedBuilder()
                             .setTitle(String.format("Player List - %s", MainConfig.getString(ConfigurationEntry.SERVER_NAME)))
                             .setDescription(String.format("There are %s / %s online players", Bukkit.getOnlinePlayers().size(), Bukkit.getMaxPlayers()));
-                    ArrayList<String> seniorAdmins = new ArrayList<>();
-                    ArrayList<String> developers = new ArrayList<>();
-                    ArrayList<String> impostors = new ArrayList<>();
-                    ArrayList<String> deopped = new ArrayList<>();
-                    ArrayList<String> operators = new ArrayList<>();
-                    ArrayList<String> superAdmins = new ArrayList<>();
-                    ArrayList<String> superTelnetAdmins = new ArrayList<>();
-                    ArrayList<String> owners = new ArrayList<>();
 
-                    for (org.bukkit.entity.Player player : Bukkit.getOnlinePlayers()) {
+                    List<PlayerRank> inGameRanks = new ArrayList<>();
+
+                    for (Player player : Bukkit.getOnlinePlayers()) {
+                        User essentialsUser = EssentialsBridge.getEssentialsUser(player.getDisplayName());
+
+                        if(essentialsUser != null) {
+                            if(essentialsUser.isVanished()) continue;
+                        }
+
                         PlayerRank rank = PlayerRank.fromSender(player);
 
-                        if (EssentialsBridge.getEssentialsUser(player.getName()).isVanished()) {
-                            continue;
+                        if(!inGameRanks.contains(rank)) inGameRanks.add(rank);
+                    }
+
+                    Collections.sort(inGameRanks);
+                    Collections.reverse(inGameRanks);
+
+                    for (PlayerRank inGameRank : inGameRanks) {
+                        List<String> inGame = inGameRank.getInGameUsernames();
+
+                        if(inGame.size() > 0) {
+                            builder.addField(String.format("%s (%s)", inGameRank.getPlural(), inGame.size()), String.join(", ", inGame));
                         }
-
-                        if (rank.equals(PlayerRank.IMPOSTOR)) {
-                            impostors.add(player.getName());
-                        } else if (rank.equals(PlayerRank.DEVELOPER)) {
-                            developers.add(player.getName());
-                        } else if (rank.equals(PlayerRank.NON_OP)) {
-                            deopped.add(player.getName());
-                        } else if (rank.equals(PlayerRank.SENIOR)) {
-                            seniorAdmins.add(player.getName());
-                        } else if (rank.equals(PlayerRank.OWNER)) {
-                            owners.add(player.getName());
-                        } else if (rank.equals(PlayerRank.OP)) {
-                            operators.add(player.getName());
-                        } else if (rank.equals(PlayerRank.SUPER)) {
-                            superAdmins.add(player.getName());
-                        } else if (rank.equals(PlayerRank.TELNET)) {
-                            superTelnetAdmins.add(player.getName());
-                        }
-                    }
-
-                    if (owners.size() > 0) {
-                        builder.addField(String.format("Owners (%s)", owners.size()), String.join(", ", owners));
-                    }
-
-                    if (seniorAdmins.size() > 0) {
-                        builder.addField(String.format("Senior Admins (%s)", seniorAdmins.size()), String.join(", ", seniorAdmins));
-                    }
-
-                    if (developers.size() > 0) {
-                        builder.addField(String.format("Developers (%s)", developers.size()), String.join(", ", developers));
-                    }
-
-                    if (superTelnetAdmins.size() > 0) {
-                        builder.addField(String.format("Super Telnet Admins (%s)", superTelnetAdmins.size()), String.join(", ", superTelnetAdmins));
-                    }
-
-                    if (superAdmins.size() > 0) {
-                        builder.addField(String.format("Super Admins (%s)", superAdmins.size()), String.join(", ", seniorAdmins));
-                    }
-
-                    if (operators.size() > 0) {
-                        builder.addField(String.format("Operators (%s)", operators.size()), String.join(", ", operators));
-                    }
-
-                    if (deopped.size() > 0) {
-                        builder.addField(String.format("Non-Operators (%s)", deopped.size()), String.join(", ", deopped));
-                    }
-
-                    if (impostors.size() > 0) {
-                        builder.addField(String.format("Impostors (%s)", impostors.size()), String.join(", ", impostors));
                     }
 
                     CHANNEL.sendMessage(builder);

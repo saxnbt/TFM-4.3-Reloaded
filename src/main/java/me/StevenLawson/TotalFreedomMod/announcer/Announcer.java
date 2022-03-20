@@ -89,7 +89,7 @@ public class Announcer
                     current = 0;
                 }
 
-                Utilities.bcastMsg(prefix + ANNOUNCEMENTS.get(current));
+                Utilities.bcastMsg(prefix + ANNOUNCEMENTS.get(current), false);
             }
         };
 

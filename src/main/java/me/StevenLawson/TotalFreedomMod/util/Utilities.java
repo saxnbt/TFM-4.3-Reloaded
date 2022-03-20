@@ -84,14 +84,24 @@ public class Utilities
         throw new AssertionError();
     }
 
-    public static void bcastMsg(String message, ChatColor color) {
+    public static void bcastMsg(String message, ChatColor color, boolean transmitToDiscord) {
         Log.info(message, true);
 
         for (org.bukkit.entity.Player player : Bukkit.getOnlinePlayers()) {
             player.sendMessage((color == null ? "" : color) + message);
         }
 
-        DiscordBridge.transmitMessage(message);
+        if(transmitToDiscord) {
+            DiscordBridge.transmitMessage(message);
+        }
+    }
+
+    public static void bcastMsg(String message, ChatColor color) {
+        bcastMsg(message, color, true);
+    }
+
+    public static void bcastMsg(String message, boolean transmitToDiscord) {
+        bcastMsg(message, null, transmitToDiscord);
     }
 
     public static void bcastMsg(String message)
