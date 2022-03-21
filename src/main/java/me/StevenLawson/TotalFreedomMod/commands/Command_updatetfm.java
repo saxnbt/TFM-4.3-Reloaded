@@ -21,9 +21,9 @@ public class Command_updatetfm extends FreedomCommand {
         String directory = new File(path).getParent();
 
         try {
-            String command = String.format("/bin/bash -c \"cd %s; %s\"", directory, path);
+            String command = String.format("\"cd %s; %s\"", directory, path);
             System.out.println(command);
-            ProcessBuilder proc = new ProcessBuilder(command);
+            ProcessBuilder proc = new ProcessBuilder("/bin/bash", "-c", command);
             proc.redirectErrorStream(true);
             Process process = proc.start();
             process.waitFor();
