@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod;
 
+import com.earth2me.essentials.utils.DateUtil;
 import me.StevenLawson.TotalFreedomMod.admin.AdminList;
 import me.StevenLawson.TotalFreedomMod.ban.Ban;
 import me.StevenLawson.TotalFreedomMod.ban.BanManager;
@@ -19,6 +20,7 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 
+import java.lang.management.ManagementFactory;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -249,7 +251,23 @@ public class Server
         }
     }
 
-    public double getTPS() {
+    public static double getTPS() {
         return EssentialsBridge.getEssentialsPlugin().getTimer().getAverageTPS();
+    }
+
+    public static double getMaxMem() {
+        return Runtime.getRuntime().maxMemory() / 1024f / 1024f;
+    }
+
+    public static double getTotalMem() {
+        return Runtime.getRuntime().totalMemory() / 1024f / 1024f;
+    }
+
+    public static double getFreeMem() {
+        return Runtime.getRuntime().freeMemory() / 1024f / 1024f;
+    }
+
+    public static String getUptime() {
+        return DateUtil.formatDateDiff(ManagementFactory.getRuntimeMXBean().getStartTime());
     }
 }
