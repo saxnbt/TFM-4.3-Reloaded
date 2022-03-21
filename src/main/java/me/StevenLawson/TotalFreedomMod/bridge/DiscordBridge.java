@@ -6,12 +6,17 @@ import me.StevenLawson.TotalFreedomMod.config.ConfigurationEntry;
 import me.StevenLawson.TotalFreedomMod.config.MainConfig;
 import me.StevenLawson.TotalFreedomMod.player.PlayerList;
 import me.StevenLawson.TotalFreedomMod.player.PlayerRank;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.channel.TextChannel;
+import org.javacord.api.entity.message.MessageAttachment;
 import org.javacord.api.entity.message.MessageAuthor;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 
@@ -47,7 +52,7 @@ public class DiscordBridge {
             CHANNEL.addMessageCreateListener((message) -> {
                 String content = message.getMessageContent();
                 MessageAuthor author = message.getMessage().getAuthor();
-                if (author.isBotUser() || content.isEmpty()) return;
+                if (author.isBotUser()) return;
 
                 if (content.equalsIgnoreCase(String.format("%sl", MainConfig.getString(ConfigurationEntry.DISCORD_PREFIX)))) {
                     EmbedBuilder builder = new EmbedBuilder()
@@ -84,8 +89,37 @@ public class DiscordBridge {
                     String format = MainConfig.getString(ConfigurationEntry.DISCORD_FORMAT);
                     format = format.replace("{TAG}", author.getDiscriminatedName());
                     format = format.replace("{USERNAME}", author.getName());
+                    BaseComponent[] components = TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', String.format(format, content)));
+                    TextComponent component = new TextComponent("");
 
-                    Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', String.format(format, content)));
+                    for (BaseComponent baseComponent : components) {
+                        component.addExtra(baseComponent);
+                    }
+
+                    if(message.getMessageAttachments().size() > 0) {
+                        int i = 0;
+                        for (MessageAttachment messageAttachment : message.getMessageAttachments()) {
+                            String url = messageAttachment.getProxyUrl().toString();
+                            ClickEvent clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, url);
+                            TextComponent warningComponent = new TextComponent("WARNING: By clicking on this text, your client will open:\n\n");
+                            warningComponent.setColor(net.md_5.bungee.api.ChatColor.RED);
+                            warningComponent.setBold(true);
+                            TextComponent urlComponent = new TextComponent(url);
+                            urlComponent.setColor(net.md_5.bungee.api.ChatColor.DARK_AQUA);
+                            urlComponent.setUnderlined(true);
+                            urlComponent.setBold(false);
+                            warningComponent.addExtra(urlComponent);
+                            HoverEvent hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{warningComponent});
+                            TextComponent mediaComponent = new TextComponent((i == 0 && content.isEmpty()) ? "[Media]" : " [Media]");
+                            mediaComponent.setColor(net.md_5.bungee.api.ChatColor.YELLOW);
+                            mediaComponent.setClickEvent(clickEvent);
+                            mediaComponent.setHoverEvent(hoverEvent);
+                            component.addExtra(mediaComponent);
+                            i++;
+                        }
+                    }
+
+                    Bukkit.spigot().broadcast(component);
                 }
             });
         } catch (Exception e) {
@@ -109,7 +143,7 @@ public class DiscordBridge {
             message = message.substring(0, 2000);
         }
 
-        return message.replaceAll(colors.pattern(), "").replaceAll(pings.pattern(), "@\u200B").replaceAll("([`_~*])", "\\\\$1");
+        return message.replaceAll(colors.pattern(), "").replaceAll(pings.pattern(), "@\u200B");
     }
 
     public static void transmitMessage(String message) {

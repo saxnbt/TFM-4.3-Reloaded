@@ -630,7 +630,7 @@ public class PlayerListener implements Listener {
                 event.setFormat(ChatColor.translateAlternateColorCodes('&', MainConfig.getString(ConfigurationEntry.CHAT_FORMAT)).replace("{RANK}", playerdata.getTag().replaceAll("%", "%%")));
             }
 
-            DiscordBridge.transmitMessage(String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage()));
+            DiscordBridge.transmitMessage(String.format(event.getFormat(), event.getPlayer().getDisplayName(), event.getMessage()).replaceAll("([`_~*])", "\\\\$1"));
         }
         catch (Exception ex)
         {

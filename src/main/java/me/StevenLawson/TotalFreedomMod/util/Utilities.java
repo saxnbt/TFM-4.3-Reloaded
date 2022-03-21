@@ -92,7 +92,7 @@ public class Utilities
         }
 
         if(transmitToDiscord) {
-            DiscordBridge.transmitMessage(message);
+            DiscordBridge.transmitMessage(message.replaceAll("([`_~*])", "\\\\$1"));
         }
     }
 
