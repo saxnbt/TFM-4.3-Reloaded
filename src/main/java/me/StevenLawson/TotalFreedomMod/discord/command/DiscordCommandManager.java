@@ -1,9 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.discord.command;
 
-import me.StevenLawson.TotalFreedomMod.discord.commands.AdminConsoleCommand;
-import me.StevenLawson.TotalFreedomMod.discord.commands.HelpCommand;
-import me.StevenLawson.TotalFreedomMod.discord.commands.ListCommand;
-import me.StevenLawson.TotalFreedomMod.discord.commands.TPSCommand;
+import me.StevenLawson.TotalFreedomMod.discord.commands.*;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.MessageBuilder;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
@@ -20,11 +17,11 @@ public class DiscordCommandManager {
     public List<ExecutableDiscordCommand> commands = new ArrayList<>();
 
     public void init() {
-
         // Server Commands
         commands.add(new ListCommand("list", "Gives a list of online players.", "Server Commands", Collections.singletonList("l"), false));
         commands.add(new TPSCommand("tps", "Lag information regarding the server.", "Server Commands", false));
         commands.add(new AdminConsoleCommand("adminconsole", "Execute admin commands from discord.", "Server Commands", Collections.singletonList("ac"),true));
+        commands.add(new UptimeCommand("uptime", "Returns the uptime of the VPS.", "Server Commands", false));
 
         // Help
         commands.add(new HelpCommand("help", "Displays the help command", "Help", false));
