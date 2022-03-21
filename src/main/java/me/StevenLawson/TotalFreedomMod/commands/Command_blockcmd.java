@@ -8,7 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Block all commands for a specific player.", usage = "/<command> <purge | <partialname>>", aliases = "blockcommands,blockcommand")
 public class Command_blockcmd extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -28,7 +27,7 @@ public class Command_blockcmd extends FreedomCommand {
                     playerdata.setCommandsBlocked(false);
                 }
             }
-            playerMsg("Unblocked commands for " + counter + " players.");
+            playerMsg(sender, "Unblocked commands for " + counter + " players.");
             return true;
         }
 
@@ -36,13 +35,13 @@ public class Command_blockcmd extends FreedomCommand {
 
         if (player == null)
         {
-            playerMsg(FreedomCommand.PLAYER_NOT_FOUND);
+            playerMsg(sender, FreedomCommand.PLAYER_NOT_FOUND);
             return true;
         }
 
         if (AdminList.isSuperAdmin(player))
         {
-            playerMsg(player.getName() + " is a Superadmin, and cannot have their commands blocked.");
+            playerMsg(sender, player.getName() + " is a Superadmin, and cannot have their commands blocked.");
             return true;
         }
 
@@ -51,7 +50,7 @@ public class Command_blockcmd extends FreedomCommand {
         playerdata.setCommandsBlocked(!playerdata.allCommandsBlocked());
 
         Utilities.adminAction(sender.getName(), (playerdata.allCommandsBlocked() ? "B" : "Unb") + "locking all commands for " + player.getName(), true);
-        playerMsg((playerdata.allCommandsBlocked() ? "B" : "Unb") + "locked all commands.");
+        playerMsg(sender, (playerdata.allCommandsBlocked() ? "B" : "Unb") + "locked all commands.");
 
         return true;
     }

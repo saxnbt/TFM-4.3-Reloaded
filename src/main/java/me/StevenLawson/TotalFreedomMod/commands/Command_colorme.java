@@ -11,7 +11,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Essentials Interface Command - Color your current nickname.", usage = "/<command> <color>")
 public class Command_colorme extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -20,7 +19,7 @@ public class Command_colorme extends FreedomCommand {
         }
 
         if ("list".equalsIgnoreCase(args[0])) {
-            playerMsg("Colors: " + StringUtils.join(Utilities.CHAT_COLOR_NAMES.keySet(), ", "));
+            playerMsg(sender, "Colors: " + StringUtils.join(Utilities.CHAT_COLOR_NAMES.keySet(), ", "));
             return true;
         }
 
@@ -39,7 +38,7 @@ public class Command_colorme extends FreedomCommand {
 
         if (color == null)
         {
-            playerMsg("Invalid color: " + needle + " - Use \"/colorme list\" to list colors.");
+            playerMsg(sender, "Invalid color: " + needle + " - Use \"/colorme list\" to list colors.");
             return true;
         }
 
@@ -47,7 +46,7 @@ public class Command_colorme extends FreedomCommand {
 
         EssentialsBridge.setNickname(sender.getName(), newNick);
 
-        playerMsg("Your nickname is now: " + newNick);
+        playerMsg(sender, "Your nickname is now: " + newNick);
 
         return true;
     }

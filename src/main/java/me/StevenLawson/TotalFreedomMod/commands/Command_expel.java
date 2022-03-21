@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Push people away from you.", usage = "/<command> [radius] [strength]")
 public class Command_expel extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -73,11 +72,11 @@ public class Command_expel extends FreedomCommand {
 
         if (pushedPlayers.isEmpty())
         {
-            playerMsg("No players pushed.");
+            playerMsg(sender, "No players pushed.");
         }
         else
         {
-            playerMsg("Pushed " + pushedPlayers.size() + " players: " + StringUtils.join(pushedPlayers, ", "));
+            playerMsg(sender, "Pushed " + pushedPlayers.size() + " players: " + StringUtils.join(pushedPlayers, ", "));
         }
 
         return true;

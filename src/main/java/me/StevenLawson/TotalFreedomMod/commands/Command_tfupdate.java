@@ -9,7 +9,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.io.File;
 
 @CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
-@CommandParameters(description = "Update server files.", usage = "/<command>")
 public class Command_tfupdate extends FreedomCommand {
     public static final String[] FILES =
             {
@@ -18,12 +17,12 @@ public class Command_tfupdate extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
         if (FILES.length == 0) {
-            playerMsg("This command is disabled.");
+            playerMsg(sender, "This command is disabled.");
             return true;
         }
 
         if (!sender.getName().equalsIgnoreCase("madgeek1450")) {
-            playerMsg(FreedomCommand.MSG_NO_PERMS);
+            playerMsg(sender, FreedomCommand.MSG_NO_PERMS);
             return true;
         }
 

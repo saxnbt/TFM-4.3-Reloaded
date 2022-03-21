@@ -5,7 +5,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 @CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "You'll never even see it coming.", usage = "/<command>")
 public class Command_fuckoff extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -42,7 +41,7 @@ public class Command_fuckoff extends FreedomCommand {
             TotalFreedomMod.fuckoffEnabledFor.put(sender_p, new Double(fuckoff_range));
         }
 
-        playerMsg("Fuckoff " + (fuckoff_enabled ? ("enabled. Range: " + fuckoff_range + ".") : "disabled."));
+        playerMsg(sender, "Fuckoff " + (fuckoff_enabled ? ("enabled. Range: " + fuckoff_range + ".") : "disabled."));
 
         return true;
     }

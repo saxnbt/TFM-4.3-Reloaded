@@ -7,7 +7,6 @@ import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH)
-@CommandParameters(description = "Sit in nearest minecart. If target is in a minecart already, they will disembark.", usage = "/<command> [partialname]")
 public class Command_cartsit extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {

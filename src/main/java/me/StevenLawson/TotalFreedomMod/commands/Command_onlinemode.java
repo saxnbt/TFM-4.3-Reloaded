@@ -10,19 +10,18 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH)
-@CommandParameters(description = "Switch server online-mode on and off.", usage = "/<command> <on | off>")
 public class Command_onlinemode extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
         if (args.length < 1) {
-            playerMsg("Server is currently running with 'online-mode=" + (server.getOnlineMode() ? "true" : "false") + "'.", ChatColor.WHITE);
-            playerMsg("\"/onlinemode on\" and \"/onlinemode off\" can be used to change online mode from the console.", ChatColor.WHITE);
+            playerMsg(sender, "Server is currently running with 'online-mode=" + (server.getOnlineMode() ? "true" : "false") + "'.", ChatColor.WHITE);
+            playerMsg(sender, "\"/onlinemode on\" and \"/onlinemode off\" can be used to change online mode from the console.", ChatColor.WHITE);
         } else {
             boolean online_mode;
 
             if (sender instanceof Player && !AdminList.isSeniorAdmin(sender, true))
             {
-                playerMsg(FreedomCommand.MSG_NO_PERMS);
+                playerMsg(sender, FreedomCommand.MSG_NO_PERMS);
                 return true;
             }
 

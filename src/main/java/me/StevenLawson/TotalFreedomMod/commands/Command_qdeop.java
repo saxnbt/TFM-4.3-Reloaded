@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Quick De-Op - deop someone based on a partial name.", usage = "/<command> <partialname>")
 public class Command_qdeop extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -48,7 +47,7 @@ public class Command_qdeop extends FreedomCommand {
         }
         else
         {
-            playerMsg("No targets matched.");
+            playerMsg(sender, "No targets matched.");
         }
 
         return true;

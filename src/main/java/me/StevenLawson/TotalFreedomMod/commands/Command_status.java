@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH)
-@CommandParameters(description = "Show misc. server info.", usage = "/<command>")
 public class Command_status extends FreedomCommand {
     public static final Map<String, String> SERVICE_MAP = new HashMap<String, String>();
 
@@ -24,13 +23,13 @@ public class Command_status extends FreedomCommand {
 
     @Override
     public boolean run(final CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
-        playerMsg("For information about TotalFreedomMod, try /tfm", ChatColor.GREEN); // Temporary
+        playerMsg(sender, "For information about TotalFreedomMod, try /tfm", ChatColor.GREEN); // Temporary
 
-        playerMsg("Server is currently running with 'online-mode=" + (server.getOnlineMode() ? "true" : "false") + "'.", ChatColor.YELLOW);
-        playerMsg("Loaded worlds:", ChatColor.BLUE);
+        playerMsg(sender, "Server is currently running with 'online-mode=" + (server.getOnlineMode() ? "true" : "false") + "'.", ChatColor.YELLOW);
+        playerMsg(sender, "Loaded worlds:", ChatColor.BLUE);
         int i = 0;
         for (World world : server.getWorlds()) {
-            playerMsg(String.format("World %d: %s - %d players.", i++, world.getName(), world.getPlayers().size()), ChatColor.BLUE);
+            playerMsg(sender, String.format("World %d: %s - %d players.", i++, world.getName(), world.getPlayers().size()), ChatColor.BLUE);
         }
 
         return true;

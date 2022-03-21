@@ -18,7 +18,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH)
-@CommandParameters(description = "No Description Yet", usage = "/<command>")
 public class Command_cbtool extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -28,7 +27,7 @@ public class Command_cbtool extends FreedomCommand {
 
         if ("targetblock".equalsIgnoreCase(args[0]) && sender instanceof Player) {
             Block targetBlock = DeprecationUtil.getTargetBlock(sender_p, null, 100);
-            playerMsg("Your target block: " + targetBlock.getLocation().toString());
+            playerMsg(sender, "Your target block: " + targetBlock.getLocation().toString());
             return true;
         }
 

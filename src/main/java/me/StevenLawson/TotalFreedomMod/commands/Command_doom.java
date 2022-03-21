@@ -14,7 +14,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 @CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.ONLY_CONSOLE)
-@CommandParameters(description = "For the bad Super Admins", usage = "/<command> <playername>")
 public class Command_doom extends FreedomCommand {
     @Override
     public boolean run(final CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {

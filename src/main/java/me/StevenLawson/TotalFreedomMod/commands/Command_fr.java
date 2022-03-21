@@ -10,7 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Freeze players (toggles on and off).", usage = "/<command> [target | purge]")
 public class Command_fr extends FreedomCommand {
     private static boolean allFrozen = false;
 
@@ -23,13 +22,13 @@ public class Command_fr extends FreedomCommand {
                 Utilities.adminAction(sender.getName(), "Freezing all players", false);
 
                 setAllFrozen(true);
-                playerMsg("Players are now frozen.");
+                playerMsg(sender, "Players are now frozen.");
 
                 for (Player player : Bukkit.getOnlinePlayers())
                 {
                     if (!AdminList.isSuperAdmin(player))
                     {
-                        playerMsg(player, "You have been frozen due to rulebreakers, you will be unfrozen soon.", ChatColor.RED);
+                        playerMsg( player, "You have been frozen due to rulebreakers, you will be unfrozen soon.", ChatColor.RED);
                     }
                 }
             }
@@ -37,7 +36,7 @@ public class Command_fr extends FreedomCommand {
             {
                 Utilities.adminAction(sender.getName(), "Unfreezing all players", false);
                 setAllFrozen(false);
-                playerMsg("Players are now free to move.");
+                playerMsg(sender, "Players are now free to move.");
             }
         }
         else
@@ -53,14 +52,14 @@ public class Command_fr extends FreedomCommand {
 
                 if (player == null)
                 {
-                    playerMsg(FreedomCommand.PLAYER_NOT_FOUND, ChatColor.RED);
+                    playerMsg(sender, FreedomCommand.PLAYER_NOT_FOUND, ChatColor.RED);
                     return true;
                 }
 
                 final PlayerData playerdata = PlayerData.getPlayerData(player);
                 playerdata.setFrozen(!playerdata.isFrozen());
 
-                playerMsg(player.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
+                playerMsg(sender, player.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
                 playerMsg(player, "You have been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".", ChatColor.AQUA);
             }
         }

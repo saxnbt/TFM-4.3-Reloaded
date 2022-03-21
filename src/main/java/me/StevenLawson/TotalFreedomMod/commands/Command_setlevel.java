@@ -5,7 +5,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Sets your expierence level.", usage = "/<command> [level]")
 public class Command_setlevel extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -29,13 +28,13 @@ public class Command_setlevel extends FreedomCommand {
         }
         catch (NumberFormatException ex)
         {
-            playerMsg("Invalid level.", ChatColor.RED);
+            playerMsg(sender, "Invalid level.", ChatColor.RED);
             return true;
         }
 
         sender_p.setLevel(new_level);
 
-        playerMsg("You have been set to level " + Integer.toString(new_level), ChatColor.AQUA);
+        playerMsg(sender, "You have been set to level " + Integer.toString(new_level), ChatColor.AQUA);
 
         return true;
     }

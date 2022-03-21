@@ -13,7 +13,6 @@ import java.util.Arrays;
 import java.util.List;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Sets yourself a prefix", usage = "/<command> <set <tag..> | off | clear <player> | clearall>")
 public class Command_tag extends FreedomCommand {
     public static final List<String> FORBIDDEN_WORDS = Arrays.asList(new String[]
             {
@@ -24,13 +23,13 @@ public class Command_tag extends FreedomCommand {
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
         if (args.length == 1) {
             if ("list".equalsIgnoreCase(args[0])) {
-                playerMsg("Tags for all online players:");
+                playerMsg(sender, "Tags for all online players:");
 
                 for (final Player player : server.getOnlinePlayers()) {
                     final PlayerData playerdata = PlayerData.getPlayerData(player);
                     if (playerdata.getTag() != null)
                     {
-                        playerMsg(player.getName() + ": " + playerdata.getTag());
+                        playerMsg(sender, player.getName() + ": " + playerdata.getTag());
                     }
                 }
 
@@ -40,7 +39,7 @@ public class Command_tag extends FreedomCommand {
             {
                 if (!AdminList.isSuperAdmin(sender))
                 {
-                    playerMsg(FreedomCommand.MSG_NO_PERMS);
+                    playerMsg(sender, FreedomCommand.MSG_NO_PERMS);
                     return true;
                 }
 
@@ -57,7 +56,7 @@ public class Command_tag extends FreedomCommand {
                     }
                 }
 
-                playerMsg(count + " tag(s) removed.");
+                playerMsg(sender, count + " tag(s) removed.");
 
                 return true;
             }
@@ -65,12 +64,12 @@ public class Command_tag extends FreedomCommand {
             {
                 if (senderIsConsole)
                 {
-                    playerMsg("\"/tag off\" can't be used from the console. Use \"/tag clear <player>\" or \"/tag clearall\" instead.");
+                    playerMsg(sender, "\"/tag off\" can't be used from the console. Use \"/tag clear <player>\" or \"/tag clearall\" instead.");
                 }
                 else
                 {
                     PlayerData.getPlayerData(sender_p).setTag(null);
-                    playerMsg("Your tag has been removed.");
+                    playerMsg(sender, "Your tag has been removed.");
                 }
 
                 return true;
@@ -86,7 +85,7 @@ public class Command_tag extends FreedomCommand {
             {
                 if (!AdminList.isSuperAdmin(sender))
                 {
-                    playerMsg(FreedomCommand.MSG_NO_PERMS);
+                    playerMsg(sender, FreedomCommand.MSG_NO_PERMS);
                     return true;
                 }
 
@@ -94,12 +93,12 @@ public class Command_tag extends FreedomCommand {
 
                 if (player == null)
                 {
-                    playerMsg(FreedomCommand.PLAYER_NOT_FOUND);
+                    playerMsg(sender, FreedomCommand.PLAYER_NOT_FOUND);
                     return true;
                 }
 
                 PlayerData.getPlayerData(player).setTag(null);
-                playerMsg("Removed " + player.getName() + "'s tag.");
+                playerMsg(sender, "Removed " + player.getName() + "'s tag.");
 
                 return true;
             }
@@ -122,7 +121,7 @@ public class Command_tag extends FreedomCommand {
 
                     if (rawTag.length() > 20)
                     {
-                        playerMsg("That tag is too long (Max is 20 characters).");
+                        playerMsg(sender, "That tag is too long (Max is 20 characters).");
                         return true;
                     }
 
@@ -130,14 +129,14 @@ public class Command_tag extends FreedomCommand {
                     {
                         if (rawTag.contains(word))
                         {
-                            playerMsg("That tag contains a forbidden word.");
+                            playerMsg(sender, "That tag contains a forbidden word.");
                             return true;
                         }
                     }
                 }
 
                 PlayerData.getPlayerData(sender_p).setTag(outputTag);
-                playerMsg("Tag set to '" + outputTag + "'.");
+                playerMsg(sender, "Tag set to '" + outputTag + "'.");
 
                 return true;
             }
