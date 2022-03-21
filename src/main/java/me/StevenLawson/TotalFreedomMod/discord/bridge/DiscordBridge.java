@@ -112,6 +112,7 @@ public class DiscordBridge {
                     }
 
                     Bukkit.spigot().broadcast(component);
+                    Log.info(component.toPlainText());
                 }
             });
         } catch (Exception e) {
