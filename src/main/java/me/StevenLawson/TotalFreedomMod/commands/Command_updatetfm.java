@@ -18,10 +18,11 @@ public class Command_updatetfm extends FreedomCommand {
         playerMsg("Updating TFM, please wait...", ChatColor.RED);
         Utilities.adminAction(sender.getName(), "Updating TFM", true);
         String path = MainConfig.getString(ConfigurationEntry.TFM_BUILD_SHELLSCRIPT);
-        String directory = new File(path).getParent();
+        File file = new File(path);
+        String directory = file.getParent();
 
         try {
-            String command = String.format("\"cd %s; %s\"", directory, path);
+            String command = String.format("\"cd %s && ./%s\"", directory, file.getAbsoluteFile());
             System.out.println(command);
             ProcessBuilder proc = new ProcessBuilder("/bin/bash", "-c", command);
             proc.redirectErrorStream(true);
