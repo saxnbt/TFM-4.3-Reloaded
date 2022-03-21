@@ -31,7 +31,7 @@ public class Command_updatetfm extends FreedomCommand {
             playerMsg("Updated TFM! Reloading...");
             Utilities.adminAction(sender.getName(), "Update successful, reloading TFM...", false);
             for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-                SynchronousUtil.playerKick(onlinePlayer, "Reloading TFM, please rejoin.");
+                onlinePlayer.kickPlayer(ChatColor.RED + "Reloading TFM, please rejoin.");
             }
 
             Bukkit.dispatchCommand(sender, "plugman reload TotalFreedomMod");
