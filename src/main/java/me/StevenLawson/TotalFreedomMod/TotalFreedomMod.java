@@ -89,6 +89,8 @@ public class TotalFreedomMod extends JavaPlugin {
     @Override
     public void onEnable()
     {
+        getConfig().options().copyDefaults(true);
+
         Log.info("Made by Madgeek1450 and Prozza");
         Log.info("Compiled " + buildDate + " by " + buildCreator);
 
