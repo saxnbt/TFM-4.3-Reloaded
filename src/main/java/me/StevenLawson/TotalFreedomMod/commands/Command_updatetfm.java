@@ -8,6 +8,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import java.io.File;
+
 @CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.BOTH)
 @CommandParameters(description = "For developers only - update TFM.", usage = "/<command>")
 public class Command_updatetfm extends FreedomCommand {
@@ -16,8 +18,10 @@ public class Command_updatetfm extends FreedomCommand {
         playerMsg("Updating TFM, please wait...", ChatColor.RED);
         Utilities.adminAction(sender.getName(), "Updating TFM", true);
         String path = MainConfig.getString(ConfigurationEntry.TFM_BUILD_SHELLSCRIPT);
+        String directory = new File(path).getParent();
+
         try {
-            Process uptimeProc = Runtime.getRuntime().exec(String.format("bash -c \"./%s\"", path));
+            Process uptimeProc = Runtime.getRuntime().exec(String.format("bash -c \"cd %s; %s\"", directory, path));
             uptimeProc.waitFor();
             playerMsg("Updated TFM! Reloading...");
             Utilities.adminAction(sender.getName(), "Update successful, reloading TFM...", false);
