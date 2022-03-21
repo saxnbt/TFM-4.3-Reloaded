@@ -13,12 +13,12 @@ import org.bukkit.entity.Player;
 import java.io.File;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "For developers only - update TFM.", usage = "/<command>")
+@CommandParameters(description = "For developers only - update TFM.", usage = "/<command>", aliases = ("tfmupdate,update,compiletfm,tfmcompile,build,buildtfm,tfmbuild"))
 public class Command_updatetfm extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
-        playerMsg("Updating TFM, please wait...", ChatColor.RED);
-        Utilities.adminAction(sender.getName(), "Updating TFM", true);
+        playerMsg("Compiling TFM, please wait...", ChatColor.RED);
+        Utilities.adminAction(sender.getName(), "Compiling TFM", true);
         String path = MainConfig.getString(ConfigurationEntry.TFM_BUILD_SHELLSCRIPT);
         File file = new File(path);
         String directory = file.getParent();
@@ -28,8 +28,8 @@ public class Command_updatetfm extends FreedomCommand {
             ProcessBuilder proc = new ProcessBuilder("/bin/bash", "-c", command);
             Process process = proc.start();
             process.waitFor();
-            playerMsg("Updated TFM! Reloading...");
-            Utilities.adminAction(sender.getName(), "Update successful, reloading TFM...", false);
+            playerMsg("Compiling TFM! Reloading...");
+            Utilities.adminAction(sender.getName(), "Compilation successful, reloading TFM...", false);
             for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
                 onlinePlayer.kickPlayer(ChatColor.RED + "Reloading TFM, please rejoin.");
             }
