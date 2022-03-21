@@ -8,7 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Manager operators", usage = "/<command> <count | purge>")
 public class Command_ops extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -28,9 +27,9 @@ public class Command_ops extends FreedomCommand {
                 }
             }
 
-            playerMsg("Online OPs: " + onlineOps);
-            playerMsg("Offline OPs: " + (totalOps - onlineOps));
-            playerMsg("Total OPs: " + totalOps);
+            playerMsg(sender, "Online OPs: " + onlineOps);
+            playerMsg(sender, "Offline OPs: " + (totalOps - onlineOps));
+            playerMsg(sender, "Total OPs: " + totalOps);
 
             return true;
         }
@@ -39,7 +38,7 @@ public class Command_ops extends FreedomCommand {
         {
             if (!AdminList.isSuperAdmin(sender))
             {
-                playerMsg(FreedomCommand.MSG_NO_PERMS);
+                playerMsg(sender, FreedomCommand.MSG_NO_PERMS);
                 return true;
             }
 

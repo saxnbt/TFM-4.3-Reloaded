@@ -7,28 +7,25 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(
-        description = "Protect areas so that only superadmins can directly modify blocks in those areas. WorldEdit and other such plugins might bypass this.",
-        usage = "/<command> <list | clear | remove <label> | add <label> <radius>>")
 public class Command_protectarea extends FreedomCommand {
 
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
         if (!ConfigurationEntry.PROTECTAREA_ENABLED.getBoolean()) {
-            playerMsg("Protected areas are currently disabled in the TotalFreedomMod configuration.");
+            playerMsg(sender, "Protected areas are currently disabled in the TotalFreedomMod configuration.");
             return true;
         }
 
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("list"))
             {
-                playerMsg("Protected Areas: " + StringUtils.join(ProtectedArea.getProtectedAreaLabels(), ", "));
+                playerMsg(sender, "Protected Areas: " + StringUtils.join(ProtectedArea.getProtectedAreaLabels(), ", "));
             }
             else if (args[0].equalsIgnoreCase("clear"))
             {
                 ProtectedArea.clearProtectedAreas();
 
-                playerMsg("Protected Areas Cleared.");
+                playerMsg(sender, "Protected Areas Cleared.");
             }
             else
             {
@@ -43,7 +40,7 @@ public class Command_protectarea extends FreedomCommand {
             {
                 ProtectedArea.removeProtectedArea(args[1]);
 
-                playerMsg("Area removed. Protected Areas: " + StringUtils.join(ProtectedArea.getProtectedAreaLabels(), ", "));
+                playerMsg(sender, "Area removed. Protected Areas: " + StringUtils.join(ProtectedArea.getProtectedAreaLabels(), ", "));
             }
             else
             {
@@ -58,7 +55,7 @@ public class Command_protectarea extends FreedomCommand {
             {
                 if (senderIsConsole)
                 {
-                    playerMsg("You must be in-game to set a protected area.");
+                    playerMsg(sender, "You must be in-game to set a protected area.");
                     return true;
                 }
 
@@ -69,19 +66,19 @@ public class Command_protectarea extends FreedomCommand {
                 }
                 catch (NumberFormatException nfex)
                 {
-                    playerMsg("Invalid radius.");
+                    playerMsg(sender, "Invalid radius.");
                     return true;
                 }
 
                 if (radius > ProtectedArea.MAX_RADIUS || radius < 0.0D)
                 {
-                    playerMsg("Invalid radius. Radius must be a positive value less than " + ProtectedArea.MAX_RADIUS + ".");
+                    playerMsg(sender, "Invalid radius. Radius must be a positive value less than " + ProtectedArea.MAX_RADIUS + ".");
                     return true;
                 }
 
                 ProtectedArea.addProtectedArea(args[1], sender_p.getLocation(), radius);
 
-                playerMsg("Area added. Protected Areas: " + StringUtils.join(ProtectedArea.getProtectedAreaLabels(), ", "));
+                playerMsg(sender, "Area added. Protected Areas: " + StringUtils.join(ProtectedArea.getProtectedAreaLabels(), ", "));
             }
             else
             {

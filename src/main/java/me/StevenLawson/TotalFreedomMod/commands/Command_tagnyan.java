@@ -8,7 +8,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Gives you a tag with random colors", usage = "/<command> <tag>", aliases = "tn")
 public class Command_tagnyan extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -25,7 +24,7 @@ public class Command_tagnyan extends FreedomCommand {
         final PlayerData data = PlayerData.getPlayerData(sender_p);
         data.setTag(tag.toString());
 
-        playerMsg("Set tag to " + tag);
+        playerMsg(sender, "Set tag to " + tag);
 
         return true;
     }

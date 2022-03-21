@@ -15,7 +15,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Manage superadmins.", usage = "/<command> <list | clean | clearme [ip] | <add | delete | info> <username>>")
 public class Command_saconfig extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -23,12 +22,12 @@ public class Command_saconfig extends FreedomCommand {
         try {
             mode = SAConfigMode.findMode(args, sender, senderIsConsole);
         } catch (final PermissionsException ex) {
-            playerMsg(ex.getMessage());
+            playerMsg(sender, ex.getMessage());
             return true;
         }
         catch (final FormatException ex)
         {
-            playerMsg(ex.getMessage());
+            playerMsg(sender, ex.getMessage());
             return false;
         }
 
@@ -36,7 +35,7 @@ public class Command_saconfig extends FreedomCommand {
         {
             case LIST:
             {
-                playerMsg("Superadmins: " + StringUtils.join(AdminList.getSuperNames(), ", "), ChatColor.GOLD);
+                playerMsg(sender, "Superadmins: " + StringUtils.join(AdminList.getSuperNames(), ", "), ChatColor.GOLD);
 
                 break;
             }
@@ -44,7 +43,7 @@ public class Command_saconfig extends FreedomCommand {
             {
                 Utilities.adminAction(sender.getName(), "Cleaning superadmin list", true);
                 AdminList.cleanSuperadminList(true);
-                playerMsg("Superadmins: " + StringUtils.join(AdminList.getSuperNames(), ", "), ChatColor.YELLOW);
+                playerMsg(sender, "Superadmins: " + StringUtils.join(AdminList.getSuperNames(), ", "), ChatColor.YELLOW);
 
                 break;
             }
@@ -54,7 +53,7 @@ public class Command_saconfig extends FreedomCommand {
 
                 if (admin == null)
                 {
-                    playerMsg("Could not find your admin entry! Please notify a developer.", ChatColor.RED);
+                    playerMsg(sender, "Could not find your admin entry! Please notify a developer.", ChatColor.RED);
                     return true;
                 }
 
@@ -70,18 +69,18 @@ public class Command_saconfig extends FreedomCommand {
 
                     AdminList.saveAll();
 
-                    playerMsg(counter + " IPs removed.");
-                    playerMsg(admin.getIps().get(0) + " is now your only IP address");
+                    playerMsg(sender, counter + " IPs removed.");
+                    playerMsg(sender, admin.getIps().get(0) + " is now your only IP address");
                 }
                 else
                 {
                     if (!admin.getIps().contains(args[1]))
                     {
-                        playerMsg("That IP is not registered to you.");
+                        playerMsg(sender, "That IP is not registered to you.");
                     }
                     else if (ip.equals(args[1]))
                     {
-                        playerMsg("You cannot remove your current IP.");
+                        playerMsg(sender, "You cannot remove your current IP.");
                     }
                     else
                     {
@@ -91,8 +90,8 @@ public class Command_saconfig extends FreedomCommand {
 
                         AdminList.saveAll();
 
-                        playerMsg("Removed IP " + args[1]);
-                        playerMsg("Current IPs: " + StringUtils.join(admin.getIps(), ", "));
+                        playerMsg(sender, "Removed IP " + args[1]);
+                        playerMsg(sender, "Current IPs: " + StringUtils.join(admin.getIps(), ", "));
                     }
                 }
 
@@ -113,11 +112,11 @@ public class Command_saconfig extends FreedomCommand {
 
                 if (superadmin == null)
                 {
-                    playerMsg("Superadmin not found: " + args[1]);
+                    playerMsg(sender, "Superadmin not found: " + args[1]);
                 }
                 else
                 {
-                    playerMsg(superadmin.toString());
+                    playerMsg(sender, superadmin.toString());
                 }
 
                 break;
@@ -132,7 +131,7 @@ public class Command_saconfig extends FreedomCommand {
 
                     if (superadmin == null)
                     {
-                        playerMsg(FreedomCommand.PLAYER_NOT_FOUND);
+                        playerMsg(sender, FreedomCommand.PLAYER_NOT_FOUND);
                         return true;
                     }
 
@@ -168,7 +167,7 @@ public class Command_saconfig extends FreedomCommand {
 
                 if (!AdminList.getLowercaseSuperNames().contains(targetName.toLowerCase()))
                 {
-                    playerMsg("Superadmin not found: " + targetName);
+                    playerMsg(sender, "Superadmin not found: " + targetName);
                     return true;
                 }
 

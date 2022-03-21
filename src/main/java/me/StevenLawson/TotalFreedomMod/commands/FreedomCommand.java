@@ -5,37 +5,44 @@ import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import me.StevenLawson.TotalFreedomMod.admin.AdminList;
 import me.StevenLawson.TotalFreedomMod.player.PlayerData;
 import me.StevenLawson.TotalFreedomMod.util.Utilities;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
 
-public abstract class FreedomCommand {
+public abstract class FreedomCommand implements CommandExecutor {
     public static final String MSG_NO_PERMS = ChatColor.YELLOW + "You do not have permission to use this command.";
     public static final String YOU_ARE_OP = ChatColor.YELLOW + "You are now op!";
     public static final String YOU_ARE_NOT_OP = ChatColor.YELLOW + "You are no longer op!";
     public static final String NOT_FROM_CONSOLE = "This command may not be used from the console.";
     public static final String PLAYER_NOT_FOUND = ChatColor.GRAY + "Player not found!";
-    protected TotalFreedomMod plugin;
-    protected Server server;
-    private CommandSender commandSender;
-    private Class<?> commandClass;
+    protected TotalFreedomMod plugin = TotalFreedomMod.plugin;
+    protected Server server = Bukkit.getServer();
 
     public FreedomCommand() {
     }
 
-    abstract public boolean run(final CommandSender sender, final org.bukkit.entity.Player sender_p, final Command cmd, final String commandLabel, final String[] args, final boolean senderIsConsole);
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if(!senderHasPermission(sender)) {
+            sender.sendMessage(FreedomCommand.MSG_NO_PERMS);
+            return true;
+        }
 
-    public void setup(final TotalFreedomMod plugin, final CommandSender commandSender, final Class<?> commandClass)
-    {
-        this.plugin = plugin;
-        this.server = plugin.getServer();
-        this.commandSender = commandSender;
-        this.commandClass = commandClass;
+        Player sender_p = null;
+        if(sender instanceof Player) {
+            sender_p = (Player)sender;
+        }
+
+        return run(sender, sender_p, command, label, args, sender_p == null);
     }
+
+    abstract public boolean run(final CommandSender sender, final org.bukkit.entity.Player sender_p, final Command cmd, final String commandLabel, final String[] args, final boolean senderIsConsole);
 
     public void playerMsg(final CommandSender sender, final String message, final ChatColor color)
     {
@@ -46,28 +53,27 @@ public abstract class FreedomCommand {
         sender.sendMessage(color + message);
     }
 
-    public void playerMsg(final String message, final ChatColor color)
-    {
-        playerMsg(commandSender, message, color);
-    }
-
     public void playerMsg(final CommandSender sender, final String message)
     {
         playerMsg(sender, message, ChatColor.GRAY);
     }
 
-    public void playerMsg(final String message)
-    {
-        playerMsg(commandSender, message);
+    public void playerMsg(final String message, final ChatColor color) {
+        // NOP
     }
 
-    public boolean senderHasPermission()
+    public void playerMsg(final String message) {
+        // NOP
+    }
+
+
+    public boolean senderHasPermission(CommandSender commandSender)
     {
-        final CommandPermissions permissions = commandClass.getAnnotation(CommandPermissions.class);
+        final CommandPermissions permissions = this.getClass().getAnnotation(CommandPermissions.class);
 
         if (permissions == null)
         {
-            Log.warning(commandClass.getName() + " is missing permissions annotation.");
+            Log.warning(this.getClass().getName() + " is missing permissions annotation.");
             return true;
         }
 

@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH)
-@CommandParameters(description = "Lists the real names of all online players.", usage = "/<command> [-a | -i]", aliases = "who")
 public class Command_list extends FreedomCommand {
     private static enum ListFilter {
         ALL,
@@ -33,7 +32,7 @@ public class Command_list extends FreedomCommand {
             {
                 names.add(player.getName());
             }
-            playerMsg("There are " + names.size() + "/" + server.getMaxPlayers() + " players online:\n" + StringUtils.join(names, ", "), ChatColor.WHITE);
+            playerMsg(sender, "There are " + names.size() + "/" + server.getMaxPlayers() + " players online:\n" + StringUtils.join(names, ", "), ChatColor.WHITE);
             return true;
         }
 

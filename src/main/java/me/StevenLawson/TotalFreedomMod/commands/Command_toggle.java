@@ -9,67 +9,66 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Toggles TotalFreedomMod settings", usage = "/<command> [option] [value] [value]")
 public class Command_toggle extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
         if (args.length == 0) {
-            playerMsg("Available toggles: ");
-            playerMsg("- waterplace");
-            playerMsg("- fireplace");
-            playerMsg("- lavaplace");
-            playerMsg("- fluidspread");
-            playerMsg("- lavadmg");
-            playerMsg("- firespread");
-            playerMsg("- prelog");
-            playerMsg("- lockdown");
-            playerMsg("- petprotect");
-            playerMsg("- droptoggle");
-            playerMsg("- nonuke");
-            playerMsg("- explosives");
+            playerMsg(sender, "Available toggles: ");
+            playerMsg(sender, "- waterplace");
+            playerMsg(sender, "- fireplace");
+            playerMsg(sender, "- lavaplace");
+            playerMsg(sender, "- fluidspread");
+            playerMsg(sender, "- lavadmg");
+            playerMsg(sender, "- firespread");
+            playerMsg(sender, "- prelog");
+            playerMsg(sender, "- lockdown");
+            playerMsg(sender, "- petprotect");
+            playerMsg(sender, "- droptoggle");
+            playerMsg(sender, "- nonuke");
+            playerMsg(sender, "- explosives");
             return false;
         }
 
         if (args[0].equals("waterplace"))
         {
-            toggle("Water placement is", ConfigurationEntry.ALLOW_WATER_PLACE);
+            toggle(sender, "Water placement is", ConfigurationEntry.ALLOW_WATER_PLACE);
             return true;
         }
 
         if (args[0].equals("fireplace"))
         {
-            toggle("Fire placement is", ConfigurationEntry.ALLOW_FIRE_PLACE);
+            toggle(sender, "Fire placement is", ConfigurationEntry.ALLOW_FIRE_PLACE);
             return true;
         }
 
         if (args[0].equals("lavaplace"))
         {
-            toggle("Lava placement is", ConfigurationEntry.ALLOW_LAVA_PLACE);
+            toggle(sender, "Lava placement is", ConfigurationEntry.ALLOW_LAVA_PLACE);
             return true;
         }
 
         if (args[0].equals("fluidspread"))
         {
-            toggle("Fluid spread is", ConfigurationEntry.ALLOW_FLUID_SPREAD);
+            toggle(sender, "Fluid spread is", ConfigurationEntry.ALLOW_FLUID_SPREAD);
             return true;
         }
 
         if (args[0].equals("lavadmg"))
         {
-            toggle("Lava damage is", ConfigurationEntry.ALLOW_LAVA_DAMAGE);
+            toggle(sender, "Lava damage is", ConfigurationEntry.ALLOW_LAVA_DAMAGE);
             return true;
         }
 
         if (args[0].equals("firespread"))
         {
-            toggle("Fire spread is", ConfigurationEntry.ALLOW_FIRE_SPREAD);
+            toggle(sender, "Fire spread is", ConfigurationEntry.ALLOW_FIRE_SPREAD);
             GameRuleHandler.setGameRule(TFM_GameRule.DO_FIRE_TICK, ConfigurationEntry.ALLOW_FIRE_SPREAD.getBoolean());
             return true;
         }
 
         if (args[0].equals("prelog"))
         {
-            toggle("Command prelogging is", ConfigurationEntry.ENABLE_PREPROCESS_LOG);
+            toggle(sender, "Command prelogging is", ConfigurationEntry.ENABLE_PREPROCESS_LOG);
             return true;
         }
 
@@ -82,13 +81,13 @@ public class Command_toggle extends FreedomCommand {
 
         if (args[0].equals("petprotect"))
         {
-            toggle("Tamed pet protection is", ConfigurationEntry.ENABLE_PET_PROTECT);
+            toggle(sender,"Tamed pet protection is", ConfigurationEntry.ENABLE_PET_PROTECT);
             return true;
         }
 
         if (args[0].equals("droptoggle"))
         {
-            toggle("Automatic entity wiping is", ConfigurationEntry.AUTO_ENTITY_WIPE);
+            toggle(sender,"Automatic entity wiping is", ConfigurationEntry.AUTO_ENTITY_WIPE);
             return true;
         }
 
@@ -116,12 +115,12 @@ public class Command_toggle extends FreedomCommand {
                 }
             }
 
-            toggle("Nuke monitor is", ConfigurationEntry.NUKE_MONITOR_ENABLED);
+            toggle(sender,"Nuke monitor is", ConfigurationEntry.NUKE_MONITOR_ENABLED);
 
             if (ConfigurationEntry.NUKE_MONITOR_ENABLED.getBoolean())
             {
-                playerMsg("Anti-freecam range is set to " + ConfigurationEntry.NUKE_MONITOR_RANGE.getDouble() + " blocks.");
-                playerMsg("Block throttle rate is set to " + ConfigurationEntry.NUKE_MONITOR_COUNT_BREAK.getInteger() + " blocks destroyed per 5 seconds.");
+                playerMsg(sender, "Anti-freecam range is set to " + ConfigurationEntry.NUKE_MONITOR_RANGE.getDouble() + " blocks.");
+                playerMsg(sender, "Block throttle rate is set to " + ConfigurationEntry.NUKE_MONITOR_COUNT_BREAK.getInteger() + " blocks destroyed per 5 seconds.");
             }
 
             return true;
@@ -136,16 +135,16 @@ public class Command_toggle extends FreedomCommand {
                 }
                 catch (NumberFormatException ex)
                 {
-                    playerMsg(ex.getMessage());
+                    playerMsg(sender, ex.getMessage());
                     return true;
                 }
             }
 
-            toggle("Explosions are", ConfigurationEntry.ALLOW_EXPLOSIONS);
+            toggle(sender,"Explosions are", ConfigurationEntry.ALLOW_EXPLOSIONS);
 
             if (ConfigurationEntry.ALLOW_EXPLOSIONS.getBoolean())
             {
-                playerMsg("Radius set to " + ConfigurationEntry.EXPLOSIVE_RADIUS.getDouble());
+                playerMsg(sender, "Radius set to " + ConfigurationEntry.EXPLOSIVE_RADIUS.getDouble());
             }
             return true;
         }
@@ -153,8 +152,8 @@ public class Command_toggle extends FreedomCommand {
         return false;
     }
 
-    private void toggle(String name, ConfigurationEntry entry)
+    private void toggle(CommandSender sender, String name, ConfigurationEntry entry)
     {
-        playerMsg(name + " now " + (entry.setBoolean(!entry.getBoolean()) ? "enabled." : "disabled."));
+        playerMsg(sender, name + " now " + (entry.setBoolean(!entry.getBoolean()) ? "enabled." : "disabled."));
     }
 }
