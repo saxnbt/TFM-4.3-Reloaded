@@ -5,6 +5,7 @@ import me.StevenLawson.TotalFreedomMod.Server;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import me.StevenLawson.TotalFreedomMod.admin.AdminList;
 import me.StevenLawson.TotalFreedomMod.ban.BanManager;
+import me.StevenLawson.TotalFreedomMod.config.TagConfiguration;
 import me.StevenLawson.TotalFreedomMod.discord.bridge.DiscordBridge;
 import me.StevenLawson.TotalFreedomMod.command.CommandBlocker;
 import me.StevenLawson.TotalFreedomMod.commands.Command_landmine;
@@ -18,6 +19,7 @@ import me.StevenLawson.TotalFreedomMod.util.Utilities;
 import me.StevenLawson.TotalFreedomMod.world.AdminWorld;
 import me.StevenLawson.TotalFreedomMod.world.RollbackManager;
 import me.StevenLawson.TotalFreedomMod.world.RollbackManager.RollbackEntry;
+import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -896,7 +898,12 @@ public class PlayerListener implements Listener {
                 }
             }
         }
-
+        if(TagConfiguration.getTag(player.getUniqueId().toString()) != null){
+            String playerTag = TagConfiguration.getTag(player.getUniqueId().toString());
+            if(!"".equalsIgnoreCase(playerTag)){
+                PlayerData.getPlayerData(player).setTag(playerTag);
+            }
+        }
         DiscordBridge.transmitMessage(String.format("**%s joined the server**", player.getDisplayName()));
     }
 
