@@ -1,6 +1,7 @@
 package me.StevenLawson.TotalFreedomMod.commands;
 
 import me.StevenLawson.TotalFreedomMod.admin.AdminList;
+import me.StevenLawson.TotalFreedomMod.config.TagConfiguration;
 import me.StevenLawson.TotalFreedomMod.player.PlayerData;
 import me.StevenLawson.TotalFreedomMod.util.Utilities;
 import org.apache.commons.lang3.StringUtils;
@@ -8,12 +9,17 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionAttachment;
+import org.bukkit.permissions.PermissionAttachmentInfo;
 
+import javax.swing.text.html.HTML;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Sets yourself a prefix", usage = "/<command> <set <tag..> | off | clear <player> | clearall>")
+@CommandParameters(description = "Sets yourself a prefix", usage = "/<command> <(-s) set <tag..> | off | clear <player> | clearall>")
 public class Command_tag extends FreedomCommand {
     public static final List<String> FORBIDDEN_WORDS = Arrays.asList("admin", "owner", "moderator", "developer", "console");
 
@@ -50,6 +56,12 @@ public class Command_tag extends FreedomCommand {
                     if (playerdata.getTag() != null)
                     {
                         count++;
+                        if(TagConfiguration.getTag(playerdata.getUniqueId().toString()) != null){
+                            String playerTag = TagConfiguration.getTag(playerdata.getUniqueId().toString());
+                            if(!"".equalsIgnoreCase(playerTag)){
+                                TagConfiguration.saveTag(sender_p.getUniqueId().toString(), "");
+                            }
+                        }
                         playerdata.setTag(null);
                     }
                 }
@@ -67,6 +79,12 @@ public class Command_tag extends FreedomCommand {
                 else
                 {
                     PlayerData.getPlayerData(sender_p).setTag(null);
+                    if(TagConfiguration.getTag(sender_p.getUniqueId().toString()) != null){
+                        String playerTag = TagConfiguration.getTag(sender_p.getUniqueId().toString());
+                        if(!"".equalsIgnoreCase(playerTag)){
+                            TagConfiguration.saveTag(sender_p.getUniqueId().toString(), "");
+                        }
+                    }
                     playerMsg("Your tag has been removed.");
                 }
 
@@ -88,14 +106,18 @@ public class Command_tag extends FreedomCommand {
                 }
 
                 final Player player = getPlayer(args[1]);
-
                 if (player == null)
                 {
                     playerMsg(FreedomCommand.PLAYER_NOT_FOUND);
                     return true;
                 }
-
                 PlayerData.getPlayerData(player).setTag(null);
+                if(TagConfiguration.getTag(player.getUniqueId().toString()) != null){
+                    String playerTag = TagConfiguration.getTag(player.getUniqueId().toString());
+                    if(!"".equalsIgnoreCase(playerTag)){
+                        TagConfiguration.saveTag(player.getUniqueId().toString(), "");
+                    }
+                }
                 playerMsg("Removed " + player.getName() + "'s tag.");
 
                 return true;
@@ -134,11 +156,48 @@ public class Command_tag extends FreedomCommand {
                 }
 
                 PlayerData.getPlayerData(sender_p).setTag(outputTag);
-                playerMsg("Tag set to '" + outputTag + "'.");
+                playerMsg("Tag set to '" + outputTag + ChatColor.GRAY + "'.");
 
                 return true;
             }
-            else
+            else if ("-s".equalsIgnoreCase(args[0]) && "set".equalsIgnoreCase(args[1]))
+            {
+                final String inputTag = StringUtils.join(args, " ", 2, args.length);
+                final String outputTag = Utilities.colorize(StringUtils.replaceEachRepeatedly(StringUtils.strip(inputTag),
+                        new String[]
+                                {
+                                        "" + ChatColor.COLOR_CHAR, "&k"
+                                },
+                        new String[]
+                                {
+                                        "", ""
+                                })) + ChatColor.RESET;
+
+                if (!AdminList.isSuperAdmin(sender))
+                {
+                    final String rawTag = ChatColor.stripColor(outputTag).toLowerCase();
+
+                    if (rawTag.length() > 20)
+                    {
+                        playerMsg("That tag is too long (Max is 20 characters).");
+                        return true;
+                    }
+
+                    for (String word : FORBIDDEN_WORDS)
+                    {
+                        if (rawTag.contains(word))
+                        {
+                            playerMsg("That tag contains a forbidden word.");
+                            return true;
+                        }
+                    }
+                }
+
+                PlayerData.getPlayerData(sender_p).setTag(outputTag);
+                TagConfiguration.saveTag(sender_p.getUniqueId().toString(), outputTag);
+                playerMsg("Tag set to '" + outputTag + ChatColor.GRAY + "'. (saved)");
+                return true;
+            } else
             {
                 return false;
             }
