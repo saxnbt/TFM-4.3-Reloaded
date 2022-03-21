@@ -22,7 +22,7 @@ public class Command_updatetfm extends FreedomCommand {
         String directory = file.getParent();
 
         try {
-            String command = String.format("\"cd %s && ./%s\"", directory, file.getAbsoluteFile());
+            String command = String.format("\"cd %s && ./%s\"", directory, file.getName());
             System.out.println(command);
             ProcessBuilder proc = new ProcessBuilder("/bin/bash", "-c", command);
             proc.redirectErrorStream(true);
