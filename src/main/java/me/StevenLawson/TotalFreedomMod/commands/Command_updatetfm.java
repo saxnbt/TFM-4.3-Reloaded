@@ -2,11 +2,13 @@ package me.StevenLawson.TotalFreedomMod.commands;
 
 import me.StevenLawson.TotalFreedomMod.config.ConfigurationEntry;
 import me.StevenLawson.TotalFreedomMod.config.MainConfig;
+import me.StevenLawson.TotalFreedomMod.util.SynchronousUtil;
 import me.StevenLawson.TotalFreedomMod.util.Utilities;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.io.File;
 
@@ -28,6 +30,10 @@ public class Command_updatetfm extends FreedomCommand {
             process.waitFor();
             playerMsg("Updated TFM! Reloading...");
             Utilities.adminAction(sender.getName(), "Update successful, reloading TFM...", false);
+            for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
+                SynchronousUtil.playerKick(onlinePlayer, "Reloading TFM, please rejoin.");
+            }
+
             Bukkit.dispatchCommand(sender, "plugman reload TotalFreedomMod");
         } catch (Exception e) {
             playerMsg("Failed to update TFM! Check the logs for more details.");
