@@ -4,6 +4,7 @@ import me.StevenLawson.TotalFreedomMod.admin.AdminList;
 import me.StevenLawson.TotalFreedomMod.ban.Ban;
 import me.StevenLawson.TotalFreedomMod.ban.BanManager;
 import me.StevenLawson.TotalFreedomMod.ban.PermbanList;
+import me.StevenLawson.TotalFreedomMod.bridge.EssentialsBridge;
 import me.StevenLawson.TotalFreedomMod.config.ConfigurationEntry;
 import me.StevenLawson.TotalFreedomMod.player.UUIDManager;
 import me.StevenLawson.TotalFreedomMod.util.SynchronousUtil;
@@ -11,6 +12,7 @@ import me.StevenLawson.TotalFreedomMod.util.Utilities;
 import net.minecraft.server.v1_8_R3.EntityPlayer;
 import net.minecraft.server.v1_8_R3.MinecraftServer;
 import net.minecraft.server.v1_8_R3.PropertyManager;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
@@ -245,5 +247,9 @@ public class Server
                 return;
             }
         }
+    }
+
+    public double getTPS() {
+        return EssentialsBridge.getEssentialsPlugin().getTimer().getAverageTPS();
     }
 }
