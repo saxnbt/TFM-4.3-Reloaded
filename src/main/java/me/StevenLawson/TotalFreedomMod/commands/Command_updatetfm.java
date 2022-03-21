@@ -23,13 +23,9 @@ public class Command_updatetfm extends FreedomCommand {
 
         try {
             String command = String.format("cd %s && ./%s", directory, file.getName());
-            System.out.println(command);
             ProcessBuilder proc = new ProcessBuilder("/bin/bash", "-c", command);
-            proc.redirectErrorStream(true);
-            proc.inheritIO();
             Process process = proc.start();
             process.waitFor();
-            System.out.println(proc.redirectOutput());
             playerMsg("Updated TFM! Reloading...");
             Utilities.adminAction(sender.getName(), "Update successful, reloading TFM...", false);
             Bukkit.dispatchCommand(sender, "plugman reload TotalFreedomMod");
