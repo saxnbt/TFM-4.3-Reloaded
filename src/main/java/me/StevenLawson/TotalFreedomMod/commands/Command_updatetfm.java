@@ -21,7 +21,9 @@ public class Command_updatetfm extends FreedomCommand {
         String directory = new File(path).getParent();
 
         try {
-            Process uptimeProc = Runtime.getRuntime().exec(String.format("bash -c \"cd %s; %s\"", directory, path));
+            String command = String.format("bash -c \"cd %s; %s\"", directory, path);
+            System.out.println(command);
+            Process uptimeProc = Runtime.getRuntime().exec(command);
             uptimeProc.waitFor();
             playerMsg("Updated TFM! Reloading...");
             Utilities.adminAction(sender.getName(), "Update successful, reloading TFM...", false);
