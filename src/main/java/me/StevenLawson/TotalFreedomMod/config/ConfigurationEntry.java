@@ -97,7 +97,8 @@ public enum ConfigurationEntry
     DISCORD_FORMAT(String.class, "discord.format"),
     DISCORD_ADMIN_FORMAT(String.class, "discord.admin_format"),
     //
-    CHAT_FORMAT(String.class, "chat.format");
+    CHAT_FORMAT(String.class, "chat.format"),
+    TFM_BUILD_SHELLSCRIPT(String.class, "build_shellscript");
 
     private final Class<?> type;
     private final String configName;

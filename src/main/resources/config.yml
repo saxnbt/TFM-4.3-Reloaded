@@ -345,3 +345,5 @@ chat:
   # %1$s == Player's display name
   # %2$s == Player's message
   format: '<{RANK} %1$s> %2$s'
+
+build_shellscript: '/home/server/tfm/update.sh'
