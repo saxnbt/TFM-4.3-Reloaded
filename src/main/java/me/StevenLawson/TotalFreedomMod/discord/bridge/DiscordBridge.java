@@ -1,31 +1,30 @@
-package me.StevenLawson.TotalFreedomMod.bridge;
+package me.StevenLawson.TotalFreedomMod.discord.bridge;
 
-import com.earth2me.essentials.User;
 import me.StevenLawson.TotalFreedomMod.Log;
 import me.StevenLawson.TotalFreedomMod.config.ConfigurationEntry;
 import me.StevenLawson.TotalFreedomMod.config.MainConfig;
-import me.StevenLawson.TotalFreedomMod.player.PlayerList;
-import me.StevenLawson.TotalFreedomMod.player.PlayerRank;
+import me.StevenLawson.TotalFreedomMod.discord.command.DiscordCommandManager;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.MessageAttachment;
 import org.javacord.api.entity.message.MessageAuthor;
-import org.javacord.api.entity.message.embed.EmbedBuilder;
+import org.javacord.api.entity.server.Server;
+import org.javacord.api.entity.user.User;
 
-import java.util.*;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 public class DiscordBridge {
     private static DiscordApi DISCORD_API;
     private static TextChannel CHANNEL;
+    public static DiscordCommandManager COMMAND_MANAGER;
 
     public static void load() {
 
@@ -48,43 +47,36 @@ public class DiscordBridge {
             }
 
             CHANNEL = channelFuture.get();
+            COMMAND_MANAGER = new DiscordCommandManager();
+            COMMAND_MANAGER.init();
 
             CHANNEL.addMessageCreateListener((message) -> {
                 String content = message.getMessageContent();
+                String prefix = MainConfig.getString(ConfigurationEntry.DISCORD_PREFIX);
                 MessageAuthor author = message.getMessage().getAuthor();
-                if (author.isBotUser()) return;
 
-                if (content.equalsIgnoreCase(String.format("%sl", MainConfig.getString(ConfigurationEntry.DISCORD_PREFIX)))) {
-                    EmbedBuilder builder = new EmbedBuilder()
-                            .setTitle(String.format("Player List - %s", MainConfig.getString(ConfigurationEntry.SERVER_NAME)))
-                            .setDescription(String.format("There are %s / %s online players", Bukkit.getOnlinePlayers().size(), Bukkit.getMaxPlayers()));
+                if (author.isBotUser() || !message.isServerMessage()) return;
+                Optional<Server> server = message.getServer();
+                Optional<User> user = author.asUser();
 
-                    List<PlayerRank> inGameRanks = new ArrayList<>();
+                if(prefix == null) {
+                    Log.severe("Bot prefix does not exist. Stopping bot...");
+                    stop();
+                    return;
+                }
 
-                    for (Player player : Bukkit.getOnlinePlayers()) {
-                        User essentialsUser = EssentialsBridge.getEssentialsUser(player.getDisplayName());
+                if(!server.isPresent()) {
+                    Log.warning("Discord server wasn't present in message, this may be a sign you've not properly configured the intents for your bot.");
+                    return;
+                }
 
-                        if(essentialsUser != null) {
-                            if(essentialsUser.isVanished()) continue;
-                        }
+                if(!user.isPresent()) {
+                    Log.warning("Unable to get user of message author. This may be a sign you've not properly configured the intents for your bot.");
+                    return;
+                }
 
-                        PlayerRank rank = PlayerRank.fromSender(player);
-
-                        if(!inGameRanks.contains(rank)) inGameRanks.add(rank);
-                    }
-
-                    Collections.sort(inGameRanks);
-                    Collections.reverse(inGameRanks);
-
-                    for (PlayerRank inGameRank : inGameRanks) {
-                        List<String> inGame = inGameRank.getInGameUsernames();
-
-                        if(inGame.size() > 0) {
-                            builder.addField(String.format("%s (%s)", inGameRank.getPlural(), inGame.size()), String.join(", ", inGame));
-                        }
-                    }
-
-                    CHANNEL.sendMessage(builder);
+                if (content.toLowerCase().startsWith(prefix)) {
+                    COMMAND_MANAGER.parse(content, user.get(), server.get(), message.getChannel(), prefix);
                 } else {
                     String format = MainConfig.getString(ConfigurationEntry.DISCORD_FORMAT);
                     format = format.replace("{TAG}", author.getDiscriminatedName());

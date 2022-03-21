@@ -5,7 +5,7 @@ import me.StevenLawson.TotalFreedomMod.Server;
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import me.StevenLawson.TotalFreedomMod.admin.AdminList;
 import me.StevenLawson.TotalFreedomMod.ban.BanManager;
-import me.StevenLawson.TotalFreedomMod.bridge.DiscordBridge;
+import me.StevenLawson.TotalFreedomMod.discord.bridge.DiscordBridge;
 import me.StevenLawson.TotalFreedomMod.command.CommandBlocker;
 import me.StevenLawson.TotalFreedomMod.commands.Command_landmine;
 import me.StevenLawson.TotalFreedomMod.config.ConfigurationEntry;

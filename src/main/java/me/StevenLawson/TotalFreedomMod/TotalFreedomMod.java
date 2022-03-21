@@ -5,7 +5,7 @@ import me.StevenLawson.TotalFreedomMod.admin.AdminList;
 import me.StevenLawson.TotalFreedomMod.announcer.Announcer;
 import me.StevenLawson.TotalFreedomMod.ban.BanManager;
 import me.StevenLawson.TotalFreedomMod.ban.PermbanList;
-import me.StevenLawson.TotalFreedomMod.bridge.DiscordBridge;
+import me.StevenLawson.TotalFreedomMod.discord.bridge.DiscordBridge;
 import me.StevenLawson.TotalFreedomMod.command.CommandBlocker;
 import me.StevenLawson.TotalFreedomMod.commands.CommandHandler;
 import me.StevenLawson.TotalFreedomMod.commands.CommandLoader;
