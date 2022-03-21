@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Random;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_IN_GAME)
+@CommandParameters(description = "Pretty rainbow trails.", usage = "/<command> [off]")
 public class Command_trail extends FreedomCommand {
     private static Listener movementListener = null;
     private static final List<Player> trailPlayers = new ArrayList<Player>();
@@ -29,14 +30,14 @@ public class Command_trail extends FreedomCommand {
         if (args.length > 0 && "off".equals(args[0])) {
             trailPlayers.remove(sender_p);
 
-            playerMsg(sender, "Trail disabled.");
+            playerMsg("Trail disabled.");
         } else {
             if (!trailPlayers.contains(sender_p))
             {
                 trailPlayers.add(sender_p);
             }
 
-            playerMsg(sender, "Trail enabled. Use \"/trail off\" to disable.");
+            playerMsg("Trail enabled. Use \"/trail off\" to disable.");
         }
 
         if (!trailPlayers.isEmpty())

@@ -13,6 +13,7 @@ import java.text.DecimalFormat;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(description = "View ticks-per-second", usage = "/<command>")
 public class Command_health extends FreedomCommand {
     private static final int BYTES_PER_MB = 1024 * 1024;
     private static final DoubleRange TPS_RANGE = new DoubleRange(20.0 - 0.1, 20.0 + 0.1);
@@ -22,10 +23,10 @@ public class Command_health extends FreedomCommand {
         Runtime runtime = Runtime.getRuntime();
         long usedMem = runtime.totalMemory() - runtime.freeMemory();
 
-        playerMsg(sender, "Reserved Memory: " + (double) runtime.totalMemory() / (double) BYTES_PER_MB + "mb");
-        playerMsg(sender, "Used Memory: " + new DecimalFormat("#").format((double) usedMem / (double) BYTES_PER_MB) + "mb (" + new DecimalFormat("#").format(((double) usedMem / (double) runtime.totalMemory()) * 100.0) + "%)");
-        playerMsg(sender, "Max Memory: " + (double) runtime.maxMemory() / (double) BYTES_PER_MB + "mb");
-        playerMsg(sender, "Calculating ticks per second, please wait...");
+        playerMsg("Reserved Memory: " + (double) runtime.totalMemory() / (double) BYTES_PER_MB + "mb");
+        playerMsg("Used Memory: " + new DecimalFormat("#").format((double) usedMem / (double) BYTES_PER_MB) + "mb (" + new DecimalFormat("#").format(((double) usedMem / (double) runtime.totalMemory()) * 100.0) + "%)");
+        playerMsg("Max Memory: " + (double) runtime.maxMemory() / (double) BYTES_PER_MB + "mb");
+        playerMsg("Calculating ticks per second, please wait...");
 
         new BukkitRunnable()
         {
@@ -44,7 +45,7 @@ public class Command_health extends FreedomCommand {
                         @Override
                         public void run()
                         {
-                            playerMsg(sender, "Ticks per second: " + (TPS_RANGE.containsDouble(ticksPerSecond) ? ChatColor.GREEN : ChatColor.RED) + ticksPerSecond);
+                            playerMsg("Ticks per second: " + (TPS_RANGE.containsDouble(ticksPerSecond) ? ChatColor.GREEN : ChatColor.RED) + ticksPerSecond);
                         }
                     }.runTask(plugin);
                 }

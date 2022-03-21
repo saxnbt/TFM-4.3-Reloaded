@@ -14,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
+@CommandParameters(
+        description = "Manipulate potion effects. Duration is measured in server ticks (~20 ticks per second).",
+        usage = "/<command> <list | clear [target name] | add <type> <duration> <amplifier> [target name]>")
 public class Command_potion extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -25,13 +28,13 @@ public class Command_potion extends FreedomCommand {
                         potionEffectTypeNames.add(potion_effect_type.getName());
                     }
                 }
-                playerMsg(sender, "Potion effect types: " + StringUtils.join(potionEffectTypeNames, ", "), ChatColor.AQUA);
+                playerMsg("Potion effect types: " + StringUtils.join(potionEffectTypeNames, ", "), ChatColor.AQUA);
             }
             else if (args[0].equalsIgnoreCase("clearall"))
             {
                 if (!(AdminList.isSuperAdmin(sender) || senderIsConsole))
                 {
-                    playerMsg(sender, FreedomCommand.MSG_NO_PERMS);
+                    playerMsg(FreedomCommand.MSG_NO_PERMS);
                     return true;
                 }
                 Utilities.adminAction(sender.getName(), "Cleared all potion effects from all players", true);
@@ -53,7 +56,7 @@ public class Command_potion extends FreedomCommand {
 
                     if (target == null)
                     {
-                        playerMsg(sender, FreedomCommand.PLAYER_NOT_FOUND, ChatColor.RED);
+                        playerMsg(FreedomCommand.PLAYER_NOT_FOUND, ChatColor.RED);
                         return true;
                     }
                 }
@@ -62,13 +65,13 @@ public class Command_potion extends FreedomCommand {
                 {
                     if (!AdminList.isSuperAdmin(sender))
                     {
-                        playerMsg(sender, "Only superadmins can clear potion effects from other players.");
+                        playerMsg("Only superadmins can clear potion effects from other players.");
                         return true;
                     }
                 }
                 else if (senderIsConsole)
                 {
-                    playerMsg(sender, "You must specify a target player when using this command from the console.");
+                    playerMsg("You must specify a target player when using this command from the console.");
                     return true;
                 }
 
@@ -77,7 +80,7 @@ public class Command_potion extends FreedomCommand {
                     target.removePotionEffect(potion_effect.getType());
                 }
 
-                playerMsg(sender, "Cleared all active potion effects " + (!target.equals(sender_p) ? "from player " + target.getName() + "." : "from yourself."), ChatColor.AQUA);
+                playerMsg("Cleared all active potion effects " + (!target.equals(sender_p) ? "from player " + target.getName() + "." : "from yourself."), ChatColor.AQUA);
             }
             else
             {
@@ -97,7 +100,7 @@ public class Command_potion extends FreedomCommand {
 
                     if (target == null)
                     {
-                        playerMsg(sender, FreedomCommand.PLAYER_NOT_FOUND, ChatColor.RED);
+                        playerMsg(FreedomCommand.PLAYER_NOT_FOUND, ChatColor.RED);
                         return true;
                     }
                 }
@@ -131,7 +134,7 @@ public class Command_potion extends FreedomCommand {
                 }
                 catch (NumberFormatException ex)
                 {
-                    playerMsg(sender, "Invalid potion duration.", ChatColor.RED);
+                    playerMsg("Invalid potion duration.", ChatColor.RED);
                     return true;
                 }
 
@@ -143,13 +146,13 @@ public class Command_potion extends FreedomCommand {
                 }
                 catch (NumberFormatException ex)
                 {
-                    playerMsg(sender, "Invalid potion amplifier.", ChatColor.RED);
+                    playerMsg("Invalid potion amplifier.", ChatColor.RED);
                     return true;
                 }
 
                 PotionEffect new_effect = potion_effect_type.createEffect(duration, amplifier);
                 target.addPotionEffect(new_effect, true);
-                playerMsg(sender,
+                playerMsg(
                         "Added potion effect: " + new_effect.getType().getName()
                         + ", Duration: " + new_effect.getDuration()
                         + ", Amplifier: " + new_effect.getAmplifier()

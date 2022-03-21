@@ -15,6 +15,7 @@ import java.net.URL;
 import java.net.URLConnection;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(description = "Validates if a given account is premium.", usage = "/<command> <player>", aliases = "prem")
 public class Command_premium extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -43,14 +44,14 @@ public class Command_premium extends FreedomCommand {
                 urlConnection.disconnect();
 
                 Bukkit.getScheduler().runTask(plugin, () -> {
-                    playerMsg(sender, "Player " + name + " is premium: " + message);
+                    playerMsg("Player " + name + " is premium: " + message);
                 });
             }
             catch (Exception ex)
             {
                 Log.severe(ex);
                 Bukkit.getScheduler().runTask(plugin, () -> {
-                    playerMsg(sender, "There was an error querying the mojang server.", ChatColor.RED);
+                    playerMsg("There was an error querying the mojang server.", ChatColor.RED);
                 });
             }
         });

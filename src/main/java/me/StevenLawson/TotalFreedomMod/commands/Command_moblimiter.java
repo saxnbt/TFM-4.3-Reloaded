@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_CONSOLE)
+@CommandParameters(description = "Control mob rezzing parameters.", usage = "/<command> <on|off|setmax <count>|dragon|giant|ghast|slime>")
 public class Command_moblimiter extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -59,14 +60,14 @@ public class Command_moblimiter extends FreedomCommand {
         {
             sender.sendMessage("Moblimiter enabled. Maximum mobcount set to: " + ConfigurationEntry.MOB_LIMITER_MAX.getInteger() + ".");
 
-            playerMsg(sender, "Dragon: " + (ConfigurationEntry.MOB_LIMITER_DISABLE_DRAGON.getBoolean() ? "disabled" : "enabled") + ".");
-            playerMsg(sender, "Giant: " + (ConfigurationEntry.MOB_LIMITER_DISABLE_GIANT.getBoolean() ? "disabled" : "enabled") + ".");
-            playerMsg(sender, "Slime: " + (ConfigurationEntry.MOB_LIMITER_DISABLE_SLIME.getBoolean() ? "disabled" : "enabled") + ".");
-            playerMsg(sender, "Ghast: " + (ConfigurationEntry.MOB_LIMITER_DISABLE_GHAST.getBoolean() ? "disabled" : "enabled") + ".");
+            playerMsg("Dragon: " + (ConfigurationEntry.MOB_LIMITER_DISABLE_DRAGON.getBoolean() ? "disabled" : "enabled") + ".");
+            playerMsg("Giant: " + (ConfigurationEntry.MOB_LIMITER_DISABLE_GIANT.getBoolean() ? "disabled" : "enabled") + ".");
+            playerMsg("Slime: " + (ConfigurationEntry.MOB_LIMITER_DISABLE_SLIME.getBoolean() ? "disabled" : "enabled") + ".");
+            playerMsg("Ghast: " + (ConfigurationEntry.MOB_LIMITER_DISABLE_GHAST.getBoolean() ? "disabled" : "enabled") + ".");
         }
         else
         {
-            playerMsg(sender, "Moblimiter is disabled. No mob restrictions are in effect.");
+            playerMsg("Moblimiter is disabled. No mob restrictions are in effect.");
         }
 
         GameRuleHandler.setGameRule(GameRuleHandler.TFM_GameRule.DO_MOB_SPAWNING, !ConfigurationEntry.MOB_LIMITER_ENABLED.getBoolean());

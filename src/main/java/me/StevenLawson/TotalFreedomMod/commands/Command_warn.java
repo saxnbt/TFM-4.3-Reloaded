@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH, blockHostConsole = true)
+@CommandParameters(description = "Warns a player.", usage = "/<command> <player> <reason>")
 public class Command_warn extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -20,7 +21,7 @@ public class Command_warn extends FreedomCommand {
         Player player = getPlayer(args[0]);
 
         if (player == null) {
-            playerMsg(sender, PLAYER_NOT_FOUND);
+            playerMsg(PLAYER_NOT_FOUND);
             return true;
         }
 
@@ -28,21 +29,21 @@ public class Command_warn extends FreedomCommand {
         {
             if (player.equals(sender_p))
             {
-                playerMsg(sender, ChatColor.RED + "Please, don't try to warn yourself.");
+                playerMsg(ChatColor.RED + "Please, don't try to warn yourself.");
                 return true;
             }
         }
 
         if (AdminList.isSuperAdmin(player))
         {
-            playerMsg(sender, ChatColor.RED + "You can not warn admins");
+            playerMsg(ChatColor.RED + "You can not warn admins");
             return true;
         }
 
         String warnReason = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
 
-        playerMsg(sender, ChatColor.RED + "[WARNING] " + warnReason);
-        playerMsg(sender, ChatColor.GREEN + "You have successfully warned " + player.getName());
+        playerMsg(ChatColor.RED + "[WARNING] " + warnReason);
+        playerMsg(ChatColor.GREEN + "You have successfully warned " + player.getName());
 
         PlayerData.getPlayerData(player).incrementWarnings();
 

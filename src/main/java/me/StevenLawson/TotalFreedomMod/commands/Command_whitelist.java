@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
+@CommandParameters(description = "Manage the whitelist.", usage = "/<command> <on | off | list | count | add <player> | remove <player> | addall | purge>")
 public class Command_whitelist extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -19,7 +20,7 @@ public class Command_whitelist extends FreedomCommand {
 
         // list
         if (args[0].equalsIgnoreCase("list")) {
-            playerMsg(sender, "Whitelisted players: " + Utilities.playerListToNames(server.getWhitelistedPlayers()));
+            playerMsg("Whitelisted players: " + Utilities.playerListToNames(server.getWhitelistedPlayers()));
             return true;
         }
 
@@ -43,9 +44,9 @@ public class Command_whitelist extends FreedomCommand {
                 totalWPs++;
             }
 
-            playerMsg(sender, "Online whitelisted players: " + onlineWPs);
-            playerMsg(sender, "Offline whitelisted players: " + offlineWPs);
-            playerMsg(sender, "Total whitelisted players: " + totalWPs);
+            playerMsg("Online whitelisted players: " + onlineWPs);
+            playerMsg("Offline whitelisted players: " + offlineWPs);
+            playerMsg("Total whitelisted players: " + totalWPs);
 
             return true;
         }
@@ -120,7 +121,7 @@ public class Command_whitelist extends FreedomCommand {
             }
             else
             {
-                playerMsg(sender, "That player is not whitelisted");
+                playerMsg("That player is not whitelisted");
                 return true;
             }
 
@@ -140,7 +141,7 @@ public class Command_whitelist extends FreedomCommand {
                 }
             }
 
-            playerMsg(sender, "Whitelisted " + counter + " players.");
+            playerMsg("Whitelisted " + counter + " players.");
             return true;
         }
 
@@ -155,7 +156,7 @@ public class Command_whitelist extends FreedomCommand {
         if (args[0].equalsIgnoreCase("purge"))
         {
             Utilities.adminAction(sender.getName(), "Removing all players from the whitelist.", false);
-            playerMsg(sender, "Removed " + Server.purgeWhitelist() + " players from the whitelist.");
+            playerMsg("Removed " + Server.purgeWhitelist() + " players from the whitelist.");
 
             return true;
         }

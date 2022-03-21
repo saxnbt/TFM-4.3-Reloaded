@@ -11,6 +11,7 @@ import org.bukkit.command.CommandSender;
 import java.util.List;
 
 @CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH)
+@CommandParameters(description = "Set the on/off state of the lever at position x, y, z in world 'worldname'.", usage = "/<command> <x> <y> <z> <worldname> <on|off>")
 public class Command_setlever extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -26,7 +27,7 @@ public class Command_setlever extends FreedomCommand {
         }
         catch (NumberFormatException ex)
         {
-            playerMsg(sender, "Invalid coordinates.");
+            playerMsg("Invalid coordinates.");
             return true;
         }
 
@@ -44,7 +45,7 @@ public class Command_setlever extends FreedomCommand {
 
         if (world == null)
         {
-            playerMsg(sender, "Invalid world name.");
+            playerMsg("Invalid world name.");
             return true;
         }
 
@@ -63,7 +64,7 @@ public class Command_setlever extends FreedomCommand {
         }
         else
         {
-            playerMsg(sender, "Target block " + targetBlock + "  is not a lever.");
+            playerMsg("Target block " + targetBlock + "  is not a lever.");
             return true;
         }
 

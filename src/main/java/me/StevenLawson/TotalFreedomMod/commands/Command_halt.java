@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(description = "Halts a player", usage = "/<command> <<partialname> | all | purge | list>")
 public class Command_halt extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -26,7 +27,7 @@ public class Command_halt extends FreedomCommand {
                     counter++;
                 }
             }
-            playerMsg(sender, "Halted " + counter + " players.");
+            playerMsg("Halted " + counter + " players.");
             return true;
         }
 
@@ -43,7 +44,7 @@ public class Command_halt extends FreedomCommand {
                     counter++;
                 }
             }
-            playerMsg(sender, "Unhalted " + counter + " players.");
+            playerMsg("Unhalted " + counter + " players.");
             return true;
         }
 
@@ -58,15 +59,15 @@ public class Command_halt extends FreedomCommand {
                 {
                     if (count == 0)
                     {
-                        playerMsg(sender, "Halted players:");
+                        playerMsg("Halted players:");
                     }
-                    playerMsg(sender, "- " + hp.getName());
+                    playerMsg("- " + hp.getName());
                     count++;
                 }
             }
             if (count == 0)
             {
-                playerMsg(sender, "There are currently no halted players.");
+                playerMsg("There are currently no halted players.");
             }
             return true;
         }

@@ -12,6 +12,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @CommandPermissions(level = AdminLevel.ALL, source = SourceType.ONLY_IN_GAME)
+@CommandParameters(description = "Shows nearby people sorted by distance.", usage = "/<command> [range]")
 public class Command_radar extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -33,13 +34,13 @@ public class Command_radar extends FreedomCommand {
 
         if (radar_data.isEmpty())
         {
-            playerMsg(sender, "You are the only player in this world. (" + ChatColor.GREEN + "Forever alone..." + ChatColor.YELLOW + ")", ChatColor.YELLOW); //lol
+            playerMsg("You are the only player in this world. (" + ChatColor.GREEN + "Forever alone..." + ChatColor.YELLOW + ")", ChatColor.YELLOW); //lol
             return true;
         }
 
         Collections.sort(radar_data, new TFM_RadarData());
 
-        playerMsg(sender, "People nearby in " + sender_pos.getWorld().getName() + ":", ChatColor.YELLOW);
+        playerMsg("People nearby in " + sender_pos.getWorld().getName() + ":", ChatColor.YELLOW);
 
         int countmax = 5;
         if (args.length == 1)
@@ -55,7 +56,7 @@ public class Command_radar extends FreedomCommand {
 
         for (TFM_RadarData i : radar_data)
         {
-            playerMsg(sender, String.format("%s - %d",
+            playerMsg(String.format("%s - %d",
                     i.player.getName(),
                     Math.round(i.distance)), ChatColor.YELLOW);
 

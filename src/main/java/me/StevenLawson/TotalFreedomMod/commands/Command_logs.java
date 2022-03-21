@@ -18,6 +18,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_IN_GAME)
+@CommandParameters(description = "Register your connection with the TFM logviewer.", usage = "/<command> [off]")
 public class Command_logs extends FreedomCommand {
     public static void deactivateSuperadmin(Admin superadmin) {
         for (String ip : superadmin.getIps()) {

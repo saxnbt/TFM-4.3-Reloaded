@@ -7,11 +7,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.*;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(description = "Purge all mobs in all worlds.", usage = "/<command>")
 public class Command_mp extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
-        playerMsg(sender, "Purging all mobs...");
-        playerMsg(sender, purgeMobs() + " mobs removed.");
+        playerMsg("Purging all mobs...");
+        playerMsg(purgeMobs() + " mobs removed.");
         return true;
     }
 

@@ -9,6 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
+@CommandParameters(description = "Shows all banned player names. Superadmins may optionally use 'purge' to clear the list.", usage = "/<command> [purge]")
 public class Command_tfbanlist extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -29,12 +30,12 @@ public class Command_tfbanlist extends FreedomCommand {
                 }
                 else
                 {
-                    playerMsg(sender, "You do not have permission to purge the ban list, you may only view it.");
+                    playerMsg("You do not have permission to purge the ban list, you may only view it.");
                 }
             }
         }
 
-        playerMsg(sender, BanManager.getUuidBanList().size() + " UUID bans total");
+        playerMsg(BanManager.getUuidBanList().size() + " UUID bans total");
 
         return true;
     }

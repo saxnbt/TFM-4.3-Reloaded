@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH, blockHostConsole = true)
+@CommandParameters(description = "Issues a rollback on a player", usage = "/<command> <[partialname] | undo [partialname] purge [partialname] | purgeall>", aliases = "rb")
 public class Command_rollback extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -16,7 +17,7 @@ public class Command_rollback extends FreedomCommand {
         if (args.length == 1) {
             if ("purgeall".equals(args[0])) {
                 Utilities.adminAction(sender.getName(), "Purging all rollback history", false);
-                playerMsg(sender, "Purged all rollback history for " + RollbackManager.purgeEntries() + " players.");
+                playerMsg("Purged all rollback history for " + RollbackManager.purgeEntries() + " players.");
             }
             else
             {
@@ -24,18 +25,18 @@ public class Command_rollback extends FreedomCommand {
 
                 if (playerName == null)
                 {
-                    playerMsg(sender, "That player has no entries stored.");
+                    playerMsg("That player has no entries stored.");
                     return true;
                 }
 
                 if (RollbackManager.canUndoRollback(playerName))
                 {
-                    playerMsg(sender, "That player has just been rolled back.");
+                    playerMsg("That player has just been rolled back.");
                 }
 
                 Utilities.adminAction(sender.getName(), "Rolling back player: " + playerName, false);
-                playerMsg(sender, "Rolled back " + RollbackManager.rollback(playerName) + " edits for " + playerName + ".");
-                playerMsg(sender, "If this rollback was a mistake, use /rollback undo " + playerName + " within 40 seconds to reverse the rollback.");
+                playerMsg("Rolled back " + RollbackManager.rollback(playerName) + " edits for " + playerName + ".");
+                playerMsg("If this rollback was a mistake, use /rollback undo " + playerName + " within 40 seconds to reverse the rollback.");
             }
             return true;
         }
@@ -48,11 +49,11 @@ public class Command_rollback extends FreedomCommand {
 
                 if (playerName == null)
                 {
-                    playerMsg(sender, "That player has no entries stored.");
+                    playerMsg("That player has no entries stored.");
                     return true;
                 }
 
-                playerMsg(sender, "Purged " + RollbackManager.purgeEntries(playerName) + " rollback history entries for " + playerName + ".");
+                playerMsg("Purged " + RollbackManager.purgeEntries(playerName) + " rollback history entries for " + playerName + ".");
                 return true;
             }
 
@@ -62,12 +63,12 @@ public class Command_rollback extends FreedomCommand {
 
                 if (playerName == null)
                 {
-                    playerMsg(sender, "That player hasn't been rolled back recently.");
+                    playerMsg("That player hasn't been rolled back recently.");
                     return true;
                 }
 
                 Utilities.adminAction(sender.getName(), "Reverting rollback for player: " + playerName, false);
-                playerMsg(sender, "Reverted " + RollbackManager.undoRollback(playerName) + " edits for " + playerName + ".");
+                playerMsg("Reverted " + RollbackManager.undoRollback(playerName) + " edits for " + playerName + ".");
                 return true;
             }
         }

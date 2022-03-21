@@ -10,6 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
+@CommandParameters(description = "Makes a player operator", usage = "/<command> <playername>")
 public class Command_op extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -18,7 +19,7 @@ public class Command_op extends FreedomCommand {
         }
 
         if (args[0].equalsIgnoreCase("all") || args[0].equalsIgnoreCase("everyone")) {
-            playerMsg(sender, "Correct usage: /opall");
+            playerMsg("Correct usage: /opall");
             return true;
         }
 
@@ -40,8 +41,8 @@ public class Command_op extends FreedomCommand {
             }
             else
             {
-                playerMsg(sender, "That player is not online.");
-                playerMsg(sender, "You don't have permissions to OP offline players.", ChatColor.YELLOW);
+                playerMsg("That player is not online.");
+                playerMsg("You don't have permissions to OP offline players.", ChatColor.YELLOW);
                 return true;
             }
         }

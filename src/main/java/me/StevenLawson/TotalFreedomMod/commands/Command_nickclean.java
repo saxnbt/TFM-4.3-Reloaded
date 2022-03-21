@@ -12,6 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(description = "Essentials Interface Command - Remove distracting things from nicknames of all players on server.", usage = "/<command>", aliases = "nc")
 public class Command_nickclean extends FreedomCommand {
     private static final ChatColor[] BLOCKED = new ChatColor[]
             {
@@ -32,7 +33,7 @@ public class Command_nickclean extends FreedomCommand {
                 if (matcher.find())
                 {
                     final String newNickName = matcher.replaceAll("");
-                    playerMsg(sender, ChatColor.RESET + playerName + ": \"" + nickName + ChatColor.RESET + "\" -> \"" + newNickName + ChatColor.RESET + "\".");
+                    playerMsg(ChatColor.RESET + playerName + ": \"" + nickName + ChatColor.RESET + "\" -> \"" + newNickName + ChatColor.RESET + "\".");
                     EssentialsBridge.setNickname(playerName, newNickName);
                 }
             }

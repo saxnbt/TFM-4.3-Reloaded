@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(description = "Temporarily ban someone.", usage = "/<command> [playername] [duration] [reason]")
 public class Command_tempban extends FreedomCommand {
     private static final SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
 
@@ -27,7 +28,7 @@ public class Command_tempban extends FreedomCommand {
         final Player player = getPlayer(args[0]);
 
         if (player == null) {
-            playerMsg(sender, FreedomCommand.PLAYER_NOT_FOUND);
+            playerMsg(FreedomCommand.PLAYER_NOT_FOUND);
             return true;
         }
 

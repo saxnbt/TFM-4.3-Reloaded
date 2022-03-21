@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.ONLY_IN_GAME)
+@CommandParameters(description = "Essentials Interface Command - Nyanify your nickname.", usage = "/<command> <<nick> | off>")
 public class Command_nicknyan extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -18,7 +19,7 @@ public class Command_nicknyan extends FreedomCommand {
 
         if ("off".equals(args[0])) {
             EssentialsBridge.setNickname(sender.getName(), null);
-            playerMsg(sender, "Nickname cleared.");
+            playerMsg("Nickname cleared.");
             return true;
         }
 
@@ -26,12 +27,12 @@ public class Command_nicknyan extends FreedomCommand {
 
         if (!nickPlain.matches("^[a-zA-Z_0-9\u00a7]+$"))
         {
-            playerMsg(sender, "That nickname contains invalid characters.");
+            playerMsg("That nickname contains invalid characters.");
             return true;
         }
         else if (nickPlain.length() < 4 || nickPlain.length() > 30)
         {
-            playerMsg(sender, "Your nickname must be between 4 and 30 characters long.");
+            playerMsg("Your nickname must be between 4 and 30 characters long.");
             return true;
         }
 
@@ -43,7 +44,7 @@ public class Command_nicknyan extends FreedomCommand {
             }
             if (player.getName().equalsIgnoreCase(nickPlain) || ChatColor.stripColor(player.getDisplayName()).trim().equalsIgnoreCase(nickPlain))
             {
-                playerMsg(sender, "That nickname is already in use.");
+                playerMsg("That nickname is already in use.");
                 return true;
             }
         }
@@ -60,7 +61,7 @@ public class Command_nicknyan extends FreedomCommand {
 
         EssentialsBridge.setNickname(sender.getName(), newNick.toString());
 
-        playerMsg(sender, "Your nickname is now: " + newNick);
+        playerMsg("Your nickname is now: " + newNick.toString());
 
         return true;
     }

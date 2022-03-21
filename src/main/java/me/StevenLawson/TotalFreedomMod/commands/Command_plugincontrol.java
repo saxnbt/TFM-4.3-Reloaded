@@ -8,6 +8,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 
 @CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.BOTH)
+@CommandParameters(description = "Manage plugins", usage = "/<command> <<enable | disable | reload> <pluginname>> | list>", aliases = "plc")
 public class Command_plugincontrol extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -23,7 +24,7 @@ public class Command_plugincontrol extends FreedomCommand {
                 for (Plugin serverPlugin : pm.getPlugins())
                 {
                     final String version = serverPlugin.getDescription().getVersion();
-                    playerMsg(sender, ChatColor.GRAY + "- " + (serverPlugin.isEnabled() ? ChatColor.GREEN : ChatColor.RED) + serverPlugin.getName()
+                    playerMsg(ChatColor.GRAY + "- " + (serverPlugin.isEnabled() ? ChatColor.GREEN : ChatColor.RED) + serverPlugin.getName()
                             + ChatColor.GOLD + (version != null && !version.isEmpty() ? " v" + version : "") + " by "
                             + StringUtils.join(serverPlugin.getDescription().getAuthors(), ", "));
                 }
@@ -39,13 +40,13 @@ public class Command_plugincontrol extends FreedomCommand {
             final Plugin target = getPlugin(args[1]);
             if (target == null)
             {
-                playerMsg(sender, "Plugin not found!");
+                playerMsg("Plugin not found!");
                 return true;
             }
 
             if (target.isEnabled())
             {
-                playerMsg(sender, "Plugin is already enabled.");
+                playerMsg("Plugin is already enabled.");
                 return true;
             }
 
@@ -53,11 +54,11 @@ public class Command_plugincontrol extends FreedomCommand {
 
             if (!pm.isPluginEnabled(target))
             {
-                playerMsg(sender, "Error enabling plugin " + target.getName());
+                playerMsg("Error enabling plugin " + target.getName());
                 return true;
             }
 
-            playerMsg(sender, target.getName() + " is now enabled.");
+            playerMsg(target.getName() + " is now enabled.");
             return true;
         }
 
@@ -66,19 +67,19 @@ public class Command_plugincontrol extends FreedomCommand {
             final Plugin target = getPlugin(args[1]);
             if (target == null)
             {
-                playerMsg(sender, "Plugin not found!");
+                playerMsg("Plugin not found!");
                 return true;
             }
 
             if (!target.isEnabled())
             {
-                playerMsg(sender, "Plugin is already disabled.");
+                playerMsg("Plugin is already disabled.");
                 return true;
             }
 
             if (target.getName().equals(plugin.getName()))
             {
-                playerMsg(sender, "You cannot disable " + plugin.getName());
+                playerMsg("You cannot disable " + plugin.getName());
                 return true;
             }
 
@@ -86,11 +87,11 @@ public class Command_plugincontrol extends FreedomCommand {
 
             if (pm.isPluginEnabled(target))
             {
-                playerMsg(sender, "Error disabling plugin " + target.getName());
+                playerMsg("Error disabling plugin " + target.getName());
                 return true;
             }
 
-            playerMsg(sender, target.getName() + " is now disabled.");
+            playerMsg(target.getName() + " is now disabled.");
             return true;
         }
 
@@ -99,19 +100,19 @@ public class Command_plugincontrol extends FreedomCommand {
             final Plugin target = getPlugin(args[1]);
             if (target == null)
             {
-                playerMsg(sender, "Plugin not found!");
+                playerMsg("Plugin not found!");
                 return true;
             }
 
             if (target.getName().equals(plugin.getName()))
             {
-                playerMsg(sender, "Use /tfm reload to reload instead.");
+                playerMsg("Use /tfm reload to reload instead.");
                 return true;
             }
 
             pm.disablePlugin(target);
             pm.enablePlugin(target);
-            playerMsg(sender, target.getName() + " reloaded.");
+            playerMsg(target.getName() + " reloaded.");
             return true;
         }
 

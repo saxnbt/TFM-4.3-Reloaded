@@ -12,6 +12,7 @@ import org.bukkit.command.CommandSender;
 import java.util.*;
 
 @CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.ONLY_CONSOLE)
+@CommandParameters(description = "Provides uuid tools", usage = "/<command> <purge | recalculate>")
 public class Command_uuid extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -20,13 +21,13 @@ public class Command_uuid extends FreedomCommand {
         }
 
         if ("purge".equals(args[0])) {
-            playerMsg(sender, "Purged " + UUIDManager.purge() + " cached UUIDs.");
+            playerMsg("Purged " + UUIDManager.purge() + " cached UUIDs.");
             return true;
         }
 
         if ("recalculate".equals(args[0]))
         {
-            playerMsg(sender, "Recalculating UUIDs...");
+            playerMsg("Recalculating UUIDs...");
 
             // Playerlist uuids
             final Set<Player> players = PlayerList.getAllPlayers();
@@ -61,7 +62,7 @@ public class Command_uuid extends FreedomCommand {
                 }
             }
 
-            playerMsg(sender, "Recalculated " + updated + " player UUIDs");
+            playerMsg("Recalculated " + updated + " player UUIDs");
             names.clear();
 
             // Adminlist UUIDs
@@ -95,7 +96,7 @@ public class Command_uuid extends FreedomCommand {
                 }
             }
 
-            playerMsg(sender, "Recalculated " + updated + " admin UUIDs");
+            playerMsg("Recalculated " + updated + " admin UUIDs");
 
             return true;
         }

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(description = "Shows (optionally smites) invisisible players", usage = "/<command> (smite)")
 public class Command_invis extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -44,17 +45,17 @@ public class Command_invis extends FreedomCommand {
 
         if (players.isEmpty())
         {
-            playerMsg(sender, "There are no invisible players");
+            playerMsg("There are no invisible players");
             return true;
         }
 
         if (smite)
         {
-            playerMsg(sender, "Smitten " + smites + " players");
+            playerMsg("Smitten " + smites + " players");
         }
         else
         {
-            playerMsg(sender, "Invisble players (" + players.size() + "): " + StringUtils.join(players, ", "));
+            playerMsg("Invisble players (" + players.size() + "): " + StringUtils.join(players, ", "));
         }
 
         return true;

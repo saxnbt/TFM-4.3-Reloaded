@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(description = "See who has a block and optionally smite.", usage = "/<command> <item> [smite]", aliases = "wh")
 public class Command_whohas extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -37,7 +38,7 @@ public class Command_whohas extends FreedomCommand {
 
         if (material == null)
         {
-            playerMsg(sender, "Invalid block: " + materialName, ChatColor.RED);
+            playerMsg("Invalid block: " + materialName, ChatColor.RED);
             return true;
         }
 
@@ -57,11 +58,11 @@ public class Command_whohas extends FreedomCommand {
 
         if (players.isEmpty())
         {
-            playerMsg(sender, "There are no players with that item");
+            playerMsg("There are no players with that item");
         }
         else
         {
-            playerMsg(sender, "Players with item " + material.name() + ": " + StringUtils.join(players, ", "));
+            playerMsg("Players with item " + material.name() + ": " + StringUtils.join(players, ", "));
         }
 
         return true;

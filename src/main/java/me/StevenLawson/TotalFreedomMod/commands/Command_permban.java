@@ -7,6 +7,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH, blockHostConsole = true)
+@CommandParameters(description = "Manage permanently banned players and IPs.", usage = "/<command> <list | reload>")
 public class Command_permban extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -24,7 +25,7 @@ public class Command_permban extends FreedomCommand {
                 sender.sendMessage(FreedomCommand.MSG_NO_PERMS);
                 return true;
             }
-            playerMsg(sender, "Reloading permban list...", ChatColor.RED);
+            playerMsg("Reloading permban list...", ChatColor.RED);
             PermbanList.load();
             dumplist(sender);
         }
@@ -40,22 +41,22 @@ public class Command_permban extends FreedomCommand {
     {
         if (PermbanList.getPermbannedPlayers().isEmpty())
         {
-            playerMsg(sender, "No permanently banned player names.");
+            playerMsg("No permanently banned player names.");
         }
         else
         {
-            playerMsg(sender, PermbanList.getPermbannedPlayers().size() + " permanently banned players:");
-            playerMsg(sender, StringUtils.join(PermbanList.getPermbannedPlayers(), ", "));
+            playerMsg(PermbanList.getPermbannedPlayers().size() + " permanently banned players:");
+            playerMsg(StringUtils.join(PermbanList.getPermbannedPlayers(), ", "));
         }
 
         if (PermbanList.getPermbannedIps().isEmpty())
         {
-            playerMsg(sender, "No permanently banned IPs.");
+            playerMsg("No permanently banned IPs.");
         }
         else
         {
-            playerMsg(sender, PermbanList.getPermbannedIps().size() + " permanently banned IPs:");
-            playerMsg(sender, StringUtils.join(PermbanList.getPermbannedIps(), ", "));
+            playerMsg(PermbanList.getPermbannedIps().size() + " permanently banned IPs:");
+            playerMsg(StringUtils.join(PermbanList.getPermbannedIps(), ", "));
         }
     }
 }

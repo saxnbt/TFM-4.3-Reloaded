@@ -7,6 +7,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.ONLY_IN_GAME)
+@CommandParameters(description = "Enchant items.", usage = "/<command> <list | addall | reset | add <name> | remove <name>>")
 public class Command_enchant extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -17,7 +18,7 @@ public class Command_enchant extends FreedomCommand {
         ItemStack itemInHand = sender_p.getItemInHand();
 
         if (itemInHand == null) {
-            playerMsg(sender, "You are holding an invalid item.");
+            playerMsg("You are holding an invalid item.");
             return true;
         }
 
@@ -37,11 +38,11 @@ public class Command_enchant extends FreedomCommand {
 
             if (has_enchantments)
             {
-                playerMsg(sender, possible_ench.toString());
+                playerMsg(possible_ench.toString());
             }
             else
             {
-                playerMsg(sender, "The held item has no enchantments.");
+                playerMsg("The held item has no enchantments.");
             }
         }
         else if (args[0].equalsIgnoreCase("addall"))
@@ -61,7 +62,7 @@ public class Command_enchant extends FreedomCommand {
                 }
             }
 
-            playerMsg(sender, "Added all possible enchantments for this item.");
+            playerMsg("Added all possible enchantments for this item.");
         }
         else if (args[0].equalsIgnoreCase("reset"))
         {
@@ -70,7 +71,7 @@ public class Command_enchant extends FreedomCommand {
                 itemInHand.removeEnchantment(ench);
             }
 
-            playerMsg(sender, "Removed all enchantments.");
+            playerMsg("Removed all enchantments.");
         }
         else
         {
@@ -91,7 +92,7 @@ public class Command_enchant extends FreedomCommand {
 
             if (ench == null)
             {
-                playerMsg(sender, args[1] + " is an invalid enchantment for the held item. Type \"/enchant list\" for valid enchantments for this item.");
+                playerMsg(args[1] + " is an invalid enchantment for the held item. Type \"/enchant list\" for valid enchantments for this item.");
                 return true;
             }
 
@@ -101,18 +102,18 @@ public class Command_enchant extends FreedomCommand {
                 {
                     itemInHand.addEnchantment(ench, ench.getMaxLevel());
 
-                    playerMsg(sender, "Added enchantment: " + ench.getName());
+                    playerMsg("Added enchantment: " + ench.getName());
                 }
                 else
                 {
-                    playerMsg(sender, "Can't use this enchantment on held item.");
+                    playerMsg("Can't use this enchantment on held item.");
                 }
             }
             else if (args[0].equals("remove"))
             {
                 itemInHand.removeEnchantment(ench);
 
-                playerMsg(sender, "Removed enchantment: " + ench.getName());
+                playerMsg("Removed enchantment: " + ench.getName());
             }
         }
 

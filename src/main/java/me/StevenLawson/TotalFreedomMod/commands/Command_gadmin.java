@@ -12,6 +12,9 @@ import org.bukkit.entity.Player;
 import java.util.Iterator;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(
+        description = "Use admin commands on someone by hash. Use mode 'list' to get a player's hash. Other modes are kick, nameban, ipban, ban, op, deop, ci, fr, smite.",
+        usage = "/<command> [list | [<kick | nameban | ipban | ban | op | deop | ci | fr | smite> <targethash>] ]")
 public class Command_gadmin extends FreedomCommand {
     private enum GadminMode {
         LIST("list"),
@@ -57,7 +60,7 @@ public class Command_gadmin extends FreedomCommand {
 
         final GadminMode mode = GadminMode.findMode(args[0].toLowerCase());
         if (mode == null) {
-            playerMsg(sender, "Invalid mode: " + args[0], ChatColor.RED);
+            playerMsg("Invalid mode: " + args[0], ChatColor.RED);
             return true;
         }
 
@@ -65,7 +68,7 @@ public class Command_gadmin extends FreedomCommand {
 
         if (mode == GadminMode.LIST)
         {
-            playerMsg(sender, "[ Real Name ] : [ Display Name ] - Hash:");
+            playerMsg("[ Real Name ] : [ Display Name ] - Hash:");
             while (it.hasNext())
             {
                 final Player player = it.next();
@@ -97,7 +100,7 @@ public class Command_gadmin extends FreedomCommand {
 
         if (target == null)
         {
-            playerMsg(sender, "Invalid player hash: " + args[1], ChatColor.RED);
+            playerMsg("Invalid player hash: " + args[1], ChatColor.RED);
             return true;
         }
 
@@ -178,7 +181,7 @@ public class Command_gadmin extends FreedomCommand {
                 PlayerData playerdata = PlayerData.getPlayerData(target);
                 playerdata.setFrozen(!playerdata.isFrozen());
 
-                playerMsg(sender, target.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
+                playerMsg(target.getName() + " has been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
                 target.sendMessage(ChatColor.AQUA + "You have been " + (playerdata.isFrozen() ? "frozen" : "unfrozen") + ".");
 
                 break;

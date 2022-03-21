@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(description = "Ban/Unban any player, even those who are not logged in anymore.", usage = "/<command> <purge | <ban | unban> <username>>")
 public class Command_glist extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -28,11 +29,11 @@ public class Command_glist extends FreedomCommand {
                 if (AdminList.isSeniorAdmin(sender))
                 {
                     PlayerList.purgeAll();
-                    playerMsg(sender, "Purged playerbase");
+                    playerMsg("Purged playerbase");
                 }
                 else
                 {
-                    playerMsg(sender, "Only Senior Admins may purge the userlist.");
+                    playerMsg("Only Senior Admins may purge the userlist.");
                 }
                 return true;
             }
@@ -53,7 +54,7 @@ public class Command_glist extends FreedomCommand {
                 final me.StevenLawson.TotalFreedomMod.player.Player entry = PlayerList.getEntry(UUIDManager.getUniqueId(args[1]));
 
                 if (entry == null) {
-                    playerMsg(sender, "Can't find that user. If target is not logged in, make sure that you spelled the name exactly.");
+                    playerMsg("Can't find that user. If target is not logged in, make sure that you spelled the name exactly.");
                     return true;
                 }
 

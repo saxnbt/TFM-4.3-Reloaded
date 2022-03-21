@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
+@CommandParameters(description = "Quickly change your own gamemode to creative, or define someone's username to change theirs.", usage = "/<command> [partialname]", aliases = "gmc")
 public class Command_creative extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -44,7 +45,7 @@ public class Command_creative extends FreedomCommand {
 
             if (!(senderIsConsole || AdminList.isSuperAdmin(sender)))
             {
-                playerMsg(sender, "Only superadmins can change other user's gamemode.");
+                playerMsg("Only superadmins can change other user's gamemode.");
                 return true;
             }
 
@@ -58,7 +59,7 @@ public class Command_creative extends FreedomCommand {
 
         }
 
-        playerMsg(sender, "Setting " + player.getName() + " to game mode 'Creative'.");
+        playerMsg("Setting " + player.getName() + " to game mode 'Creative'.");
         playerMsg(player, sender.getName() + " set your game mode to 'Creative'.");
         player.setGameMode(GameMode.CREATIVE);
 

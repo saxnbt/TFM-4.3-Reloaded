@@ -15,16 +15,17 @@ import java.util.Iterator;
 import java.util.List;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.ONLY_IN_GAME)
+@CommandParameters(description = "Set a landmine trap.", usage = "/<command>")
 public class Command_landmine extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
         if (!ConfigurationEntry.LANDMINES_ENABLED.getBoolean()) {
-            playerMsg(sender, "The landmine is currently disabled.", ChatColor.GREEN);
+            playerMsg("The landmine is currently disabled.", ChatColor.GREEN);
             return true;
         }
 
         if (!ConfigurationEntry.ALLOW_EXPLOSIONS.getBoolean()) {
-            playerMsg(sender, "Explosions are currently disabled.", ChatColor.GREEN);
+            playerMsg("Explosions are currently disabled.", ChatColor.GREEN);
             return true;
         }
 
@@ -37,7 +38,7 @@ public class Command_landmine extends FreedomCommand {
                 final Iterator<TFM_LandmineData> landmines = TFM_LandmineData.landmines.iterator();
                 while (landmines.hasNext())
                 {
-                    playerMsg(sender, landmines.next().toString());
+                    playerMsg(landmines.next().toString());
                 }
                 return true;
             }
@@ -55,7 +56,7 @@ public class Command_landmine extends FreedomCommand {
         landmine.setType(Material.TNT);
         TFM_LandmineData.landmines.add(new TFM_LandmineData(landmine.getLocation(), sender_p, radius));
 
-        playerMsg(sender, "Landmine planted - Radius = " + radius + " blocks.", ChatColor.GREEN);
+        playerMsg("Landmine planted - Radius = " + radius + " blocks.", ChatColor.GREEN);
 
         return true;
     }

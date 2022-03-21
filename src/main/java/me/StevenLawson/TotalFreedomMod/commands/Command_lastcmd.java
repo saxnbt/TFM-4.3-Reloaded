@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
+@CommandParameters(description = "Show the last command that someone used.", usage = "/<command> <player>")
 public class Command_lastcmd extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -17,7 +18,7 @@ public class Command_lastcmd extends FreedomCommand {
         final Player player = getPlayer(args[0]);
 
         if (player == null) {
-            playerMsg(sender, FreedomCommand.PLAYER_NOT_FOUND);
+            playerMsg(FreedomCommand.PLAYER_NOT_FOUND);
             return true;
         }
 
@@ -30,7 +31,7 @@ public class Command_lastcmd extends FreedomCommand {
             {
                 lastCommand = "(none)";
             }
-            playerMsg(sender, player.getName() + " - Last Command: " + lastCommand, ChatColor.GRAY);
+            playerMsg(player.getName() + " - Last Command: " + lastCommand, ChatColor.GRAY);
         }
 
         return true;

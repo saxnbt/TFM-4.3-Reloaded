@@ -9,6 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 @CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.ONLY_CONSOLE, blockHostConsole = true)
+@CommandParameters(description = "Block target's minecraft input. This is evil, and I never should have wrote it.", usage = "/<command> <all | purge | <<partialname> on | off>>")
 public class Command_lockup extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -19,7 +20,7 @@ public class Command_lockup extends FreedomCommand {
                 for (Player player : server.getOnlinePlayers()) {
                     startLockup(player);
                 }
-                playerMsg(sender, "Locked up all players.");
+                playerMsg("Locked up all players.");
             }
             else if (args[0].equalsIgnoreCase("purge"))
             {
@@ -29,7 +30,7 @@ public class Command_lockup extends FreedomCommand {
                     cancelLockup(player);
                 }
 
-                playerMsg(sender, "Unlocked all players.");
+                playerMsg("Unlocked all players.");
             }
             else
             {
@@ -50,7 +51,7 @@ public class Command_lockup extends FreedomCommand {
 
                 Utilities.adminAction(sender.getName(), "Locking up " + player.getName(), true);
                 startLockup(player);
-                playerMsg(sender, "Locked up " + player.getName() + ".");
+                playerMsg("Locked up " + player.getName() + ".");
             }
             else if ("off".equals(args[1]))
             {
@@ -64,7 +65,7 @@ public class Command_lockup extends FreedomCommand {
 
                 Utilities.adminAction(sender.getName(), "Unlocking " + player.getName(), true);
                 cancelLockup(player);
-                playerMsg(sender, "Unlocked " + player.getName() + ".");
+                playerMsg("Unlocked " + player.getName() + ".");
             }
             else
             {
