@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.discord.command;
 
+import me.StevenLawson.TotalFreedomMod.discord.commands.AdminConsoleCommand;
 import me.StevenLawson.TotalFreedomMod.discord.commands.HelpCommand;
 import me.StevenLawson.TotalFreedomMod.discord.commands.ListCommand;
 import me.StevenLawson.TotalFreedomMod.discord.commands.TPSCommand;
@@ -19,15 +20,19 @@ public class DiscordCommandManager {
     public List<ExecutableDiscordCommand> commands = new ArrayList<>();
 
     public void init() {
+
+        // Server Commands
         commands.add(new ListCommand("list", "Gives a list of online players.", "Server Commands", Collections.singletonList("l"), false));
         commands.add(new TPSCommand("tps", "Lag information regarding the server.", "Server Commands", false));
+        commands.add(new AdminConsoleCommand("adminconsole", "Execute admin commands from discord.", "Server Commands", Collections.singletonList("ac"),true));
+
+        // Help
         commands.add(new HelpCommand("help", "Displays the help command", "Help", false));
     }
 
     public void parse(String content, User user, Server server, TextChannel channel, String prefix) {
-        List<String> args = new ArrayList<>(Arrays.asList(content.split(prefix)));
-        args.remove(0);
-        String commandOrAlias = args.remove(0);
+        List<String> args = new ArrayList<>(Arrays.asList(content.split(" ")));
+        String commandOrAlias = args.remove(0).split(prefix)[1];
 
         for (ExecutableDiscordCommand command : commands) {
             if(command.command.equalsIgnoreCase(commandOrAlias) || command.aliases.contains(commandOrAlias.toLowerCase())) {
