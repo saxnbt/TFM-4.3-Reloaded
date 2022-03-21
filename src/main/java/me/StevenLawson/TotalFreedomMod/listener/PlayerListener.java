@@ -627,7 +627,6 @@ public class PlayerListener implements Listener {
 
             // Set the tag
             if (playerdata.getTag() != null) {
-                //event.setFormat("<" + playerdata.getTag().replaceAll("%", "%%") + " %1$s> %2$s");
                 event.setFormat(ChatColor.translateAlternateColorCodes('&', MainConfig.getString(ConfigurationEntry.CHAT_FORMAT)).replace("{RANK}", playerdata.getTag().replaceAll("%", "%%")));
             }
 
