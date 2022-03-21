@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.discord.command;
 
 import me.StevenLawson.TotalFreedomMod.discord.commands.HelpCommand;
 import me.StevenLawson.TotalFreedomMod.discord.commands.ListCommand;
+import me.StevenLawson.TotalFreedomMod.discord.commands.TPSCommand;
 import org.javacord.api.entity.channel.TextChannel;
 import org.javacord.api.entity.message.MessageBuilder;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
@@ -19,6 +20,7 @@ public class DiscordCommandManager {
 
     public void init() {
         commands.add(new ListCommand("list", "Gives a list of online players.", "Server Commands", Collections.singletonList("l"), false));
+        commands.add(new TPSCommand("tps", "Lag information regarding the server.", "Server Commands", false));
         commands.add(new HelpCommand("help", "Displays the help command", "Help", false));
     }
 
