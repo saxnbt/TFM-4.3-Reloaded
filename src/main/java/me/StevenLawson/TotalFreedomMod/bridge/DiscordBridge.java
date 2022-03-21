@@ -7,6 +7,7 @@ import me.StevenLawson.TotalFreedomMod.config.MainConfig;
 import me.StevenLawson.TotalFreedomMod.player.PlayerList;
 import me.StevenLawson.TotalFreedomMod.player.PlayerRank;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
@@ -84,7 +85,7 @@ public class DiscordBridge {
                     format = format.replace("{TAG}", author.getDiscriminatedName());
                     format = format.replace("{USERNAME}", author.getName());
 
-                    Bukkit.broadcastMessage(String.format(format, content));
+                    Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', String.format(format, content)));
                 }
             });
         } catch (Exception e) {
