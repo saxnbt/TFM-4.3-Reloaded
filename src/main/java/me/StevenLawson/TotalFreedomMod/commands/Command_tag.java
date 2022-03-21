@@ -9,13 +9,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.permissions.Permission;
-import org.bukkit.permissions.PermissionAttachment;
-import org.bukkit.permissions.PermissionAttachmentInfo;
 
-import javax.swing.text.html.HTML;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
@@ -149,8 +144,14 @@ public class Command_tag extends FreedomCommand {
                     {
                         if (rawTag.contains(word))
                         {
-                            playerMsg("That tag contains a forbidden word.");
-                            return true;
+                            {
+                                if(word.equals("developer") && Utilities.DEVELOPERS.contains(sender_p.getName())) {
+                                    PlayerData.getPlayerData(sender_p).setTag(outputTag);
+                                    playerMsg("Tag set to '" + outputTag + ChatColor.GRAY + "'.");
+                                } else
+                                    playerMsg("That tag contains a forbidden word.");
+                                return true;
+                            }
                         }
                     }
                 }
@@ -187,8 +188,13 @@ public class Command_tag extends FreedomCommand {
                     {
                         if (rawTag.contains(word))
                         {
-                            playerMsg("That tag contains a forbidden word.");
-                            return true;
+                            if(word.equals("developer") && Utilities.DEVELOPERS.contains(sender_p.getName())) {
+                                PlayerData.getPlayerData(sender_p).setTag(outputTag);
+                                TagConfiguration.saveTag(sender_p.getUniqueId().toString(), outputTag);
+                                playerMsg("Tag set to '" + outputTag + ChatColor.GRAY + "'. (saved)");
+                            } else
+                                playerMsg("That tag contains a forbidden word.");
+                                return true;
                         }
                     }
                 }
