@@ -92,8 +92,10 @@ public enum ConfigurationEntry
     DISCORD_IS_ENABLED(Boolean.class, "discord.is_enabled"),
     DISCORD_TOKEN(String.class, "discord.token"),
     DISCORD_CHANNEL(String.class, "discord.channel"),
+    DISCORD_ADMIN_CHANNEL(String.class, "discord.admin_channel"),
     DISCORD_PREFIX(String.class, "discord.prefix"),
     DISCORD_FORMAT(String.class, "discord.format"),
+    DISCORD_ADMIN_FORMAT(String.class, "discord.admin_format"),
     //
     CHAT_FORMAT(String.class, "chat.format");
 

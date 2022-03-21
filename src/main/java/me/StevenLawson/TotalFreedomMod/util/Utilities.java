@@ -898,14 +898,17 @@ public class Utilities
     {
         String name = sender.getName() + " " + PlayerRank.fromSender(sender).getPrefix() + ChatColor.WHITE;
         Log.info("[ADMIN] " + name + ": " + message);
+        String adminChatMessage = "[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + ChatColor.AQUA + message;
 
         for (org.bukkit.entity.Player player : Bukkit.getOnlinePlayers())
         {
             if (AdminList.isSuperAdmin(player))
             {
-                player.sendMessage("[" + ChatColor.AQUA + "ADMIN" + ChatColor.WHITE + "] " + ChatColor.DARK_RED + name + ": " + ChatColor.AQUA + message);
+                player.sendMessage(adminChatMessage);
             }
         }
+
+        DiscordBridge.transmitAdminMessage(adminChatMessage.replaceAll("([`_~*])", "\\\\$1"));
     }
 
     //getField: Borrowed from WorldEdit

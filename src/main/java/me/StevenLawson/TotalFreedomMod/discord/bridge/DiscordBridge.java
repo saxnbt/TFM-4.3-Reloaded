@@ -1,9 +1,11 @@
 package me.StevenLawson.TotalFreedomMod.discord.bridge;
 
 import me.StevenLawson.TotalFreedomMod.Log;
+import me.StevenLawson.TotalFreedomMod.admin.AdminList;
 import me.StevenLawson.TotalFreedomMod.config.ConfigurationEntry;
 import me.StevenLawson.TotalFreedomMod.config.MainConfig;
 import me.StevenLawson.TotalFreedomMod.discord.command.DiscordCommandManager;
+import me.StevenLawson.TotalFreedomMod.player.PlayerRank;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -17,6 +19,8 @@ import org.javacord.api.entity.message.MessageAttachment;
 import org.javacord.api.entity.message.MessageAuthor;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
+import org.javacord.api.event.message.MessageCreateEvent;
+import org.javacord.api.event.message.MessageEvent;
 
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -24,7 +28,93 @@ import java.util.regex.Pattern;
 public class DiscordBridge {
     private static DiscordApi DISCORD_API;
     private static TextChannel CHANNEL;
+    private static TextChannel ADMIN_CHANNEL;
     public static DiscordCommandManager COMMAND_MANAGER;
+
+    private static void onMessageCreateEvent(MessageCreateEvent message) {
+        boolean isAdmin = false;
+
+        try {
+            isAdmin = message.getChannel().getIdAsString().equalsIgnoreCase(ADMIN_CHANNEL.getIdAsString());
+        } catch (Exception ignored) {}
+
+        String content = message.getMessageContent();
+        String prefix = MainConfig.getString(ConfigurationEntry.DISCORD_PREFIX);
+        MessageAuthor author = message.getMessage().getAuthor();
+
+        if (author.isBotUser() || !message.isServerMessage()) return;
+        Optional<Server> server = message.getServer();
+        Optional<User> user = author.asUser();
+
+        if(prefix == null) {
+            Log.severe("Bot prefix does not exist. Stopping bot...");
+            stop();
+            return;
+        }
+
+        if(!server.isPresent()) {
+            Log.warning("Discord server wasn't present in message, this may be a sign you've not properly configured the intents for your bot.");
+            return;
+        }
+
+        if(!user.isPresent()) {
+            Log.warning("Unable to get user of message author. This may be a sign you've not properly configured the intents for your bot.");
+            return;
+        }
+
+        if (content.toLowerCase().startsWith(prefix)) {
+            COMMAND_MANAGER.parse(content, user.get(), server.get(), message.getChannel(), prefix);
+        } else {
+            String format = MainConfig.getString((isAdmin) ? ConfigurationEntry.DISCORD_ADMIN_FORMAT : ConfigurationEntry.DISCORD_FORMAT);
+            format = format.replace("{TAG}", author.getDiscriminatedName());
+            format = format.replace("{USERNAME}", author.getName());
+            BaseComponent[] components = TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', String.format(format, content)));
+            TextComponent component = new TextComponent("");
+
+            for (BaseComponent baseComponent : components) {
+                component.addExtra(baseComponent);
+            }
+
+            if(message.getMessageAttachments().size() > 0) {
+                int i = 0;
+                for (MessageAttachment messageAttachment : message.getMessageAttachments()) {
+                    String url = messageAttachment.getProxyUrl().toString();
+                    ClickEvent clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, url);
+                    TextComponent warningComponent = new TextComponent("WARNING: By clicking on this text, your client will open:\n\n");
+                    warningComponent.setColor(net.md_5.bungee.api.ChatColor.RED);
+                    warningComponent.setBold(true);
+                    TextComponent urlComponent = new TextComponent(url);
+                    urlComponent.setColor(net.md_5.bungee.api.ChatColor.DARK_AQUA);
+                    urlComponent.setUnderlined(true);
+                    urlComponent.setBold(false);
+                    warningComponent.addExtra(urlComponent);
+                    HoverEvent hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{warningComponent});
+                    TextComponent mediaComponent = new TextComponent((i == 0 && content.isEmpty()) ? "[Media]" : " [Media]");
+                    mediaComponent.setColor(net.md_5.bungee.api.ChatColor.YELLOW);
+                    mediaComponent.setClickEvent(clickEvent);
+                    mediaComponent.setHoverEvent(hoverEvent);
+                    component.addExtra(mediaComponent);
+                    i++;
+                }
+            }
+
+            if(isAdmin) {
+                String name = author.getDiscriminatedName();
+                Log.info("[ADMIN] " + name + ": " + message);
+
+                for (org.bukkit.entity.Player player : Bukkit.getOnlinePlayers())
+                {
+                    if (AdminList.isSuperAdmin(player))
+                    {
+                        player.spigot().sendMessage(component);
+                    }
+                }
+            } else {
+                Bukkit.spigot().broadcast(component);
+            }
+            Log.info(component.toPlainText());
+        }
+    }
 
     public static void load() {
 
@@ -39,6 +129,7 @@ public class DiscordBridge {
                     .join();
 
             Optional<TextChannel> channelFuture = DISCORD_API.getTextChannelById(MainConfig.getString(ConfigurationEntry.DISCORD_CHANNEL));
+            Optional<TextChannel> adminChannelFuture = DISCORD_API.getTextChannelById(MainConfig.getString(ConfigurationEntry.DISCORD_ADMIN_CHANNEL));
 
             if (!channelFuture.isPresent()) {
                 Log.warning("TFM 4.3 Reloaded could not find your channel, stopping!");
@@ -47,74 +138,14 @@ public class DiscordBridge {
             }
 
             CHANNEL = channelFuture.get();
+            adminChannelFuture.ifPresent(textChannel -> ADMIN_CHANNEL = textChannel);
             COMMAND_MANAGER = new DiscordCommandManager();
             COMMAND_MANAGER.init();
 
-            CHANNEL.addMessageCreateListener((message) -> {
-                String content = message.getMessageContent();
-                String prefix = MainConfig.getString(ConfigurationEntry.DISCORD_PREFIX);
-                MessageAuthor author = message.getMessage().getAuthor();
-
-                if (author.isBotUser() || !message.isServerMessage()) return;
-                Optional<Server> server = message.getServer();
-                Optional<User> user = author.asUser();
-
-                if(prefix == null) {
-                    Log.severe("Bot prefix does not exist. Stopping bot...");
-                    stop();
-                    return;
-                }
-
-                if(!server.isPresent()) {
-                    Log.warning("Discord server wasn't present in message, this may be a sign you've not properly configured the intents for your bot.");
-                    return;
-                }
-
-                if(!user.isPresent()) {
-                    Log.warning("Unable to get user of message author. This may be a sign you've not properly configured the intents for your bot.");
-                    return;
-                }
-
-                if (content.toLowerCase().startsWith(prefix)) {
-                    COMMAND_MANAGER.parse(content, user.get(), server.get(), message.getChannel(), prefix);
-                } else {
-                    String format = MainConfig.getString(ConfigurationEntry.DISCORD_FORMAT);
-                    format = format.replace("{TAG}", author.getDiscriminatedName());
-                    format = format.replace("{USERNAME}", author.getName());
-                    BaseComponent[] components = TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', String.format(format, content)));
-                    TextComponent component = new TextComponent("");
-
-                    for (BaseComponent baseComponent : components) {
-                        component.addExtra(baseComponent);
-                    }
-
-                    if(message.getMessageAttachments().size() > 0) {
-                        int i = 0;
-                        for (MessageAttachment messageAttachment : message.getMessageAttachments()) {
-                            String url = messageAttachment.getProxyUrl().toString();
-                            ClickEvent clickEvent = new ClickEvent(ClickEvent.Action.OPEN_URL, url);
-                            TextComponent warningComponent = new TextComponent("WARNING: By clicking on this text, your client will open:\n\n");
-                            warningComponent.setColor(net.md_5.bungee.api.ChatColor.RED);
-                            warningComponent.setBold(true);
-                            TextComponent urlComponent = new TextComponent(url);
-                            urlComponent.setColor(net.md_5.bungee.api.ChatColor.DARK_AQUA);
-                            urlComponent.setUnderlined(true);
-                            urlComponent.setBold(false);
-                            warningComponent.addExtra(urlComponent);
-                            HoverEvent hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{warningComponent});
-                            TextComponent mediaComponent = new TextComponent((i == 0 && content.isEmpty()) ? "[Media]" : " [Media]");
-                            mediaComponent.setColor(net.md_5.bungee.api.ChatColor.YELLOW);
-                            mediaComponent.setClickEvent(clickEvent);
-                            mediaComponent.setHoverEvent(hoverEvent);
-                            component.addExtra(mediaComponent);
-                            i++;
-                        }
-                    }
-
-                    Bukkit.spigot().broadcast(component);
-                    Log.info(component.toPlainText());
-                }
-            });
+            CHANNEL.addMessageCreateListener(DiscordBridge::onMessageCreateEvent);
+            if (adminChannelFuture.isPresent()) {
+                ADMIN_CHANNEL.addMessageCreateListener(DiscordBridge::onMessageCreateEvent);
+            }
         } catch (Exception e) {
             Log.warning("Uh oh! It looks like TFM 4.3 Reloaded Discord couldn't start! Please check you have defined the bot's token & channel and also given it the correct permissions! (Read Messages and Send Messages)");
             Log.warning("If you've already set that up however, you may to read the exception below.");
@@ -150,6 +181,23 @@ public class DiscordBridge {
         } else {
             try {
                 CHANNEL.sendMessage(sanitizeMessage(message)).get();
+            } catch (Exception ignored) {
+            }
+            DISCORD_API.disconnect();
+        }
+    }
+
+    public static void transmitAdminMessage(String message) {
+        transmitAdminMessage(message, false);
+    }
+
+    public static void transmitAdminMessage(String message, boolean disconnectAfterwards) {
+        if (ADMIN_CHANNEL == null) return;
+        if (!disconnectAfterwards) {
+            ADMIN_CHANNEL.sendMessage(sanitizeMessage(message));
+        } else {
+            try {
+                ADMIN_CHANNEL.sendMessage(sanitizeMessage(message)).get();
             } catch (Exception ignored) {
             }
             DISCORD_API.disconnect();

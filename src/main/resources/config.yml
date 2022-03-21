@@ -329,12 +329,14 @@ discord:
   is_enabled: false
   token: ''
   channel: ''
+  admin_channel: ''
   prefix: 'tf!'
   # Format:
   # {TAG} == Their full discord tag: e.g. Allink#9308
   # {USERNAME} == Their discord username: e.g. Allink
   # %1$s == User's message
   format: '[Discord] <{TAG}> %1$s'
+  admin_format: '&f[&bADMIN&f] &4{TAG}&f:&b %1$s'
 
 # Configure chat format
 chat:
