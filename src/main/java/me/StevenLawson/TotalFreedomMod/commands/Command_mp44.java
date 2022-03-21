@@ -9,12 +9,11 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Modern weaponry, FTW. Use 'draw' to start firing, 'sling' to stop firing.", usage = "/<command> <draw | sling>")
 public class Command_mp44 extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
         if (!ConfigurationEntry.MP44_ENABLED.getBoolean()) {
-            playerMsg("The mp44 is currently disabled.", ChatColor.GREEN);
+            playerMsg(sender, "The mp44 is currently disabled.", ChatColor.GREEN);
             return true;
         }
 
@@ -28,8 +27,8 @@ public class Command_mp44 extends FreedomCommand {
         {
             playerdata.armMP44();
 
-            playerMsg("mp44 is ARMED! Left click with gunpowder to start firing, left click again to quit.", ChatColor.GREEN);
-            playerMsg("Type /mp44 sling to disable.  -by Madgeek1450", ChatColor.GREEN);
+            playerMsg(sender, "mp44 is ARMED! Left click with gunpowder to start firing, left click again to quit.", ChatColor.GREEN);
+            playerMsg(sender, "Type /mp44 sling to disable.  -by Madgeek1450", ChatColor.GREEN);
 
             sender_p.setItemInHand(new ItemStack(Material.SULPHUR, 1));
         }

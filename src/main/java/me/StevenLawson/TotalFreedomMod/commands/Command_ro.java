@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH, blockHostConsole = false)
-@CommandParameters(description = "Remove all blocks of a certain type in the radius of certain players.", usage = "/<command> <block> [radius (default=50)] [player]")
 public class Command_ro extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -40,7 +39,7 @@ public class Command_ro extends FreedomCommand {
 
             if (fromMaterial == null)
             {
-                playerMsg("Invalid block: " + materialName, ChatColor.RED);
+                playerMsg(sender, "Invalid block: " + materialName, ChatColor.RED);
                 return true;
             }
 
@@ -56,7 +55,7 @@ public class Command_ro extends FreedomCommand {
             }
             catch (NumberFormatException ex)
             {
-                playerMsg("Invalid radius: " + args[1], ChatColor.RED);
+                playerMsg(sender, "Invalid radius: " + args[1], ChatColor.RED);
                 return true;
             }
         }
@@ -67,7 +66,7 @@ public class Command_ro extends FreedomCommand {
             targetPlayer = getPlayer(args[2]);
             if (targetPlayer == null)
             {
-                playerMsg(FreedomCommand.PLAYER_NOT_FOUND);
+                playerMsg(sender, FreedomCommand.PLAYER_NOT_FOUND);
                 return true;
             }
         }

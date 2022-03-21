@@ -7,8 +7,7 @@ import me.StevenLawson.TotalFreedomMod.ban.BanManager;
 import me.StevenLawson.TotalFreedomMod.ban.PermbanList;
 import me.StevenLawson.TotalFreedomMod.bridge.DiscordBridge;
 import me.StevenLawson.TotalFreedomMod.command.CommandBlocker;
-import me.StevenLawson.TotalFreedomMod.commands.CommandHandler;
-import me.StevenLawson.TotalFreedomMod.commands.CommandLoader;
+import me.StevenLawson.TotalFreedomMod.commands.Commands;
 import me.StevenLawson.TotalFreedomMod.commands.FreedomCommand;
 import me.StevenLawson.TotalFreedomMod.config.ConfigurationEntry;
 import me.StevenLawson.TotalFreedomMod.deprecated.bridge.BukkitTelnetBridge;
@@ -23,7 +22,6 @@ import me.StevenLawson.TotalFreedomMod.world.AdminWorld;
 import me.StevenLawson.TotalFreedomMod.world.FlatlandsWorld;
 import me.StevenLawson.TotalFreedomMod.world.ProtectedArea;
 import org.bukkit.World;
-import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicePriority;
@@ -97,7 +95,6 @@ public class TotalFreedomMod extends JavaPlugin {
         }
 
         Utilities.deleteCoreDumps();
-        Utilities.deleteFolder(new File("./_deleteme"));
 
         // Create backups
         Utilities.createBackups(CONFIG_FILENAME, true);
@@ -172,26 +169,17 @@ public class TotalFreedomMod extends JavaPlugin {
 
         timer.update();
 
-        Log.info("Version " + pluginVersion + " for " + Server.COMPILE_NMS_VERSION + " enabled in " + timer.getTotal() + "ms");
+        // Register commands
+        Commands.registerCommands(this);
 
-        // Metrics @ http://mcstats.org/plugin/TotalFreedomMod
-        // No longer exist!
-        /*try
-        {
-            final Metrics metrics = new Metrics(plugin);
-            metrics.start();
-        }
-        catch (IOException ex)
-        {
-            Log.warning("Failed to submit metrics data: " + ex.getMessage());
-        }*/
+
+        Log.info("Version " + pluginVersion + " for " + Server.COMPILE_NMS_VERSION + " enabled in " + timer.getTotal() + "ms");
 
         new BukkitRunnable()
         {
             @Override
             public void run()
             {
-                CommandLoader.scan();
                 CommandBlocker.load();
 
                 // Add spawnpoints later - https://github.com/TotalFreedom/TotalFreedomMod/issues/438
@@ -213,33 +201,9 @@ public class TotalFreedomMod extends JavaPlugin {
         Log.info("Plugin disabled");
     }
 
-    @Override
-    public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String commandLabel, String[] args)
-    {
-        return CommandHandler.handleCommand(sender, cmd, commandLabel, args);
-    }
-
     private static void setAppProperties()
     {
-        try
-        {
-            //final InputStream in = plugin.getResource("appinfo.properties");
-            Properties props = new Properties();
-
-            // in = plugin.getClass().getResourceAsStream("/appinfo.properties");
-            //props.load(in);
-            //in.close();
-
-            //TotalFreedomMod.buildNumber = props.getProperty("program.buildnumber");
-            //TotalFreedomMod.buildDate = props.getProperty("program.builddate");
-            //TotalFreedomMod.buildCreator = props.getProperty("program.buildcreator");
-            TotalFreedomMod.buildNumber = "1337";
-            TotalFreedomMod.buildCreator = "You!";
-        }
-        catch (Exception ex)
-        {
-            Log.severe("Could not load App properties!");
-            Log.severe(ex);
-        }
+        TotalFreedomMod.buildNumber = "1337";
+        TotalFreedomMod.buildCreator = "You!";
     }
 }

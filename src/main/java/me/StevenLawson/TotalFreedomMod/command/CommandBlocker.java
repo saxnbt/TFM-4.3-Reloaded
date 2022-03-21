@@ -2,10 +2,10 @@ package me.StevenLawson.TotalFreedomMod.command;
 
 import me.StevenLawson.TotalFreedomMod.Log;
 import me.StevenLawson.TotalFreedomMod.admin.AdminList;
-import me.StevenLawson.TotalFreedomMod.commands.CommandLoader;
 import me.StevenLawson.TotalFreedomMod.config.ConfigurationEntry;
 import me.StevenLawson.TotalFreedomMod.util.Utilities;
 import org.apache.commons.lang3.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
@@ -34,7 +34,8 @@ public class CommandBlocker
     {
         BLOCKED_COMMANDS.clear();
 
-        final CommandMap commandMap = CommandLoader.getCommandMap();
+
+        final CommandMap commandMap = Utilities.getField(Bukkit.getServer().getPluginManager(), "commandMap");
         if (commandMap == null)
         {
             Log.severe("Error loading commandMap.");

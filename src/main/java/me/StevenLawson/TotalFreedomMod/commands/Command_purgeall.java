@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Superadmin command - Purge everything! (except for bans).", usage = "/<command>")
 public class Command_purgeall extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {

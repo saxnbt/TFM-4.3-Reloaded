@@ -10,8 +10,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "POW!!! Right in the kisser! One of these days Alice, straight to the Moon!",
-        usage = "/<command> <target> [<<power> | stop>]")
 public class Command_orbit extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -22,7 +20,7 @@ public class Command_orbit extends FreedomCommand {
         Player player = getPlayer(args[0]);
 
         if (player == null) {
-            playerMsg(FreedomCommand.PLAYER_NOT_FOUND, ChatColor.RED);
+            playerMsg(sender, FreedomCommand.PLAYER_NOT_FOUND, ChatColor.RED);
             return true;
         }
 
@@ -34,7 +32,7 @@ public class Command_orbit extends FreedomCommand {
         {
             if (args[1].equals("stop"))
             {
-                playerMsg("Stopped orbiting " + player.getName());
+                playerMsg(sender, "Stopped orbiting " + player.getName());
                 playerdata.stopOrbiting();
                 return true;
             }
@@ -45,7 +43,7 @@ public class Command_orbit extends FreedomCommand {
             }
             catch (NumberFormatException ex)
             {
-                playerMsg(ex.getMessage(), ChatColor.RED);
+                playerMsg(sender, ex.getMessage(), ChatColor.RED);
                 return true;
             }
         }

@@ -9,7 +9,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Go to the AdminWorld.", usage = "/<command> [guest < list | purge | add <player> | remove <player> > | time <morning | noon | evening | night> | weather <off | on | storm>]")
 public class Command_adminworld extends FreedomCommand {
     private enum CommandMode {
         TELEPORT, GUEST, TIME, WEATHER;
@@ -63,19 +62,19 @@ public class Command_adminworld extends FreedomCommand {
 
                     if (adminWorld == null || sender_p.getWorld() == adminWorld)
                     {
-                        playerMsg("Going to the main world.");
+                        playerMsg(sender, "Going to the main world.");
                         sender_p.teleport(server.getWorlds().get(0).getSpawnLocation());
                     }
                     else
                     {
                         if (AdminWorld.getInstance().canAccessWorld(sender_p))
                         {
-                            playerMsg("Going to the AdminWorld.");
+                            playerMsg(sender, "Going to the AdminWorld.");
                             AdminWorld.getInstance().sendToWorld(sender_p);
                         }
                         else
                         {
-                            playerMsg("You don't have permission to access the AdminWorld.");
+                            playerMsg(sender,  "You don't have permission to access the AdminWorld.");
                         }
                     }
 
@@ -87,7 +86,7 @@ public class Command_adminworld extends FreedomCommand {
                     {
                         if ("list".equalsIgnoreCase(args[1]))
                         {
-                            playerMsg("AdminWorld guest list: " + AdminWorld.getInstance().guestListToString());
+                            playerMsg(sender, "AdminWorld guest list: " + AdminWorld.getInstance().guestListToString());
                         }
                         else if ("purge".equalsIgnoreCase(args[1]))
                         {
@@ -120,7 +119,7 @@ public class Command_adminworld extends FreedomCommand {
                             }
                             else
                             {
-                                playerMsg("Could not add player to guest list.");
+                                playerMsg(sender, "Could not add player to guest list.");
                             }
                         }
                         else if ("remove".equals(args[1]))
@@ -132,7 +131,7 @@ public class Command_adminworld extends FreedomCommand {
                             }
                             else
                             {
-                                playerMsg("Can't find guest entry for: " + args[2]);
+                                playerMsg(sender,  "Can't find guest entry for: " + args[2]);
                             }
                         }
                         else
@@ -153,11 +152,11 @@ public class Command_adminworld extends FreedomCommand {
                         if (timeOfDay != null)
                         {
                             AdminWorld.getInstance().setTimeOfDay(timeOfDay);
-                            playerMsg("AdminWorld time set to: " + timeOfDay.name());
+                            playerMsg(sender, "AdminWorld time set to: " + timeOfDay.name());
                         }
                         else
                         {
-                            playerMsg("Invalid time of day. Can be: sunrise, noon, sunset, midnight");
+                            playerMsg(sender, "Invalid time of day. Can be: sunrise, noon, sunset, midnight");
                         }
                     }
                     else
@@ -177,11 +176,11 @@ public class Command_adminworld extends FreedomCommand {
                         if (weatherMode != null)
                         {
                             AdminWorld.getInstance().setWeatherMode(weatherMode);
-                            playerMsg("AdminWorld weather set to: " + weatherMode.name());
+                            playerMsg(sender, "AdminWorld weather set to: " + weatherMode.name());
                         }
                         else
                         {
-                            playerMsg("Invalid weather mode. Can be: off, rain, storm");
+                            playerMsg(sender, "Invalid weather mode. Can be: off, rain, storm");
                         }
                     }
                     else

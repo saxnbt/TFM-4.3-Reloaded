@@ -7,7 +7,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Manage jumppads", usage = "/<command> <on | off | info | sideways <on | off> | strength <strength (1-10)>>", aliases = "launchpads,jp")
 public class Command_jumppads extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -17,9 +16,9 @@ public class Command_jumppads extends FreedomCommand {
 
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("info")) {
-                playerMsg("Jumppads: " + (JumpPads.getMode().isOn() ? "Enabled" : "Disabled"), ChatColor.BLUE);
-                playerMsg("Sideways: " + (JumpPads.getMode() == JumpPads.JumpPadMode.NORMAL_AND_SIDEWAYS ? "Enabled" : "Disabled"), ChatColor.BLUE);
-                playerMsg("Strength: " + (JumpPads.getStrength() * 10 - 1), ChatColor.BLUE);
+                playerMsg(sender, "Jumppads: " + (JumpPads.getMode().isOn() ? "Enabled" : "Disabled"), ChatColor.BLUE);
+                playerMsg(sender, "Sideways: " + (JumpPads.getMode() == JumpPads.JumpPadMode.NORMAL_AND_SIDEWAYS ? "Enabled" : "Disabled"), ChatColor.BLUE);
+                playerMsg(sender, "Strength: " + (JumpPads.getStrength() * 10 - 1), ChatColor.BLUE);
                 return true;
             }
 
@@ -38,7 +37,7 @@ public class Command_jumppads extends FreedomCommand {
         {
             if (JumpPads.getMode() == JumpPads.JumpPadMode.OFF)
             {
-                playerMsg("Jumppads are currently disabled, please enable them before changing jumppads settings.");
+                playerMsg(sender, "Jumppads are currently disabled, please enable them before changing jumppads settings.");
                 return true;
             }
 
@@ -64,13 +63,13 @@ public class Command_jumppads extends FreedomCommand {
                 }
                 catch (NumberFormatException ex)
                 {
-                    playerMsg("Invalid Strength");
+                    playerMsg(sender, "Invalid Strength");
                     return true;
                 }
 
                 if (strength > 10 || strength < 1)
                 {
-                    playerMsg("Invalid Strength: The strength may be 1 through 10.");
+                    playerMsg(sender, "Invalid Strength: The strength may be 1 through 10.");
                     return true;
                 }
 

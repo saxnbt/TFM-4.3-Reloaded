@@ -8,7 +8,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
-@CommandParameters(description = "Mutes a player with brute force.", usage = "/<command> [<player> [-s] | list | purge | all]", aliases = "mute")
 public class Command_stfu extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -17,7 +16,7 @@ public class Command_stfu extends FreedomCommand {
         }
 
         if (args[0].equalsIgnoreCase("list")) {
-            playerMsg("Muted players:");
+            playerMsg(sender, "Muted players:");
             PlayerData info;
             int count = 0;
             for (Player mp : server.getOnlinePlayers())
@@ -25,13 +24,13 @@ public class Command_stfu extends FreedomCommand {
                 info = PlayerData.getPlayerData(mp);
                 if (info.isMuted())
                 {
-                    playerMsg("- " + mp.getName());
+                    playerMsg(sender, "- " + mp.getName());
                     count++;
                 }
             }
             if (count == 0)
             {
-                playerMsg("- none");
+                playerMsg(sender, "- none");
             }
         }
         else if (args[0].equalsIgnoreCase("purge"))
@@ -48,7 +47,7 @@ public class Command_stfu extends FreedomCommand {
                     count++;
                 }
             }
-            playerMsg("Unmuted " + count + " players.");
+            playerMsg(sender, "Unmuted " + count + " players.");
         }
         else if (args[0].equalsIgnoreCase("all"))
         {
@@ -66,7 +65,7 @@ public class Command_stfu extends FreedomCommand {
                 }
             }
 
-            playerMsg("Muted " + counter + " players.");
+            playerMsg(sender, "Muted " + counter + " players.");
         }
         else
         {
@@ -83,7 +82,7 @@ public class Command_stfu extends FreedomCommand {
             {
                 Utilities.adminAction(sender.getName(), "Unmuting " + player.getName(), true);
                 playerdata.setMuted(false);
-                playerMsg("Unmuted " + player.getName());
+                playerMsg(sender, "Unmuted " + player.getName());
             }
             else
             {
@@ -97,11 +96,11 @@ public class Command_stfu extends FreedomCommand {
                         Command_smite.smite(player);
                     }
 
-                    playerMsg("Muted " + player.getName());
+                    playerMsg(sender, "Muted " + player.getName());
                 }
                 else
                 {
-                    playerMsg(player.getName() + " is a superadmin, and can't be muted.");
+                    playerMsg(sender, player.getName() + " is a superadmin, and can't be muted.");
                 }
             }
         }

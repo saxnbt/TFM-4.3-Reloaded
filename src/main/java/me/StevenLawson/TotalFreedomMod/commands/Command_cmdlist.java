@@ -13,7 +13,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 @CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH)
-@CommandParameters(description = "Show all commands for all server plugins.", usage = "/<command>")
 public class Command_cmdlist extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {

@@ -10,7 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.ONLY_IN_GAME, blockHostConsole = true)
-@CommandParameters(description = "Report a player for admins to see.", usage = "/<command> <player> <reason>")
 public class Command_report extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -21,7 +20,7 @@ public class Command_report extends FreedomCommand {
         Player player = getPlayer(args[0]);
 
         if (player == null) {
-            playerMsg(PLAYER_NOT_FOUND);
+            playerMsg(sender, PLAYER_NOT_FOUND);
             return true;
         }
 
@@ -29,21 +28,21 @@ public class Command_report extends FreedomCommand {
         {
             if (player.equals(sender_p))
             {
-                playerMsg(ChatColor.RED + "Please, don't try to report yourself.");
+                playerMsg(sender, ChatColor.RED + "Please, don't try to report yourself.");
                 return true;
             }
         }
 
         if (AdminList.isSuperAdmin(player))
         {
-            playerMsg(ChatColor.RED + "You can not report an admin.");
+            playerMsg(sender, ChatColor.RED + "You can not report an admin.");
             return true;
         }
 
         String report = StringUtils.join(ArrayUtils.subarray(args, 1, args.length), " ");
         Utilities.reportAction(sender_p, player, report);
 
-        playerMsg(ChatColor.GREEN + "Thank you, your report has been successfully logged.");
+        playerMsg(sender, ChatColor.GREEN + "Thank you, your report has been successfully logged.");
 
         return true;
     }

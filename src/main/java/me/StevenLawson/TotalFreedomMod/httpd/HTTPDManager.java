@@ -136,14 +136,6 @@ public class HTTPDManager {
                 return new Response(Response.Status.OK, NanoHTTPD.MIME_PLAINTEXT, "The DUMP module is disabled. It is intended for debugging use only.");
             }
         }),
-        HELP(new ModuleExecutable(true, "help")
-        {
-            @Override
-            public Response getResponse(HTTPSession session)
-            {
-                return new HTTPDHelpModule(session).getResponse();
-            }
-        }),
         LIST(new ModuleExecutable(true, "list")
         {
             @Override

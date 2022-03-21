@@ -4,5 +4,325 @@ version: 4.3
 description: Plugin for the Total Freedom server.
 softdepend: [BukkitTelnet, WorldEdit, Essentials]
 authors: [Madgeek1450, Prozza, business-goose]
-
-# plugin.yml is no longer used to define commands.
+commands:
+  setl:
+    description: 'Sets everyone''s Worldedit block modification limit to 500.'
+    usage: '/<command>'
+  radar:
+    description: 'Shows nearby people sorted by distance.'
+    usage: '/<command> [range]'
+  tfm:
+    description: 'Shows information about TotalFreedomMod or reloads it'
+    usage: '/<command> [reload]'
+  mp:
+    description: 'Purge all mobs in all worlds.'
+    usage: '/<command>'
+  jumppads:
+    description: 'Manage jumppads'
+    usage: '/<command> <on | off | info | sideways <on | off> | strength <strength (1-10)>>'
+    aliases: [launchpads, jp]
+  qop:
+    description: 'Quick Op - op someone based on a partial name.'
+    usage: '/<command> <partialname>'
+  doom:
+    description: 'For the bad Super Admins'
+    usage: '/<command> <playername>'
+  fuckoff:
+    description: 'You''ll never even see it coming.'
+    usage: '/<command>'
+  wipeuserdata:
+    description: 'Removes essentials playerdata'
+    usage: '/<command>'
+  wildcard:
+    description: 'Run any command on all users, username placeholder = ?.'
+    usage: '/<command> [fluff] ? [fluff] ?'
+  nf:
+    description: 'NickFilter: Prefix any command with this command to replace nicknames in that command with real names. Nicknames should be prefixed with a !.'
+    usage: '/<command> <other_command> !<playernick>'
+  landmine:
+    description: 'Set a landmine trap.'
+    usage: '/<command>'
+  moblimiter:
+    description: 'Control mob rezzing parameters.'
+    usage: '/<command> <on|off|setmax <count>|dragon|giant|ghast|slime>'
+  flatlands:
+    description: 'Goto the flatlands.'
+    usage: '/<command>'
+  findip:
+    description: 'Shows all IPs registered to a player'
+    usage: '/<command> <player>'
+  cage:
+    description: 'Place a cage around someone.'
+    usage: '/<command> <purge | off | <partialname> [outermaterial] [innermaterial]>'
+  expel:
+    description: 'Push people away from you.'
+    usage: '/<command> [radius] [strength]'
+  list:
+    description: 'Lists the real names of all online players.'
+    usage: '/<command> [-a | -i]'
+    aliases: 'who'
+  invis:
+    description: 'Shows (optionally smites) invisisible players'
+    usage: '/<command> (smite)'
+  onlinemode:
+    description: 'Switch server online-mode on and off.'
+    usage: '/<command> <on | off>'
+  gcmd:
+    description: 'Send a command as someone else.'
+    usage: '/<command> <fromname> <outcommand>'
+  spectator:
+    description: 'Quickly change your own gamemode to spectator, or define someone''s username to change theirs.'
+    usage: '/<command> [partialname]'
+    aliases: 'gmsp'
+  potion:
+    description: 'Manipulate potion effects. Duration is measured in server ticks (~20 ticks per second).'
+    usage: '/<command> <list | clear [target name] | add <type> <duration> <amplifier> [target name]>'
+  deop:
+    description: 'Deop a player.'
+    usage: '/<command> <playername>'
+  nicknyan:
+    description: 'Essentials Interface Command - Nyanify your nickname.'
+    usage: '/<command> <<nick> | off>'
+  rank:
+    description: 'Shows your rank.'
+    usage: '/<command>'
+  nether:
+    description: 'Goto the nether.'
+    usage: '/<command>'
+  ops:
+    description: 'Manager operators'
+    usage: '/<command> <count | purge>'
+  setlevel:
+    description: 'Sets your expierence level.'
+    usage: '/<command> [level]'
+  trail:
+    description: 'Pretty rainbow trails.'
+    usage: '/<command> [off]'
+  opme:
+    description: 'Automatically ops user.'
+    usage: '/<command>'
+  adminworld:
+    description: 'Go to the AdminWorld.'
+    usage: '/<command> [guest < list | purge | add <player> | remove <player> > | time <morning | noon | evening | night> | weather <off | on | storm>]'
+  health:
+    description: 'View ticks-per-second'
+    usage: '/<command>'
+  plugincontrol:
+    description: 'Manage plugins'
+    usage: '/<command> <<enable | disable | reload> <pluginname>> | list>'
+    aliases: 'plc'
+  deafen:
+    description: 'Make some noise.'
+    usage: '/<command>'
+  tossmob:
+    description: 'Throw a mob in the direction you are facing when you left click with a stick.'
+    usage: '/<command> <mobtype [speed] | off | list>'
+  cmdspy:
+    description: 'Spy on commands'
+    usage: '/<command>'
+    aliases: 'commandspy'
+  tempban:
+    description: 'Temporarily ban someone.'
+    usage: '/<command> [playername] [duration] [reason]'
+  glist:
+    description: 'Ban/Unban any player, even those who are not logged in anymore.'
+    usage: '/<command> <purge | <ban | unban> <username>>'
+  gtfo:
+    description: 'Makes someone GTFO (deop and ip ban by username).'
+    usage: '/<command> <partialname>'
+  rd:
+    description: 'Remove various server entities that may cause lag, such as dropped items, minecarts, and boats.'
+    usage: '/<command> <carts>'
+  setlever:
+    description: 'Set the on/off state of the lever at position x, y, z in world ''worldname''.'
+    usage: '/<command> <x> <y> <z> <worldname> <on|off>'
+  localspawn:
+    description: 'Teleport to the spawn point for the current world.'
+    usage: '/<command>'
+    aliases: ['worldspawn', 'gotospawn']
+  tag:
+    description: 'Sets yourself a prefix'
+    usage: '/<command> <set <tag..> | off | clear <player> | clearall>'
+  ender:
+    description: 'Goto the ender / \'
+    usage: '/<command>'
+  purgeall:
+    description: 'Superadmin command - Purge everything! (except for bans).'
+    usage: '/<command>'
+  colorme:
+    description: 'Essentials Interface Command - Color your current nickname.'
+    usage: '/<command> <color>'
+  setspawnworld:
+    description: 'Set world spawnpoint.'
+    usage: '/<command>'
+  warn:
+    description: 'Warns a player.'
+    usage: '/<command> <player> <reason>'
+  report:
+    description: 'Report a player for admins to see.'
+    usage: '/<command> <player> <reason>'
+  toggle:
+    description: 'Toggles TotalFreedomMod settings'
+    usage: '/<command> [option] [value] [value]'
+  o:
+    description: 'AdminChat - Talk privately with other admins. Using <command> itself will toggle AdminChat on and off for all messages.'
+    usage: '/<command> [message...]'
+    aliases: 'adminchat'
+  creative:
+    description: 'Quickly change your own gamemode to creative, or define someone''s username to change theirs.'
+    usage: '/<command> [partialname]'
+    aliases: 'gmc'
+  rawsay:
+    description: 'Broadcasts the given message. Supports colors.'
+    usage: '/<command> <message>'
+  overlord:
+    description: 'Overlord - control this server in-game'
+    usage: 'access'
+    aliases: 'ov'
+  uuid:
+    description: 'Provides uuid tools'
+    usage: '/<command> <purge | recalculate>'
+  logs:
+    description: 'Register your connection with the TFM logviewer.'
+    usage: '/<command> [off]'
+  smite:
+    description: 'Someone being a little bitch? Smite them down...'
+    usage: '/<command> [playername]'
+  cartsit:
+    description: 'Sit in nearest minecart. If target is in a minecart already, they will disembark.'
+    usage: '/<command> [partialname]'
+  debug:
+    description: 'For developers only - debug things via reflection.'
+    usage: '/<command>'
+  stop:
+    description: 'Kicks everyone and stops the server.'
+    usage: '/<command>'
+  whitelist:
+    description: 'Manage the whitelist.'
+    usage: '/<command> <on | off | list | count | add <player> | remove <player> | addall | purge>'
+  tban:
+    description: 'Temporarily bans a player for five minutes.'
+    usage: '/<command> <partialname>'
+    aliases: 'noob'
+  deopall:
+    description: 'Deop everyone on the server.'
+    usage: '/<command>'
+  saconfig:
+    description: 'Manage superadmins.'
+    usage: '/<command> <list | clean | clearme [ip] | <add | delete | info> <username>>'
+  say:
+    description: 'Broadcasts the given message as the console, includes sender name.'
+    usage: '/<command> <message>'
+  halt:
+    description: 'Halts a player'
+    usage: '/<command> <<partialname> | all | purge | list>'
+  protectarea:
+    description: 'Protect areas so that only superadmins can directly modify blocks in those areas. WorldEdit and other such plugins might bypass this.'
+    usage: '/<command> <list | clear | remove <label> | add <label> <radius>>'
+  cbtool:
+    description: 'No Description Yet'
+    usage: '/<command>'
+  survival:
+    description: 'Quickly change your own gamemode to survival, or define someone''s username to change theirs.'
+    usage: '/<command> <[partialname] | -a>'
+    aliases: 'gms'
+  dispfill:
+    description: 'Fill nearby dispensers with a set of items of your choice.'
+    usage: '/<command> <radius> <comma,separated,items>'
+  blockcmd:
+    description: 'Block all commands for a specific player.'
+    usage: '/<command> <purge | <partialname>>'
+    aliases: ['blockcommands', 'blockcommand']
+  tfbanlist:
+    description: 'Shows all banned player names. Superadmins may optionally use ''purge'' to clear the list.'
+    usage: '/<command> [purge]'
+  adminmode:
+    description: 'Close server to non-superadmins.'
+    usage: '/<command> [on | off]'
+  status:
+    description: 'Show misc. server info.'
+    usage: '/<command>'
+  fr:
+    description: 'Freeze players (toggles on and off).'
+    usage: '/<command> [target | purge]'
+  lastcmd:
+    description: 'Show the last command that someone used.'
+    usage: '/<command> <player>'
+  qdeop:
+    description: 'Quick De-Op - deop someone based on a partial name.'
+    usage: '/<command> <partialname>'
+  enchant:
+    description: 'Enchant items.'
+    usage: '/<command> <list | addall | reset | add <name> | remove <name>>'
+  wipeflatlands:
+    description: 'Wipe the flatlands map. Requires manual restart after command is used.'
+    usage: '/<command>'
+  csay:
+    description: 'Telnet command - Send a chat message with chat formatting over telnet.'
+    usage: '/<command> <message...>'
+  gadmin:
+    description: 'Use admin commands on someone by hash. Use mode  ''list'' to get a player''s hash. Other modes are kick, nameban, ipban, ban, op, deop, ci, fr, smite.'
+    usage: '/<command> [list | [<kick | nameban | ipban | ban | op | deop | ci | fr | smite> <targethash>] ]'
+  tfipbanlist:
+    description: 'Shows all banned IPs. Superadmins may optionally use ''purge'' to clear the list.'
+    usage: '/<command> [purge]'
+  cmdlist:
+    description: 'Show all commands for all server plugins.'
+    usage: '/<command>'
+  cake:
+    description: 'For the people that are still alive.'
+    usage: '/<command>'
+  tfupdate:
+    description: 'Update server files.'
+    usage: '/<command>'
+  lockup:
+    description: 'Block target''s minecraft input. This is evil, and I never should have wrote it.'
+    usage: '/<command> <all | purge | <<partialname> on | off>>'
+  op:
+    description: 'Makes a player operator'
+    usage: '/<command> <playername>'
+  stfu:
+    description: 'Mutes a player with brute force.'
+    usage: '/<command> [<player> [-s] | list | purge | all]'
+    aliases: 'mute'
+  rollback:
+    description: 'Issues a rollback on a player'
+    usage: '/<command> <[partialname] | undo [partialname] purge [partialname] | purgeall>'
+    aliases: 'rb'
+  nickclean:
+    description: 'Essentials Interface Command - Remove distracting things from nicknames of all players on server.'
+    usage: '/<command>'
+    aliases: 'nc'
+  kicknoob:
+    description: 'Kick all non-superadmins on server.'
+    usage: '/<command>'
+  permban:
+    description: 'Manage permanently banned players and IPs.'
+    usage: '/<command> <list | reload>'
+  ro:
+    description: 'Remove all blocks of a certain type in the radius of certain players.'
+    usage: '/<command> <block> [radius (default=50)] [player]'
+  opall:
+    description: 'Op everyone on the server, optionally change everyone''s gamemode at the same time.'
+    usage: '/<command> [-c | -s]'
+  mp44:
+    description: 'Modern weaponry, FTW. Use ''draw'' to start firing, ''sling'' to stop firing.'
+    usage: '/<command> <draw | sling>'
+  orbit:
+    description: 'POW!!! Right in the kisser! One of these days Alice, straight to the Moon!'
+    usage: '/<command> <target> [<<power> | stop>]'
+  denick:
+    description: 'Essentials Interface Command - Remove the nickname of all players on the server.'
+    usage: '/<command>'
+  premium:
+    description: 'Validates if a given account is premium.'
+    usage: '/<command> <player>'
+    aliases: 'prem'
+  whohas:
+    description: 'See who has a block and optionally smite.'
+    usage: '/<command> <item> [smite]'
+    aliases: 'wh'
+  tagnyan:
+    description: 'Gives you a tag with random colors'
+    usage: '/<command> <tag>'
+    aliases: 'tn'
