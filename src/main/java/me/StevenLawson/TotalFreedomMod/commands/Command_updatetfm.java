@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 
 import java.io.File;
 
-@CommandPermissions(level = AdminLevel.SENIOR, source = SourceType.BOTH)
+@CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 @CommandParameters(description = "For developers only - update TFM.", usage = "/<command>")
 public class Command_updatetfm extends FreedomCommand {
     @Override
