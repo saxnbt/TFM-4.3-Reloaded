@@ -108,7 +108,7 @@ public class DiscordBridge {
             message = message.substring(0, 2000);
         }
 
-        return message.replaceAll(colors.pattern(), "").replaceAll(pings.pattern(), "@\u200B");
+        return message.replaceAll(colors.pattern(), "").replaceAll(pings.pattern(), "@\u200B").replaceAll("([`_~*])", "\\\\$1");
     }
 
     public static void transmitMessage(String message) {
