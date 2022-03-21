@@ -5,6 +5,7 @@ import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
 import me.StevenLawson.TotalFreedomMod.admin.AdminList;
 import me.StevenLawson.TotalFreedomMod.player.PlayerData;
 import me.StevenLawson.TotalFreedomMod.util.Utilities;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
 import org.bukkit.command.Command;
@@ -20,8 +21,8 @@ public abstract class FreedomCommand implements CommandExecutor {
     public static final String YOU_ARE_NOT_OP = ChatColor.YELLOW + "You are no longer op!";
     public static final String NOT_FROM_CONSOLE = "This command may not be used from the console.";
     public static final String PLAYER_NOT_FOUND = ChatColor.GRAY + "Player not found!";
-    protected TotalFreedomMod plugin;
-    protected Server server;
+    protected TotalFreedomMod plugin = TotalFreedomMod.plugin;
+    protected Server server = Bukkit.getServer();
 
     public FreedomCommand() {
     }
@@ -42,14 +43,6 @@ public abstract class FreedomCommand implements CommandExecutor {
     }
 
     abstract public boolean run(final CommandSender sender, final org.bukkit.entity.Player sender_p, final Command cmd, final String commandLabel, final String[] args, final boolean senderIsConsole);
-
-    public FreedomCommand setup(final TotalFreedomMod plugin)
-    {
-        this.plugin = plugin;
-        this.server = plugin.getServer();
-
-        return this;
-    }
 
     public void playerMsg(final CommandSender sender, final String message, final ChatColor color)
     {
