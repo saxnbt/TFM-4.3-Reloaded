@@ -1,12 +1,14 @@
 package me.StevenLawson.TotalFreedomMod.commands;
 
 import me.StevenLawson.TotalFreedomMod.Log;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -33,37 +35,26 @@ public class Command_premium extends FreedomCommand {
             name = args[0];
         }
 
-        new BukkitRunnable()
-        {
-            @Override
-            public void run()
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            try
             {
-                try
-                {
-                    final URL getUrl = new URL("https://minecraft.net/haspaid.jsp?user=" + name);
-                    final URLConnection urlConnection = getUrl.openConnection();
-                    // Read the response
-                    final BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
-                    final String message = ("false".equalsIgnoreCase(in.readLine()) ? ChatColor.RED + "No" : ChatColor.DARK_GREEN + "Yes");
-                    in.close();
+                final URL getUrl = new URL("https://api.mojang.com/users/profiles/minecraft/" + name);
+                final HttpsURLConnection urlConnection = (HttpsURLConnection) getUrl.openConnection();
+                final String message = (urlConnection.getResponseCode() == 200 ? ChatColor.DARK_GREEN + "Yes" :  ChatColor.RED + "No");
+                urlConnection.disconnect();
 
-                    new BukkitRunnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            playerMsg("Player " + name + " is premium: " + message);
-                        }
-                    }.runTask(plugin);
-
-                }
-                catch (Exception ex)
-                {
-                    Log.severe(ex);
-                    playerMsg("There was an error querying the mojang server.", ChatColor.RED);
-                }
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    playerMsg("Player " + name + " is premium: " + message);
+                });
             }
-        }.runTaskAsynchronously(plugin);
+            catch (Exception ex)
+            {
+                Log.severe(ex);
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    playerMsg("There was an error querying the mojang server.", ChatColor.RED);
+                });
+            }
+        });
 
         return true;
     }
