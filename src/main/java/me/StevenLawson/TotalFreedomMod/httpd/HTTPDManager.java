@@ -129,7 +129,7 @@ public class HTTPDManager {
         }
     }
 
-    private static enum ModuleType {
+    private enum ModuleType {
         DUMP(new ModuleExecutable(false, "dump") {
             @Override
             public Response getResponse(HTTPSession session) {
@@ -187,7 +187,7 @@ public class HTTPDManager {
         //
         private final ModuleExecutable moduleExecutable;
 
-        private ModuleType(ModuleExecutable moduleExecutable)
+        ModuleType(ModuleExecutable moduleExecutable)
         {
             this.moduleExecutable = moduleExecutable;
         }

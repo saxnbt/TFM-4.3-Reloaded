@@ -23,7 +23,7 @@ public class Command_nf extends FreedomCommand {
         final List<String> outputCommand = new ArrayList<String>();
 
         if (args.length >= 1) {
-            final List<String> argsList = Arrays.asList(args);
+            final String[] argsList = args;
             for (String arg : argsList) {
                 Player player = null;
 

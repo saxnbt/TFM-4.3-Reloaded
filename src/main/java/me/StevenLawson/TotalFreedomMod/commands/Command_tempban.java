@@ -16,7 +16,7 @@ import java.util.Date;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.BOTH)
 public class Command_tempban extends FreedomCommand {
-    private static final SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd \'at\' HH:mm:ss z");
+    private static final SimpleDateFormat date_format = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
 
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -67,7 +67,7 @@ public class Command_tempban extends FreedomCommand {
         BanManager.addIpBan(new Ban(Utilities.getIp(player), player.getName(), sender.getName(), expires, reason));
         BanManager.addUuidBan(new Ban(UUIDManager.getUniqueId(player), player.getName(), sender.getName(), expires, reason));
 
-        player.kickPlayer(sender.getName() + " - " + message.toString());
+        player.kickPlayer(sender.getName() + " - " + message);
 
         return true;
     }

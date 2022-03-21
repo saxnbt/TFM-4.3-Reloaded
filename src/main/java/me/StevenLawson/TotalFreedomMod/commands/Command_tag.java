@@ -14,10 +14,7 @@ import java.util.List;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
 public class Command_tag extends FreedomCommand {
-    public static final List<String> FORBIDDEN_WORDS = Arrays.asList(new String[]
-            {
-                    "admin", "owner", "moderator", "developer", "console"
-            });
+    public static final List<String> FORBIDDEN_WORDS = Arrays.asList("admin", "owner", "moderator", "developer", "console");
 
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {

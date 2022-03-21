@@ -115,12 +115,12 @@ public class JumpPads
         JumpPads.strength = strength;
     }
 
-    public static enum JumpPadMode
+    public enum JumpPadMode
     {
         OFF(false), NORMAL(true), NORMAL_AND_SIDEWAYS(true), MADGEEK(true);
-        private boolean on;
+        private final boolean on;
 
-        private JumpPadMode(boolean on)
+        JumpPadMode(boolean on)
         {
             this.on = on;
         }

@@ -79,7 +79,7 @@ public class PlayerData {
     private int freecamPlaceCount = 0;
     private boolean isCaged = false;
     private Location cagePosition;
-    private List<TFM_BlockData> cageHistory = new ArrayList<TFM_BlockData>();
+    private final List<TFM_BlockData> cageHistory = new ArrayList<TFM_BlockData>();
     private Material cageOuterMaterial = Material.GLASS;
     private Material cageInnerMatterial = Material.AIR;
     private boolean isOrbiting = false;
@@ -87,7 +87,7 @@ public class PlayerData {
     private boolean mobThrowerEnabled = false;
     private EntityType mobThrowerEntity = EntityType.PIG;
     private double mobThrowerSpeed = 4.0;
-    private List<LivingEntity> mobThrowerQueue = new ArrayList<LivingEntity>();
+    private final List<LivingEntity> mobThrowerQueue = new ArrayList<LivingEntity>();
     private BukkitTask mp44ScheduleTask = null;
     private boolean mp44Armed = false;
     private boolean mp44Firing = false;
@@ -568,7 +568,7 @@ public class PlayerData {
 
     private class ArrowShooter extends BukkitRunnable
     {
-        private Player player;
+        private final Player player;
 
         private ArrowShooter(Player player)
         {

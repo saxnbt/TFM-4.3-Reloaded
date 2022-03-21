@@ -21,13 +21,13 @@ public class Command_cmdlist extends FreedomCommand {
         for (Plugin targetPlugin : server.getPluginManager().getPlugins()) {
             try {
                 PluginDescriptionFile desc = targetPlugin.getDescription();
-                Map<String, Map<String, Object>> map = (Map<String, Map<String, Object>>) desc.getCommands();
+                Map<String, Map<String, Object>> map = desc.getCommands();
 
                 if (map != null)
                 {
                     for (Entry<String, Map<String, Object>> entry : map.entrySet())
                     {
-                        String command_name = (String) entry.getKey();
+                        String command_name = entry.getKey();
                         commands.add(command_name);
                     }
                 }

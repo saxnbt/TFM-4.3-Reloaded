@@ -73,7 +73,7 @@ public class Command_jumppads extends FreedomCommand {
                     return true;
                 }
 
-                Utilities.adminAction(sender.getName(), "Setting Jumppads strength to: " + String.valueOf(strength), false);
+                Utilities.adminAction(sender.getName(), "Setting Jumppads strength to: " + strength, false);
                 JumpPads.setStrength((strength / 10) + 0.1F);
             }
             else

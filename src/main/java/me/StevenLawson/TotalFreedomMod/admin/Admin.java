@@ -107,10 +107,7 @@ public class Admin
 
     public void removeIp(String ip)
     {
-        if (ips.contains(ip))
-        {
-            ips.remove(ip);
-        }
+        ips.remove(ip);
     }
 
     public void clearIPs()

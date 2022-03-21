@@ -168,10 +168,7 @@ public class RollbackManager
             }
         }
 
-        if (REMOVE_ROLLBACK_HISTORY.contains(playerName.toLowerCase()))
-        {
-            REMOVE_ROLLBACK_HISTORY.remove(playerName.toLowerCase());
-        }
+        REMOVE_ROLLBACK_HISTORY.remove(playerName.toLowerCase());
 
         return count;
     }
@@ -216,7 +213,7 @@ public class RollbackManager
         BLOCK_BREAK("broke");
         private final String action;
 
-        private EntryType(String action)
+        EntryType(String action)
         {
             this.action = action;
         }

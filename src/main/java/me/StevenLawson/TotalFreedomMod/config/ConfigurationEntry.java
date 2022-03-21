@@ -100,7 +100,7 @@ public enum ConfigurationEntry
     private final Class<?> type;
     private final String configName;
 
-    private ConfigurationEntry(Class<?> type, String configName) {
+    ConfigurationEntry(Class<?> type, String configName) {
         this.type = type;
         this.configName = configName;
     }

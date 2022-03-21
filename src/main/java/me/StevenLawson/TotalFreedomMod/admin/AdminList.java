@@ -153,7 +153,7 @@ public class AdminList
         adminList.remove(oldUuid);
         final Configuration config = new Configuration(TotalFreedomMod.plugin, TotalFreedomMod.SUPERADMIN_FILENAME, true);
         config.load();
-        config.set("admins." + oldUuid.toString(), null);
+        config.set("admins." + oldUuid, null);
         config.save();
     }
 
@@ -433,12 +433,7 @@ public class AdminList
             return true;
         }
 
-        if (Bukkit.getOnlineMode() && superUUIDs.contains(UUIDManager.getUniqueId(player)))
-        {
-            return true;
-        }
-
-        return false;
+        return Bukkit.getOnlineMode() && superUUIDs.contains(UUIDManager.getUniqueId(player));
     }
 
     public static boolean isTelnetAdmin(CommandSender sender, boolean verifySuperadmin)

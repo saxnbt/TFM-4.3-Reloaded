@@ -453,7 +453,7 @@ public class Utilities
             method = EjectMethod.STRIKE_THREE;
         }
 
-        Log.info("AutoEject -> name: " + player.getName() + " - player ip: " + ip + " - method: " + method.toString());
+        Log.info("AutoEject -> name: " + player.getName() + " - player ip: " + ip + " - method: " + method);
 
         player.setOp(false);
         player.setGameMode(GameMode.SURVIVAL);
@@ -782,7 +782,7 @@ public class Utilities
     @SuppressWarnings("unchecked")
     public static boolean isFromHostConsole(String senderName)
     {
-        return ((List<String>) ConfigurationEntry.HOST_SENDER_NAMES.getList()).contains(senderName.toLowerCase());
+        return ConfigurationEntry.HOST_SENDER_NAMES.getList().contains(senderName.toLowerCase());
     }
 
     public static List<String> removeDuplicates(List<String> oldList)
@@ -890,7 +890,7 @@ public class Utilities
 
         if (verbose)
         {
-            Log.info("Downloaded " + url + " to " + output.toString() + ".");
+            Log.info("Downloaded " + url + " to " + output + ".");
         }
     }
 
@@ -1060,9 +1060,9 @@ public class Utilities
         }
     }
 
-    public static enum EjectMethod
+    public enum EjectMethod
     {
-        STRIKE_ONE, STRIKE_TWO, STRIKE_THREE;
+        STRIKE_ONE, STRIKE_TWO, STRIKE_THREE
     }
 
     public static class MethodTimer

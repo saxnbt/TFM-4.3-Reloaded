@@ -187,7 +187,7 @@ public class Command_saconfig extends FreedomCommand {
         return true;
     }
 
-    private static enum SAConfigMode {
+    private enum SAConfigMode {
         LIST("list", AdminLevel.OP, SourceType.BOTH, 1, 1),
         CLEAN("clean", AdminLevel.SENIOR, SourceType.BOTH, 1, 1),
         CLEARME("clearme", AdminLevel.SUPER, SourceType.ONLY_IN_GAME, 1, 2),
@@ -200,7 +200,7 @@ public class Command_saconfig extends FreedomCommand {
         private final int minArgs;
         private final int maxArgs;
 
-        private SAConfigMode(String modeName, AdminLevel adminLevel, SourceType sourceType, int minArgs, int maxArgs) {
+        SAConfigMode(String modeName, AdminLevel adminLevel, SourceType sourceType, int minArgs, int maxArgs) {
             this.modeName = modeName;
             this.adminLevel = adminLevel;
             this.sourceType = sourceType;
@@ -216,7 +216,7 @@ public class Command_saconfig extends FreedomCommand {
             }
 
             boolean isSuperAdmin = AdminList.isSuperAdmin(sender);
-            boolean isSeniorAdmin = isSuperAdmin ? AdminList.isSeniorAdmin(sender, false) : false;
+            boolean isSeniorAdmin = isSuperAdmin && AdminList.isSeniorAdmin(sender, false);
 
             for (final SAConfigMode mode : values())
             {

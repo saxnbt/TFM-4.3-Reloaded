@@ -165,7 +165,7 @@ public class CommandBlocker
         return true;
     }
 
-    public static enum CommandBlockerRank
+    public enum CommandBlockerRank
     {
         ANYONE("a", 0),
         OP("o", 1),
@@ -177,7 +177,7 @@ public class CommandBlocker
         private final String token;
         private final int level;
 
-        private CommandBlockerRank(String token, int level)
+        CommandBlockerRank(String token, int level)
         {
             this.token = token;
             this.level = level;
@@ -231,14 +231,14 @@ public class CommandBlocker
         }
     }
 
-    public static enum CommandBlockerAction
+    public enum CommandBlockerAction
     {
         BLOCK("b"),
         BLOCK_AND_EJECT("a"),
         BLOCK_UNKNOWN("u");
         private final String token;
 
-        private CommandBlockerAction(String token)
+        CommandBlockerAction(String token)
         {
             this.token = token;
         }

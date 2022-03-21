@@ -52,7 +52,7 @@ public class SQLite extends Database
         try
         {
             Class.forName("org.sqlite.JDBC");
-            connection = DriverManager.getConnection("jdbc:sqlite:" + plugin.getDataFolder().toPath().toString() + "/" + dbLocation);
+            connection = DriverManager.getConnection("jdbc:sqlite:" + plugin.getDataFolder().toPath() + "/" + dbLocation);
         }
         catch (SQLException e)
         {

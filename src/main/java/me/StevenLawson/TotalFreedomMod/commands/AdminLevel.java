@@ -5,7 +5,7 @@ public enum AdminLevel {
     //
     private final String friendlyName;
 
-    private AdminLevel(String friendlyName) {
+    AdminLevel(String friendlyName) {
         this.friendlyName = friendlyName;
     }
 

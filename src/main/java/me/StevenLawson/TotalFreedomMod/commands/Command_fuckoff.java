@@ -31,10 +31,7 @@ public class Command_fuckoff extends FreedomCommand {
             }
         }
 
-        if (TotalFreedomMod.fuckoffEnabledFor.containsKey(sender_p))
-        {
-            TotalFreedomMod.fuckoffEnabledFor.remove(sender_p);
-        }
+        TotalFreedomMod.fuckoffEnabledFor.remove(sender_p);
 
         if (fuckoff_enabled)
         {

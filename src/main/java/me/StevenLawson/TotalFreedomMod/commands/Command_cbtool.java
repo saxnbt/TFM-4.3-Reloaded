@@ -72,7 +72,7 @@ public class Command_cbtool extends FreedomCommand {
         return SubCommand.getByName(args[0]).getExecutable().execute(ArrayUtils.remove(args, 0));
     }
 
-    private static enum SubCommand
+    private enum SubCommand
     {
         PLAYER_DETECT("playerdetect", new SubCommandExecutable()
         {
@@ -160,7 +160,7 @@ public class Command_cbtool extends FreedomCommand {
         private final String name;
         private final SubCommandExecutable executable;
 
-        private SubCommand(String subCommandName, SubCommandExecutable subCommandImpl)
+        SubCommand(String subCommandName, SubCommandExecutable subCommandImpl)
         {
             this.name = subCommandName;
             this.executable = subCommandImpl;
@@ -192,7 +192,7 @@ public class Command_cbtool extends FreedomCommand {
 
     private interface SubCommandExecutable
     {
-        public String execute(String[] args) throws SubCommandFailureException;
+        String execute(String[] args) throws SubCommandFailureException;
     }
 
     private static class SubCommandFailureException extends Exception

@@ -26,7 +26,7 @@ public class Command_gadmin extends FreedomCommand {
         SMITE("smite");
         private final String modeName;
 
-        private GadminMode(String command)
+        GadminMode(String command)
         {
             this.modeName = command;
         }

@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
 public class Command_adminworld extends FreedomCommand {
     private enum CommandMode {
-        TELEPORT, GUEST, TIME, WEATHER;
+        TELEPORT, GUEST, TIME, WEATHER
     }
 
     @Override

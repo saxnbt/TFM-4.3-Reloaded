@@ -28,7 +28,7 @@ public final class AdminWorld extends CustomWorld
     private final Map<CommandSender, Boolean> accessCache = new HashMap<CommandSender, Boolean>();
     //
     private Long cacheLastCleared = null;
-    private Map<Player, Player> guestList = new HashMap<Player, Player>(); // Guest, Supervisor
+    private final Map<Player, Player> guestList = new HashMap<Player, Player>(); // Guest, Supervisor
     private WeatherMode weatherMode = WeatherMode.OFF;
     private TimeOfDay timeOfDay = TimeOfDay.INHERIT;
 
@@ -215,7 +215,7 @@ public final class AdminWorld extends CustomWorld
         return cached;
     }
 
-    public static enum WeatherMode
+    public enum WeatherMode
     {
         OFF("off"),
         RAIN("rain"),
@@ -223,7 +223,7 @@ public final class AdminWorld extends CustomWorld
         //
         private final List<String> aliases;
 
-        private WeatherMode(String aliases)
+        WeatherMode(String aliases)
         {
             this.aliases = Arrays.asList(StringUtils.split(aliases, ","));
         }
@@ -251,7 +251,7 @@ public final class AdminWorld extends CustomWorld
         }
     }
 
-    public static enum TimeOfDay
+    public enum TimeOfDay
     {
         INHERIT(),
         SUNRISE("sunrise,morning", 0),
@@ -262,13 +262,13 @@ public final class AdminWorld extends CustomWorld
         private final int timeTicks;
         private final List<String> aliases;
 
-        private TimeOfDay()
+        TimeOfDay()
         {
             this.timeTicks = 0;
             this.aliases = null;
         }
 
-        private TimeOfDay(String aliases, int timeTicks)
+        TimeOfDay(String aliases, int timeTicks)
         {
             this.timeTicks = timeTicks;
             this.aliases = Arrays.asList(StringUtils.split(aliases, ","));

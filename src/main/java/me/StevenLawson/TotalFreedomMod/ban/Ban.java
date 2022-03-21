@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 
 public class Ban
 {
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd \'at\' HH:mm:ss z");
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
     public static final Pattern IP_BAN_REGEX;
     public static final Pattern UUID_BAN_REGEX;
 
@@ -93,10 +93,10 @@ public class Ban
         complete = true;
     }
 
-    public static enum BanType
+    public enum BanType
     {
         IP,
-        UUID;
+        UUID
     }
 
     public BanType getType()
@@ -191,12 +191,7 @@ public class Ban
             return false;
         }
 
-        if (!getSubject().equals(ban.getSubject()))
-        {
-            return false;
-        }
-
-        return true;
+        return getSubject().equals(ban.getSubject());
     }
 
     @Override

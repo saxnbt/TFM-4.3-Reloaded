@@ -34,7 +34,7 @@ public class Command_setlevel extends FreedomCommand {
 
         sender_p.setLevel(new_level);
 
-        playerMsg(sender, "You have been set to level " + Integer.toString(new_level), ChatColor.AQUA);
+        playerMsg(sender, "You have been set to level " + new_level, ChatColor.AQUA);
 
         return true;
     }

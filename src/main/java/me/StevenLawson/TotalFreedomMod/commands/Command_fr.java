@@ -41,7 +41,7 @@ public class Command_fr extends FreedomCommand {
         }
         else
         {
-            if (args[0].toLowerCase().equals("purge"))
+            if (args[0].equalsIgnoreCase("purge"))
             {
                 setAllFrozen(false);
                 Utilities.adminAction(sender.getName(), "Unfreezing all players", false);

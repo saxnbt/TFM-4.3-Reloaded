@@ -64,7 +64,7 @@ public class CleanroomChunkGenerator extends ChunkGenerator
 
                 if (id.length() > 0)
                 {
-                    String tokens[] = id.split("[,]");
+                    String[] tokens = id.split("[,]");
 
                     if ((tokens.length % 2) != 0)
                     {
@@ -80,7 +80,7 @@ public class CleanroomChunkGenerator extends ChunkGenerator
                             height = 64;
                         }
 
-                        String materialTokens[] = tokens[i + 1].split("[:]", 2);
+                        String[] materialTokens = tokens[i + 1].split("[:]", 2);
                         byte dataValue = 0;
                         if (materialTokens.length == 2)
                         {
@@ -163,7 +163,7 @@ public class CleanroomChunkGenerator extends ChunkGenerator
             }
             catch (Exception e)
             {
-                log.severe("[CleanroomGenerator] Error parsing CleanroomGenerator ID '" + id + "'. using defaults '64,1': " + e.toString());
+                log.severe("[CleanroomGenerator] Error parsing CleanroomGenerator ID '" + id + "'. using defaults '64,1': " + e);
                 e.printStackTrace();
                 layerDataValues = null;
                 layer = new short[65];
@@ -209,7 +209,7 @@ public class CleanroomChunkGenerator extends ChunkGenerator
     {
         if (layerDataValues != null)
         {
-            return Arrays.asList((BlockPopulator) new CleanroomBlockPopulator(layerDataValues));
+            return Arrays.asList(new CleanroomBlockPopulator(layerDataValues));
         }
         else
         {

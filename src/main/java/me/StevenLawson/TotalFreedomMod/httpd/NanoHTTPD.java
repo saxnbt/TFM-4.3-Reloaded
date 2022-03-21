@@ -21,6 +21,7 @@ import java.net.SocketException;
 import java.net.URLDecoder;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -563,8 +564,8 @@ public abstract class NanoHTTPD
      */
     public static class DefaultTempFile implements TempFile
     {
-        private File file;
-        private OutputStream fstream;
+        private final File file;
+        private final OutputStream fstream;
 
         public DefaultTempFile(String tempdir) throws IOException
         {
@@ -612,7 +613,7 @@ public abstract class NanoHTTPD
         /**
          * Headers for the HTTP response. Use addHeader() to add lines.
          */
-        private Map<String, String> header = new HashMap<String, String>();
+        private final Map<String, String> header = new HashMap<String, String>();
         /**
          * The request method that spawned this response.
          */
@@ -647,14 +648,7 @@ public abstract class NanoHTTPD
         {
             this.status = status;
             this.mimeType = mimeType;
-            try
-            {
-                this.data = txt != null ? new ByteArrayInputStream(txt.getBytes("UTF-8")) : null;
-            }
-            catch (java.io.UnsupportedEncodingException uee)
-            {
-                Log.severe(uee);
-            }
+            this.data = txt != null ? new ByteArrayInputStream(txt.getBytes(StandardCharsets.UTF_8)) : null;
         }
 
         /**
@@ -1063,7 +1057,7 @@ public abstract class NanoHTTPD
 
                         String boundaryStartString = "boundary=";
                         int boundaryContentStart = contentTypeHeader.indexOf(boundaryStartString) + boundaryStartString.length();
-                        String boundary = contentTypeHeader.substring(boundaryContentStart, contentTypeHeader.length());
+                        String boundary = contentTypeHeader.substring(boundaryContentStart);
                         if (boundary.startsWith("\"") && boundary.endsWith("\""))
                         {
                             boundary = boundary.substring(1, boundary.length() - 1);
@@ -1075,7 +1069,7 @@ public abstract class NanoHTTPD
                     {
                         // Handle application/x-www-form-urlencoded
                         String postLine = "";
-                        char pbuf[] = new char[512];
+                        char[] pbuf = new char[512];
                         int read = in.read(pbuf);
                         while (read >= 0 && !postLine.endsWith("\r\n"))
                         {
@@ -1448,7 +1442,9 @@ public abstract class NanoHTTPD
 
     public static class Cookie
     {
-        private String n, v, e;
+        private final String n;
+        private final String v;
+        private final String e;
 
         public Cookie(String name, String value, String expires)
         {
@@ -1494,8 +1490,8 @@ public abstract class NanoHTTPD
      */
     public class CookieHandler implements Iterable<String>
     {
-        private HashMap<String, String> cookies = new HashMap<String, String>();
-        private ArrayList<Cookie> queue = new ArrayList<Cookie>();
+        private final HashMap<String, String> cookies = new HashMap<String, String>();
+        private final ArrayList<Cookie> queue = new ArrayList<Cookie>();
 
         public CookieHandler(Map<String, String> httpHeaders)
         {

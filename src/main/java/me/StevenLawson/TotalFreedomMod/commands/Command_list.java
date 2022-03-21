@@ -14,10 +14,10 @@ import java.util.List;
 
 @CommandPermissions(level = AdminLevel.ALL, source = SourceType.BOTH)
 public class Command_list extends FreedomCommand {
-    private static enum ListFilter {
+    private enum ListFilter {
         ALL,
         ADMINS,
-        IMPOSTORS;
+        IMPOSTORS
     }
 
     @Override

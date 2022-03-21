@@ -100,12 +100,7 @@ public abstract class FreedomCommand implements CommandExecutor {
                 return false;
             }
 
-            if (blockHostConsole && Utilities.isFromHostConsole(commandSender.getName()))
-            {
-                return false;
-            }
-
-            return true;
+            return !blockHostConsole || !Utilities.isFromHostConsole(commandSender.getName());
         }
 
         final Player senderPlayer = (Player) commandSender;
@@ -120,22 +115,14 @@ public abstract class FreedomCommand implements CommandExecutor {
                 return false;
             }
 
-            if (!PlayerData.getPlayerData(senderPlayer).isSuperadminIdVerified()) {
-                return false;
-            }
-
-            return true;
+            return PlayerData.getPlayerData(senderPlayer).isSuperadminIdVerified();
         }
 
         if (level == AdminLevel.SUPER && !isSuper) {
             return false;
         }
 
-        if (level == AdminLevel.OP && !senderPlayer.isOp()) {
-            return false;
-        }
-
-        return true;
+        return level != AdminLevel.OP || senderPlayer.isOp();
     }
 
     public Player getPlayer(final String partialName)

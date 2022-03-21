@@ -742,10 +742,7 @@ public class PlayerListener implements Listener {
 
     private void playerLeave(org.bukkit.entity.Player player)
     {
-        if (TotalFreedomMod.fuckoffEnabledFor.containsKey(player))
-        {
-            TotalFreedomMod.fuckoffEnabledFor.remove(player);
-        }
+        TotalFreedomMod.fuckoffEnabledFor.remove(player);
 
         final PlayerData playerdata = PlayerData.getPlayerData(player);
 

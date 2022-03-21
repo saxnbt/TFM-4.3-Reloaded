@@ -60,7 +60,7 @@ public class Command_nicknyan extends FreedomCommand {
 
         EssentialsBridge.setNickname(sender.getName(), newNick.toString());
 
-        playerMsg(sender, "Your nickname is now: " + newNick.toString());
+        playerMsg(sender, "Your nickname is now: " + newNick);
 
         return true;
     }

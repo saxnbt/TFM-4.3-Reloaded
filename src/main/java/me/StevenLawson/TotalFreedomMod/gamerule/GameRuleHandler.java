@@ -74,7 +74,7 @@ public class GameRuleHandler
         private final String gameRuleName;
         private final TFM_GameRule_Value defaultValue;
 
-        private TFM_GameRule(String gameRuleName, TFM_GameRule_Value defaultValue)
+        TFM_GameRule(String gameRuleName, TFM_GameRule_Value defaultValue)
         {
             this.gameRuleName = gameRuleName;
             this.defaultValue = defaultValue;
@@ -96,7 +96,7 @@ public class GameRuleHandler
         TRUE("true"), FALSE("false");
         private final String value;
 
-        private TFM_GameRule_Value(String value)
+        TFM_GameRule_Value(String value)
         {
             this.value = value;
         }
@@ -109,7 +109,7 @@ public class GameRuleHandler
 
         public boolean toBoolean()
         {
-            return (this.value.equals(TFM_GameRule_Value.TRUE.value) ? true : false);
+            return (this.value.equals(TFM_GameRule_Value.TRUE.value));
         }
 
         public static TFM_GameRule_Value fromBoolean(boolean in)

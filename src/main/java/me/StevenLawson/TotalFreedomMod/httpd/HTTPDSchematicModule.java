@@ -261,7 +261,7 @@ public class HTTPDSchematicModule extends HTTPDModule {
         return (out == null ? null : (out.trim().isEmpty() ? null : out.trim()));
     }
 
-    private static enum ModuleMode
+    private enum ModuleMode
     {
         LIST("list"),
         UPLOAD("upload"),
@@ -270,7 +270,7 @@ public class HTTPDSchematicModule extends HTTPDModule {
         //
         private final String modeName;
 
-        private ModuleMode(String modeName)
+        ModuleMode(String modeName)
         {
             this.modeName = modeName;
         }

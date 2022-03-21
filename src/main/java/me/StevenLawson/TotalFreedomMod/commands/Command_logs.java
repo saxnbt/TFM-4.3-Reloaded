@@ -76,7 +76,7 @@ public class Command_logs extends FreedomCommand {
                             {
                                 if (responseCode == 200)
                                 {
-                                    sender.sendMessage(ChatColor.GREEN + "Registration " + mode.toString() + "d.");
+                                    sender.sendMessage(ChatColor.GREEN + "Registration " + mode + "d.");
                                 }
                                 else
                                 {
@@ -105,12 +105,12 @@ public class Command_logs extends FreedomCommand {
         return true;
     }
 
-    public static enum LogsRegistrationMode
+    public enum LogsRegistrationMode
     {
         UPDATE("update"), DELETE("delete");
         private final String mode;
 
-        private LogsRegistrationMode(String mode)
+        LogsRegistrationMode(String mode)
         {
             this.mode = mode;
         }
