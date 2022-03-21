@@ -1,12 +1,15 @@
 package me.StevenLawson.TotalFreedomMod.config;
 
 import me.StevenLawson.TotalFreedomMod.TotalFreedomMod;
+import me.StevenLawson.TotalFreedomMod.player.PlayerRank;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
 public class TagConfiguration {
     private static Plugin plugin = JavaPlugin.getPlugin(TotalFreedomMod.class);
@@ -35,7 +38,7 @@ public class TagConfiguration {
                 } catch (IOException e){
                     e.printStackTrace();
                 }
-                return "";
+                return PlayerRank.fromSender(Bukkit.getPlayer(UUID.fromString(playerUuid))).getPrefix();
             }
         } else return null;
     }
