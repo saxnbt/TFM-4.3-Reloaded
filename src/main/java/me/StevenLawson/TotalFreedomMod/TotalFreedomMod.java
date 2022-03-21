@@ -24,6 +24,9 @@ import me.StevenLawson.TotalFreedomMod.world.FlatlandsWorld;
 import me.StevenLawson.TotalFreedomMod.world.ProtectedArea;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.ServicePriority;
@@ -31,6 +34,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,6 +49,7 @@ public class TotalFreedomMod extends JavaPlugin {
     public static final String CONFIG_FILENAME = "config.yml";
     public static final String SUPERADMIN_FILENAME = "superadmin.yml";
     public static final String PERMBAN_FILENAME = "permban.yml";
+    public static final String PLAYERTAGS_FILENAME = "playerTags.yml";
     public static final String UUID_FILENAME = "uuids.db";
     public static final String PROTECTED_AREA_FILENAME = "protectedareas.dat";
     public static final String SAVED_FLAGS_FILENAME = "savedflags.dat";
@@ -65,6 +70,7 @@ public class TotalFreedomMod extends JavaPlugin {
     public static Map<Player, Double> fuckoffEnabledFor = new HashMap<>();
     public static Logger logger;
 
+    private FileConfiguration customConfig; // Custom configuration implementation by Eva
 
     @Override
     public void onLoad() {
@@ -103,7 +109,8 @@ public class TotalFreedomMod extends JavaPlugin {
         Utilities.createBackups(CONFIG_FILENAME, true);
         Utilities.createBackups(SUPERADMIN_FILENAME);
         Utilities.createBackups(PERMBAN_FILENAME);
-
+        Utilities.createBackups(PLAYERTAGS_FILENAME);
+        this.createCustomConfig();
         // Load services
         UUIDManager.load();
         AdminList.load();
@@ -217,6 +224,25 @@ public class TotalFreedomMod extends JavaPlugin {
     public boolean onCommand(CommandSender sender, org.bukkit.command.Command cmd, String commandLabel, String[] args)
     {
         return CommandHandler.handleCommand(sender, cmd, commandLabel, args);
+    }
+
+    public FileConfiguration getCustomConfig() {
+        return this.customConfig;
+    }
+    //CustomConfig implementation by Eva
+    private void createCustomConfig() {
+        File customConfigFile = new File(getDataFolder(), "playerTags.yml");
+        if (!customConfigFile.exists()) {
+            customConfigFile.getParentFile().mkdirs();
+            saveResource("playerTags.yml", false);
+        }
+
+        customConfig= new YamlConfiguration();
+        try {
+            customConfig.load(customConfigFile);
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void setAppProperties()
