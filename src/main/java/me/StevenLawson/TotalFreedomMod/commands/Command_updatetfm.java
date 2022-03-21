@@ -25,6 +25,7 @@ public class Command_updatetfm extends FreedomCommand {
             System.out.println(command);
             ProcessBuilder proc = new ProcessBuilder("/bin/bash", "-c", command);
             proc.redirectErrorStream(true);
+            proc.inheritIO();
             Process process = proc.start();
             process.waitFor();
             System.out.println(proc.redirectOutput());
