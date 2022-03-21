@@ -9,11 +9,7 @@ import org.javacord.api.entity.user.User;
 import java.awt.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class UptimeCommand extends ExecutableDiscordCommand {
     public UptimeCommand(String command, String description, String category, boolean isAdmin) {
