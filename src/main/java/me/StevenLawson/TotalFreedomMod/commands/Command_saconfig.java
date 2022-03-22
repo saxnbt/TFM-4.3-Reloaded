@@ -15,7 +15,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 @CommandPermissions(level = AdminLevel.OP, source = SourceType.BOTH)
-@CommandParameters(description = "Manage superadmins.", usage = "/<command> <list | clean | clearme [ip] | <add | delete | info> <username>>")
+@CommandParameters(description = "Manage superadmins.", usage = "/<command> <list | clean | clearme [ip] | <add | remove | info> <username>>")
 public class Command_saconfig extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -155,7 +155,7 @@ public class Command_saconfig extends FreedomCommand {
 
                 break;
             }
-            case DELETE:
+            case REMOVE:
             {
                 String targetName = args[1];
 
@@ -194,7 +194,7 @@ public class Command_saconfig extends FreedomCommand {
         CLEARME("clearme", AdminLevel.SUPER, SourceType.ONLY_IN_GAME, 1, 2),
         INFO("info", AdminLevel.SUPER, SourceType.BOTH, 2, 2),
         ADD("add", AdminLevel.SUPER, SourceType.ONLY_CONSOLE, 2, 2),
-        DELETE("delete", AdminLevel.SENIOR, SourceType.ONLY_CONSOLE, 2, 2);
+        REMOVE("remove", AdminLevel.SENIOR, SourceType.ONLY_CONSOLE, 2, 2);
         private final String modeName;
         private final AdminLevel adminLevel;
         private final SourceType sourceType;
