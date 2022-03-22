@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 @CommandPermissions(level = AdminLevel.SUPER, source = SourceType.ONLY_IN_GAME)
-@CommandParameters(description = "Manages your admin login message and other various utilities.", usage = "/<command> <clear <variable> | setlogin <message>>")
+@CommandParameters(description = "Manages your admin login message and other utilities.", usage = "/<command> <clearloginmsg | setlogin <message>>")
 public class Command_myadmin extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
@@ -26,8 +26,7 @@ public class Command_myadmin extends FreedomCommand {
 
                 AdminList.updateIndexLists(); // Update and refresh configuration.
                 return true;
-            } else if ("clear".equalsIgnoreCase(args[0])) {
-                if("loginmsg".equalsIgnoreCase(args[1])) {
+            } else if ("clearloginmsg".equalsIgnoreCase(args[0])) {
                     playerMsg(ChatColor.GRAY + "Cleared your custom login message."); // Notify player that the login message has been set.
 
                     AdminList.getEntry(uuid).setCustomLoginMessage(""); // Set the custom login message to the value.
@@ -36,12 +35,8 @@ public class Command_myadmin extends FreedomCommand {
                     AdminList.updateIndexLists(); // Update and refresh configuration.
                     return true;
                 } else {
-                    playerMsg(ChatColor.GRAY + "Invalid option, options are: loginmsg.");
-                    return true;
+                    return false;
                 }
-            } else {
-                return false;
-            }
         } else {
             return false;
         }
