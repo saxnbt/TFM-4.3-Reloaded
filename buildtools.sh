@@ -1,4 +1,5 @@
 #!/bin/bash
+#This file is to compile buildtools so that maven will build TFM! This does not work on Windows.
 rm -rfv buildtools_tmp/
 mkdir buildtools_tmp
 cd buildtools_tmp
