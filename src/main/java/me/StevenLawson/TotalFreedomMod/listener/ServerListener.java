@@ -23,13 +23,13 @@ public class ServerListener implements Listener {
 
         if (ConfigurationEntry.ADMIN_ONLY_MODE.getBoolean())
         {
-            event.setMotd(ChatColor.RED + "Server is closed.");
+            event.setMotd(ChatColor.RED + "Server is in adminmode.");
             return;
         }
 
         if (Bukkit.hasWhitelist())
         {
-            event.setMotd(ChatColor.RED + "Whitelist enabled.");
+            event.setMotd(ChatColor.RED + "Server is whitelisted.");
             return;
         }
 
