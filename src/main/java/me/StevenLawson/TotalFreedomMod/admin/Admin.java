@@ -12,7 +12,7 @@ public class Admin
 {
     private final UUID uuid;
     private String lastLoginName;
-    private final String loginMessage;
+    private String loginMessage;
     private final boolean isSeniorAdmin;
     private final boolean isTelnetAdmin;
     private final List<String> consoleAliases;
@@ -115,6 +115,11 @@ public class Admin
         ips.clear();
     }
 
+    public void setCustomLoginMessage(String newLoginMessage)
+    {
+        this.loginMessage = newLoginMessage;
+    }
+
     public Date getLastLogin()
     {
         return lastLogin;
@@ -124,7 +129,7 @@ public class Admin
     {
         return loginMessage;
     }
-
+    
     public boolean isSeniorAdmin()
     {
         return isSeniorAdmin;
