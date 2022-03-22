@@ -155,7 +155,7 @@ public class Command_saconfig extends FreedomCommand {
 
                 break;
             }
-            case DELETE:
+            case REMOVE:
             {
                 String targetName = args[1];
 
