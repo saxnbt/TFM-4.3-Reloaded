@@ -2,6 +2,7 @@ package me.StevenLawson.TotalFreedomMod.commands;
 
 import me.StevenLawson.TotalFreedomMod.command.CommandBlocker;
 import org.apache.commons.lang3.StringUtils;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -13,6 +14,13 @@ public class Command_gcmd extends FreedomCommand {
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
         if (args.length < 2) {
             return false;
+        }
+
+        String arguments = String.join(" ", args);
+
+        if (arguments.toLowerCase().contains("wildcard") || arguments.toLowerCase().contains("gcmd")) {
+            playerMsg("What the hell are you trying to do, you stupid idiot...", ChatColor.RED);
+            return true;
         }
 
         final Player player = getPlayer(args[0]);
