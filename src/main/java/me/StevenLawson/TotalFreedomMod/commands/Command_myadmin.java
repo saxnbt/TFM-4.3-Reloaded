@@ -31,7 +31,7 @@ public class Command_myadmin extends FreedomCommand {
             if ("setlogin".equalsIgnoreCase(args[0])) {
                 final String inputMessage = StringUtils.join(args, " ", 1, args.length); // Parse the input provided.
                 playerMsg(ChatColor.GRAY + "Set your custom login message."); // Notify player that the login message has been set.
-                playerMsg(ChatColor.GRAY + "Your login message will show up as: \n" + ChatColor.AQUA + sender_p.getPlayer().getName() + " is " + inputMessage);
+                playerMsg(ChatColor.GRAY + "Your login message will show up as: \n" + ChatColor.AQUA + sender_p.getPlayer().getName() + " is " + ChatColor.translateAlternateColorCodes('&', inputMessage));
                         AdminList.getEntry(uuid).setCustomLoginMessage(inputMessage); // Set the custom login message to the value.
                 AdminList.save(AdminList.getEntry(uuid)); // Save the modified value to the super admin configuration.
 
