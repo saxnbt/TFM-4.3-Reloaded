@@ -194,7 +194,7 @@ public class Command_saconfig extends FreedomCommand {
         CLEARME("clearme", AdminLevel.SUPER, SourceType.ONLY_IN_GAME, 1, 2),
         INFO("info", AdminLevel.SUPER, SourceType.BOTH, 2, 2),
         ADD("add", AdminLevel.SUPER, SourceType.ONLY_CONSOLE, 2, 2),
-        REMOVE("remove", AdminLevel.SENIOR, SourceType.ONLY_CONSOLE, 2, 2);
+        REMOVE("remove", AdminLevel.SUPER, SourceType.ONLY_CONSOLE, 2, 2);
         private final String modeName;
         private final AdminLevel adminLevel;
         private final SourceType sourceType;
