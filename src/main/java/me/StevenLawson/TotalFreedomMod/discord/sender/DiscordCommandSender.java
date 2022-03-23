@@ -1,5 +1,6 @@
 package me.StevenLawson.TotalFreedomMod.discord.sender;
 
+import me.StevenLawson.TotalFreedomMod.discord.bridge.DiscordBridge;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
@@ -23,12 +24,12 @@ public class DiscordCommandSender implements CommandSender {
 
     @Override
     public void sendMessage(String s) {
-        user.sendMessage(s);
+        user.sendMessage(DiscordBridge.sanitizeMessage(s));
     }
 
     @Override
     public void sendMessage(String[] strings) {
-        user.sendMessage(String.join("", strings));
+        user.sendMessage(DiscordBridge.sanitizeMessage(String.join("\n", strings)));
     }
 
     @Override
