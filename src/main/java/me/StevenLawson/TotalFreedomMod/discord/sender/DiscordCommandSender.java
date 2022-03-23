@@ -3,9 +3,6 @@ package me.StevenLawson.TotalFreedomMod.discord.sender;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.conversations.Conversation;
-import org.bukkit.conversations.ConversationAbandonedEvent;
 import org.bukkit.permissions.PermissibleBase;
 import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
@@ -15,7 +12,7 @@ import org.javacord.api.entity.user.User;
 
 import java.util.Set;
 
-public class DiscordCommandSender implements ConsoleCommandSender {
+public class DiscordCommandSender implements CommandSender {
     private final User user;
     protected final PermissibleBase perm;
 
@@ -31,7 +28,7 @@ public class DiscordCommandSender implements ConsoleCommandSender {
 
     @Override
     public void sendMessage(String[] strings) {
-        user.sendMessage(String.join("\n", strings));
+        user.sendMessage(String.join("", strings));
     }
 
     @Override
@@ -106,35 +103,5 @@ public class DiscordCommandSender implements ConsoleCommandSender {
 
     @Override
     public void setOp(boolean b) {
-    }
-
-    @Override
-    public boolean isConversing() {
-        return false;
-    }
-
-    @Override
-    public void acceptConversationInput(String s) {
-
-    }
-
-    @Override
-    public boolean beginConversation(Conversation conversation) {
-        return false;
-    }
-
-    @Override
-    public void abandonConversation(Conversation conversation) {
-
-    }
-
-    @Override
-    public void abandonConversation(Conversation conversation, ConversationAbandonedEvent conversationAbandonedEvent) {
-
-    }
-
-    @Override
-    public void sendRawMessage(String s) {
-        user.sendMessage(s);
     }
 }
