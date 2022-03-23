@@ -6,6 +6,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
+import org.bukkit.event.vehicle.VehicleBlockCollisionEvent;
+import org.bukkit.event.vehicle.VehicleCollisionEvent;
+import org.bukkit.event.vehicle.VehicleCreateEvent;
+import org.bukkit.event.vehicle.VehicleMoveEvent;
+import org.bukkit.util.Vector;
 
 public class EntityListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
@@ -138,6 +143,11 @@ public class EntityListener implements Listener {
                 }
             }
         }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onVehicleCollision(VehicleCollisionEvent event) {
+        event.getVehicle().setVelocity(new Vector(0, 0, 0));
     }
 
     @EventHandler(priority = EventPriority.HIGH)
