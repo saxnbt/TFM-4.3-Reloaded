@@ -144,7 +144,10 @@ public class EntityListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onVehicleCollision(VehicleEntityCollisionEvent event) {
+        event.setCollisionCancelled(true);
+        event.setPickupCancelled(true);
         event.setCancelled(true);
+        event.getVehicle().remove();
     }
 
     @EventHandler(priority = EventPriority.HIGH)
