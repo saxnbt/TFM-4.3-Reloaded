@@ -16,21 +16,21 @@ public class Command_wildcard extends FreedomCommand {
             return false;
         }
 
-        if (args[0].equals("wildcard")) {
+        if (args[0].toLowerCase().contains("wildcard") || args[0].toLowerCase().contains("gcmd")) {
             playerMsg("What the hell are you trying to do, you stupid idiot...", ChatColor.RED);
             return true;
         }
-        if (args[0].equals("gtfo"))
+        if (args[0].toLowerCase().contains("gtfo"))
         {
             playerMsg("Nice try", ChatColor.RED);
             return true;
         }
-        if (args[0].equals("doom"))
+        if (args[0].toLowerCase().contains("doom"))
         {
             playerMsg("Look, we all hate people, but this is not the way to deal with it, doom is evil enough!", ChatColor.RED);
             return true;
         }
-        if (args[0].equals("saconfig"))
+        if (args[0].toLowerCase().contains("saconfig"))
         {
             playerMsg("WOA, WTF are you trying to do???", ChatColor.RED);
             return true;
