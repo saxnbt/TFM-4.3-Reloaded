@@ -18,7 +18,7 @@ public class Command_updatetfm extends FreedomCommand {
     @Override
     public boolean run(CommandSender sender, org.bukkit.entity.Player sender_p, Command cmd, String commandLabel, String[] args, boolean senderIsConsole) {
         playerMsg("Compiling TFM, please wait...", ChatColor.RED);
-        Utilities.adminAction(sender.getName(), "Compiling TFM", true);
+        Utilities.adminAction(sender.getName(), "Updating TFM, lag will occur", true);
         String path = MainConfig.getString(ConfigurationEntry.TFM_BUILD_SHELLSCRIPT);
         File file = new File(path);
         String directory = file.getParent();
