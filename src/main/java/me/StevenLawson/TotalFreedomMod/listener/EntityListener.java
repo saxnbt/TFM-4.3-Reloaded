@@ -142,11 +142,18 @@ public class EntityListener implements Listener {
         }
     }
 
+    //FIXME Make patch better
+
     @EventHandler(priority = EventPriority.HIGH)
-    public void onVehicleCollision(VehicleEntityCollisionEvent event) {
+    public void onVehicleCollisionEntity(VehicleEntityCollisionEvent event) {
         event.setCollisionCancelled(true);
         event.setPickupCancelled(true);
         event.setCancelled(true);
+        event.getVehicle().remove();
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onVehicleCollisionBlock(VehicleBlockCollisionEvent event) {
         event.getVehicle().remove();
     }
 
